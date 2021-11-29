@@ -1,0 +1,11 @@
+{
+    "id": "uni-tabbar",
+    "name": "底部选项卡模板",
+    "version": "0.0.8",
+    "description": "中间带+号的底部选项卡",
+    "keywords": [
+        "tabbar",
+        "uni-tabbar",
+        "选项卡"
+    ]
+}
