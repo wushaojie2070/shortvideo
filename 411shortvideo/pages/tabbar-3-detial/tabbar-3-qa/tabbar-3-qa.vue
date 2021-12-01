@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		页面 - 提问
+		页面 - 提问1
 	</view>
 </template>
 
