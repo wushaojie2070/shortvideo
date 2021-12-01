@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		页面 - 2
+		页面 - 24567765
 	</view>
 </template>
 
