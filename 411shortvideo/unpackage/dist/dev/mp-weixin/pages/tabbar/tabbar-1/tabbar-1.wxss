@@ -1,7 +1,152 @@
 
-.content {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* index start */
+.page.data-v-42007077 {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #000000;
+}
+/* index end */
+/* 顶部选项卡 start */
+.header.data-v-42007077 {
+	position: absolute;
+	left: 0;
+	right: 0;
+	flex-direction: row;
+	height: 100rpx;
+	line-height: 100rpx;
+	align-items: center;
+	padding-left: 40rpx;
+	padding-right: 40rpx;
+}
+.header-center.data-v-42007077 {
+	flex: 1;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+.header-left.data-v-42007077,
+.header-right.data-v-42007077 {
+	color: #999;
+	height: 100rpx;
+	line-height: 100rpx;
+	align-items: flex-start;
+	justify-content: flex-end;
+	font-family: iconfont;
+}
+.header-right-search.data-v-42007077 {
+	height: 100rpx;
+	align-items: flex-start;
+	justify-content: flex-end;
+}
+.header-item.data-v-42007077 {
+	align-items: center;
+	margin-left: 6rpx;
+	margin-right: 6rpx;
+}
+.header-item-title.data-v-42007077 {
+	width: 120rpx;
 	text-align: center;
-	height: 400rpx;
-	margin-top: 200rpx;
+	height: 60rpx;
+	line-height: 60rpx;
+	color: #00aaff;
+	font-size: 16px;
+	font-weight: 600;
+}
+.header-refresh-title.data-v-42007077 {
+	width: 300rpx;
+	text-align: center;
+	height: 60rpx;
+	line-height: 60rpx;
+	color: #00aaff;
+	font-size: 16px;
+	font-weight: 600;
+}
+.header-item-line.data-v-42007077 {
+	height: 5rpx;
+	line-height: 8rpx;
+	width: 60rpx;
+	border-radius: 8rpx;
+}
+/* 顶部选项卡 end */
+/* 选项卡轮播组件 start */
+.my-swiper.data-v-42007077 {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}
+.near-by.data-v-42007077 {
+	background-color: #000000;
+	align-items: center;
+	justify-content: center;
+}
+.my-follow.data-v-42007077 {
+	background-color: #000000;
+	align-items: center;
+	justify-content: center;
+}
+/* 选项卡轮播组件 end */
+.warn-info.data-v-42007077 {
+	color: #FFFFFF;
+	font-size: 36rpx;
+	font-weight: 600;
+}
+.normal-img.data-v-42007077 {
+	width: 50rpx;
+	height: 50rpx;
+	opacity: 0.8;
 }
 
