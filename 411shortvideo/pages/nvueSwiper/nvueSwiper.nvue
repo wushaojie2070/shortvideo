@@ -74,7 +74,7 @@
 </template>
 
 <script>
-	import userList from './data.js'//这个是假数据
+	import userList from '../new_index/data.js'//这个是假数据
 	export default {
 		data() {
 			return {
@@ -86,7 +86,7 @@
 				voice: "",
 				timeout: "",
 				current: 0,
-				boxStyle:{//视频，图片封面样式
+				boxStyle:{//视频，图片封面样式🌟💗
 					'height': 0,
 					'width': 0,
 				}
@@ -105,6 +105,8 @@
 					uni.createVideoContext(this.dataList[old_k]._id,this).pause()
 					console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k]._id)
 				},500)
+				// 2.0版本已经去掉了下面这一句，视频不用暂停，只需要把声音禁止就行
+				// uni.createVideoContext(this.dataList[old_k]._id + '' + old_k,this).stop()//如果视频暂停，那么旧视频停止，这里的this.dataList[old_k]._id + '' + old_k，后面加 old_k 是为了每一个视频的 id 值不同，这样就可以大程度的避免串音问题
 				console.log('已经暂停 --> 第' + (old_k + 1) + '个视频～')//提示
 				this.dataList[k].state = 'play'
 				uni.createVideoContext(this.dataList[k]._id,this).play()
@@ -115,6 +117,7 @@
 				setTimeout(()=>{
 					this.dataList[k].playIng = true
 				},850)
+				//【2.0版本更新内容】- start
 				var p = k
 				++p
 				setTimeout(()=>{

@@ -1,7 +1,81 @@
 
-.content {
+.container {background-color: #000000;}
+.item {
+	/* width : 750rpx; */
+	background-color: #000000;
+	position: relative;
+}
+.videoHover{
+	position: absolute;
+	top: 0;
+	left: 0;
+	flex: 1;
+	background-color: rgba(0,0,0,0.1);
+	justify-content: center;
+	align-items: center;
+	
+	/* border-style: dashed;
+	border-color: #DD524D;
+	border-width: 1px; */
+}
+.playState{
+	width:  160rpx;
+	height: 160rpx;
+	opacity: 0.2;
+}
+.userInfo{
+	position: absolute;
+	bottom:110px;
+	right: 10px;
+	flex-direction: column;
+}
+.userAvatar{
+	border-radius: 500%;
+	margin-bottom: 15px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: #ffffff;
+}
+.userAvatar{
+	width : 100rpx;
+	height: 100rpx;
+}
+.likeIco,.shareIco,.commentIco{
+	width : 60rpx;
+	height: 60rpx;
+	margin-top: 15px;
+}
+.likeNum,.commentNum,.shareTex{
+	color: #ffffff;
+	font-size: 30rpx;
 	text-align: center;
-	height: 400rpx;
-	margin-top: 200rpx;
+	margin: 5px;
+}
+.likeNumActive{
+	color: red;
+}
+.content{
+  width: 720rpx;
+  z-index: 99;
+  position: absolute;
+  bottom: 30px;
+  /* justify-content: center; */
+  padding: 15rpx;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: #ffffff;
+}
+.userName {
+  font-size: 30rpx;
+  color: #ffffff;
+  margin-top: 80rpx;
+}
+.words {
+  margin-top: 10rpx;
+  font-size: 30rpx;
+  color: #ffffff;
+}
+.root{
+	background-color: #000000;
 }
 
