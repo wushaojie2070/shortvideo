@@ -1,8 +1,9 @@
 //1.{}里包裹的是每一个视频的参数
 const userList = [{//1
 	"_id": "zxysdbd",//1.每一个视频独有 id 
+	"userId":"6754658698785634",
 	"username": "意识到",//2.视频拥有者名称
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",//3.头像
+	"href": "../../../static/img/touxiang/1.png",//3.头像
 	"title": "",//4.第一行标题
 	"msg": "mood",//5.第二行内容
 	"state": "pause",//6.初始状态标志
@@ -18,8 +19,9 @@ const userList = [{//1
 	"isplay": true//16.是否播放音频
 }, {//2
 	"_id": "dbddbd",
+	"userId":"6754658698785634",
 	"username": "阿水的哈",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/2.bmp",
 	"title": "",
 	"msg": "像不像你妈看见你打游戏时的样子",
 	"state": "pause",
@@ -35,8 +37,9 @@ const userList = [{//1
 	"isplay": true
 }, {//3
 	"_id": "dbd",
+	"userId":"6754658698785634",
 	"username": "阿斯达达",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/3.jpg",
 	"title": "",
 	"msg": "最向往的地方-林俊杰",
 	"state": "pause",
@@ -52,8 +55,9 @@ const userList = [{//1
 	"isplay": true
 }, {//4
 	"_id": "---->>>>好",
+	"userId":"6754658698785634",
 	"username": "阿斯顿",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/4.jpg",
 	"title": "",
 	"msg": "Ring Ring Ring",
 	"state": "pause",
@@ -69,8 +73,9 @@ const userList = [{//1
 	"isplay": true
 }, {//5
 	"_id": "---->>>>饿",
+	"userId":"6754658698785634",
 	"username": "史蒂夫",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/5.jpg",
 	"title": "",
 	"msg": "有何不可",
 	"state": "pause",
@@ -86,8 +91,9 @@ const userList = [{//1
 	"isplay": true
 }, {//6
 	"_id": "---->>>>啊",
+	"userId":"6754658698785634",
 	"username": "阿斯达",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/6.jpg",
 	"title": "",
 	"msg": "破茧",
 	"state": "pause",
@@ -103,8 +109,9 @@ const userList = [{//1
 	"isplay": true
 }, {//7
 	"_id": "---->>>>怎么",
+	"userId":"6754658698785634",
 	"username": "很久很久",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/7.png",
 	"title": "",
 	"msg": "后会无期-徐良-汪苏泷",
 	"state": "pause",
@@ -120,8 +127,9 @@ const userList = [{//1
 	"isplay": true
 }, {//8
 	"_id": "---->>>>还没",
+	"userId":"6754658698785634",
 	"username": "哈哈哈哈哈",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/8.jpg",
 	"title": "",
 	"msg": "笑死了哈哈哈哈哈",
 	"state": "pause",
@@ -137,8 +145,9 @@ const userList = [{//1
 	"isplay": true
 }, {//9
 	"_id": "---->>>>下课",
+	"userId":"6754658698785634",
 	"username": "望·即",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/9.jpg",
 	"title": "",
 	"msg": "Justin Biber- As long as you love me",
 	"state": "pause",
@@ -154,8 +163,9 @@ const userList = [{//1
 	"isplay": true
 }, {//10
 	"_id": "60e86a9e9056cd000110da51",
+	"userId":"6754658698785634",
 	"username": "user",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/10.jpg",
 	"title": "",
 	"msg": "苹果2019年发布会开场动画",
 	"state": "pause",
@@ -172,8 +182,9 @@ const userList = [{//1
 }, {
 	//11
 	"_id": "60e86a9e9056cd000110da5q",
+	"userId":"6754658698785634",
 	"username": "user",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/11.png",
 	"title": "",
 	"msg": "每天笑一笑",
 	"state": "pause",
@@ -190,8 +201,9 @@ const userList = [{//1
 }, {
 	//12
 	"_id": "60e86a9e9056c2010110da5q",
+	"userId":"6754658698785634",
 	"username": "user",
-	"href": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/247c9ea8-c708-440b-9dbf-3c3facb728ee.png",
+	"href": "../../../static/img/touxiang/12.png",
 	"title": "",
 	"msg": "老外真会玩",
 	"state": "pause",
