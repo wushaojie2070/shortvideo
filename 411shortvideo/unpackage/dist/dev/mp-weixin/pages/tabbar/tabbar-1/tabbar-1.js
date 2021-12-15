@@ -262,13 +262,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
 var _data = _interopRequireDefault(__webpack_require__(/*! ./data.js */ 18));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
-//
-//
-//
 //
 //
 //
@@ -385,12 +379,15 @@ var _default = { data: function data() {return { windowWidth: 0, windowHeight: 0
     tapVideoHover: function tapVideoHover(state, event) {console.log('state--', state);if (state == 'play' || state == 'continue') {this.dataList[this.k].state = 'pause';} else {this.dataList[this.k].state = 'continue';}if (this.dataList[this.k].state == 'continue') {uni.createVideoContext(this.dataList[this.k]._id, this).play(); //暂停以后继续播放
       }if (this.dataList[this.k].state == 'pause') {uni.createVideoContext(this.dataList[this.k]._id, this).pause(); //暂停以后继续播放
       }}, change: function change(event) {this.k = event.detail.current;this.current = this.k; // 1.这里进行判断，如果是最后一个视频就进入 get() 方法加载视频进入列表
-      if (this.k == this.dataList.length - 1) {this.get();}}, get: function get() {var _this2 = this; // 1.这里引入后端请求数据
+      if (this.k == this.dataList.length - 1) {this.get();}}, get: function get() {var _this2 = this; // 1.这里引入后端请求数据,还没做
       var msg = _data.default; // 2.这里把视频添加到视频列表
-      for (var i = 0; i < 10; i++) {this.dataList.push(msg[i]);} // 3.播放当前视频
+      for (var i = 0; i < 12; i++) {this.dataList.push(msg[i]);} // 3.播放当前视频
       setTimeout(function () {_this2.dataList[_this2.k].isplay = false;_this2.dataList[_this2.k].state = 'play';uni.createVideoContext(_this2.dataList[_this2.k]._id, _this2).play();_this2.dataList[_this2.k].playIng = true;}, 200); // start - 预加载开始
       var p = this.k;++p;setTimeout(function () {uni.createVideoContext(_this2.dataList[p]._id, _this2).play();}, 20);clearTimeout(this.timeout);this.timeout = setTimeout(function () {uni.createVideoContext(_this2.dataList[p]._id, _this2).seek(0);uni.createVideoContext(_this2.dataList[p]._id, _this2).pause();console.log('预加载第' + (p + 1) + '个视频：' + _this2.dataList[p]._id);}, 1500); // end - 预加载结束
-    }, toComment: function toComment(index) {} } };exports.default = _default;
+    }, tozuozhe: function tozuozhe(userId) {uni.setStorageSync("userPageId", userId);uni.navigateTo({ url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId });},
+    toComment: function toComment(index) {
+
+    } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
