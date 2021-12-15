@@ -4,7 +4,10 @@
     "pages/tabbar/tabbar-2/tabbar-2",
     "pages/tabbar/tabbar-3/tabbar-3",
     "pages/tabbar/tabbar-4/tabbar-4",
-    "pages/tabbar/tabbar-5/tabbar-5",
+    "pages/tabbar/me/Me",
+    "pages/tabbar/me/component/ChangeBg",
+    "pages/tabbar/me/component/ChangeFace",
+    "pages/tabbar/me/component/QrCode",
     "pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release",
     "pages/tabbar-3-detial/tabbar-3-video/tabbar-3-video",
     "pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa"
@@ -47,13 +50,15 @@
         "text": "消息"
       },
       {
-        "pagePath": "pages/tabbar/tabbar-5/tabbar-5",
+        "pagePath": "pages/tabbar/me/Me",
         "iconPath": "static/img/tabbar/me.png",
         "selectedIconPath": "static/img/tabbar/meactive.png",
         "text": "我"
       }
     ]
   },
-  "usingComponents": {},
+  "usingComponents": {
+    "uni-pop": "/uni_modules/uni-popup/components/uni-popup/uni-popup"
+  },
   "sitemapLocation": "sitemap.json"
 }
