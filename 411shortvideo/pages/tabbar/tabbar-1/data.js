@@ -3,9 +3,9 @@ const userList = [{//1
 	"_id": "zxysdbd",//1.每一个视频独有 id 
 	"userId":"222211111",
 	"username": "意识到",//2.视频拥有者名称
-	"href": "../../../static/img/touxiang/1.png",//3.头像
-	"title": "",//4.第一行标题
-	"msg": "mood",//5.第二行内容
+	"href": "../../../static/img/touxiang/5.jpg",//3.头像
+	"title": "我不管我要混分",//第一行标题
+	"msg": "我就是广播体操的King",//5.第二行内容
 	"state": "pause",//6.初始状态标志
 	"like": 0,//7.是否是自己喜欢，0不喜欢，1喜欢。默认不喜欢
 	"like_n": 0,//8.喜欢数量
@@ -22,7 +22,7 @@ const userList = [{//1
 	"userId":"11122",
 	"username": "阿水的哈",
 	"href": "../../../static/img/touxiang/2.bmp",
-	"title": "",
+	"title": "CSNeiltitletitle",
 	"msg": "像不像你妈看见你打游戏时的样子",
 	"state": "pause",
 	"like": 0,
@@ -40,7 +40,7 @@ const userList = [{//1
 	"userId":"223332",
 	"username": "阿斯达达",
 	"href": "../../../static/img/touxiang/3.jpg",
-	"title": "",
+	"title": "testtest",
 	"msg": "最向往的地方-林俊杰",
 	"state": "pause",
 	"like": 0,
@@ -57,8 +57,8 @@ const userList = [{//1
 	"_id": "---->>>>好",
 	"userId":"4444",
 	"username": "阿斯顿",
-	"href": "../../../static/img/touxiang/4.jpg",
-	"title": "",
+	"href": "../../../static/img/touxiang/9.jpg",
+	"title": "testtesttesttest",
 	"msg": "Ring Ring Ring",
 	"state": "pause",
 	"like": 0,
@@ -73,10 +73,10 @@ const userList = [{//1
 	"isplay": true
 }, {//5
 	"_id": "---->>>>饿",
-	"userId":"55",
+	"userId":"CSNeil",
 	"username": "史蒂夫",
-	"href": "../../../static/img/touxiang/5.jpg",
-	"title": "",
+	"href": "../../../static/img/touxiang/1.png",
+	"title": "test",
 	"msg": "有何不可",
 	"state": "pause",
 	"like": 0,
@@ -94,7 +94,7 @@ const userList = [{//1
 	"userId":"666",
 	"username": "阿斯达",
 	"href": "../../../static/img/touxiang/6.jpg",
-	"title": "",
+	"title": "CSNeilCSNeil",
 	"msg": "破茧",
 	"state": "pause",
 	"like": 0,
@@ -112,7 +112,7 @@ const userList = [{//1
 	"userId":"77",
 	"username": "很久很久",
 	"href": "../../../static/img/touxiang/7.png",
-	"title": "",
+	"title": "CSNeiltest",
 	"msg": "后会无期-徐良-汪苏泷",
 	"state": "pause",
 	"like": 0,
@@ -130,7 +130,7 @@ const userList = [{//1
 	"userId":"88888",
 	"username": "哈哈哈哈哈",
 	"href": "../../../static/img/touxiang/8.jpg",
-	"title": "",
+	"title": "testtest",
 	"msg": "笑死了哈哈哈哈哈",
 	"state": "pause",
 	"like": 0,
@@ -147,8 +147,8 @@ const userList = [{//1
 	"_id": "---->>>>下课",
 	"userId":"999999999999999",
 	"username": "望·即",
-	"href": "../../../static/img/touxiang/9.jpg",
-	"title": "",
+	"href": "../../../static/img/touxiang/4.jpg",
+	"title": "testtesttesttest",
 	"msg": "Justin Biber- As long as you love me",
 	"state": "pause",
 	"like": 0,
@@ -166,7 +166,7 @@ const userList = [{//1
 	"userId":"6754658698785634",
 	"username": "user",
 	"href": "../../../static/img/touxiang/10.jpg",
-	"title": "",
+	"title": "testtest",
 	"msg": "苹果2019年发布会开场动画",
 	"state": "pause",
 	"like": 0,
@@ -185,7 +185,7 @@ const userList = [{//1
 	"userId":"6754658698785634",
 	"username": "user",
 	"href": "../../../static/img/touxiang/11.png",
-	"title": "",
+	"title": "testtest",
 	"msg": "每天笑一笑",
 	"state": "pause",
 	"like": 0,
@@ -204,7 +204,7 @@ const userList = [{//1
 	"userId":"6754658698785634",
 	"username": "user",
 	"href": "../../../static/img/touxiang/12.png",
-	"title": "",
+	"title": "testtest",
 	"msg": "老外真会玩",
 	"state": "pause",
 	"like": 0,
