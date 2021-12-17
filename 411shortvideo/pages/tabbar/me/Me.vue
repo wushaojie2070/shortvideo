@@ -6,12 +6,11 @@
 		
 		<view v-if="userIsLogin" style="height: 80%;">
 			<!-- <view :style="{height: screenHeight + 'px'}"> -->
-			<image id="mybg"
-				:src="userInfo.bgUrl" 
+			<image id="mybg" 
+				src="../../../static/img/tabbar/me/me/1.jpg" 
 				mode="aspectFill" 
 				@click="changeMyBg()"
-				class="bgimage">
-			</image>
+				class="bgimage"></image>
 			<view class="bgadd"></view>
 			<view class="other-more in-one-line">
 				<view 
@@ -22,7 +21,7 @@
 							src="../../../static/img/tabbar/me/me/访客.png"
 							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;">
 						</image>
-						新访客 {{userInfo.newVisitors}}
+						新访客 16
 					</text>
 				</view>
 				<image
@@ -31,45 +30,33 @@
 					class="other-more-set">
 				</image>
 			</view>
-			<!-- 点击获赞的弹窗 -->
-			<uni-popup ref="popup" type="center">
-			    <view class="win-praise">
-					<image 
-						mode="widthFix"
-						src="../../../static/img/tabbar/me/qq_pic_merged_1639501330923.jpg">
-					</image>
-					<view class="win-praise-text">"{{userInfo.name}}"共获得{{userInfo.winPraise}}个赞</view>
-					<hr style="color: #000000;opacity: 0.5;">
-					<button style="background-color: #FFFFFF;line-height: 100rpx;" @click="close()">确认</button>
-				</view>
-			</uni-popup>
 			<view class="mine">
 				<view class="in-one-line">
 					<image 
-						:src="userInfo.faceUrl" 	
-						mode="aspectFill" 
+						src="../../../static/img/tabbar/me/me/img-de50780d01d6d9c047d473299a2d19b2.jpg" 	
+						mode="scaleToFill" 
 						@click="changeMyFace()"
 						class="heat-image"></image>
 					<view class="heat-info in-one-line">
-						<view class="heat-info-one in-one-column" @click="open()">
+						<view class="heat-info-one in-one-column">
 							<text class="heat-info-title">获赞</text>
-							<text class="heat-info-num">{{userInfo.winPraise}}</text>
+							<text class="heat-info-num">1.5w</text>
 						</view>
 						<view class="heat-info-one in-one-column" @click="goMyFollows()">
 							<text class="heat-info-title">关注</text>
-							<text class="heat-info-num">{{userInfo.concern}}</text>
+							<text class="heat-info-num">198</text>
 						</view>
 						<view class="heat-info-one in-one-column" @click="goMyFans()">
 							<text class="heat-info-title">粉丝</text>
-							<text class="heat-info-num">{{userInfo.fans}}</text>
+							<text class="heat-info-num">2673</text>
 						</view>
 					</view>
 				</view>
 				<view class="mine-infos in-one-column">
 					<view class="infos-info">
-						<text class="infos-info-name">{{userInfo.name}}</text><br>
+						<text class="infos-info-name">罗涵娱乐</text><br>
 						<text class="infos-info-code">拾刻号：</text>
-						<text class="infos-info-code" @click="myQrCode()">{{userInfo.SKId}}</text>
+						<text class="infos-info-code" @click="myQrCode()">LeoHan0728</text>
 						<image
 							src="../../../static/img/tabbar/me/me/二维码.png"
 							@click="myQrCode()"
@@ -78,20 +65,24 @@
 					</view>
 					<hr style="width: 100%;color: #FFFFFF;opacity: 0.2;">
 					<text class="infos-introduction">
-						{{userInfo.introduce}}
+						点击添加介绍...
 						<image
 							src="../../../static/img/tabbar/me/me/编辑.png"
 							style="width: 18px;height: 18px;margin-left: 13px;">
 						</image>
 					</text>
-					<!-- <text style="position: relative; top: -520rpx;color: #ffffff;font-size: 14px;margin: 0 30rpx;">10年＋IT互联网老司机。5年在线教育经验。曾任技术经理、项目经理、技术总监、部门经理。福瑞博课创始人&CTO。</text> -->
 					<view class="in-one-line">
-						<view v-for="bq in userInfo.labels" :key="bq.id">
-							<view class="infos-label-bg">
-								<text class="infos-label-text">{{bq.label}}</text>
-							</view>
+						<view class="infos-label-bg">
+							<text class="infos-label-text">33岁</text>
+						</view>
+						<view class="infos-label-bg">
+							<text class="infos-label-text">成都</text>
+						</view>
+						<view class="infos-label-bg">
+							<text class="infos-label-text">上海戏剧学院</text>
 						</view>
 					</view>
+					<!-- <text style="position: relative; top: -520rpx;color: #ffffff;font-size: 14px;margin: 0 30rpx;">10年＋IT互联网老司机。5年在线教育经验。曾任技术经理、项目经理、技术总监、部门经理。福瑞博课创始人&CTO。</text> -->
 				
 					<view class="infos-btn in-one-line">
 						<view @click="goMyInfo()" class="infos-btn-data infos-btn-data-first in-one-line">
@@ -103,9 +94,9 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view style="display: flex;flex-direction: row;justify-content: center;margin-right: 30rpx;"> 
-			
-			判断当前页是否是自己，如果是自己则显示编辑资料和设置，如果不是，则显示关注或取关 
+			<!-- <view style="display: flex;flex-direction: row;justify-content: center;margin-right: 30rpx;"> -->
+					
+			<!-- 判断当前页是否是自己，如果是自己则显示编辑资料和设置，如果不是，则显示关注或取关 
 				<view v-if="!isMe && isFollow" 
 					@click="cancelFollow()"
 					style="margin-right: 20rpx;border-width: 1px;border-color: #FFFFFF;width: 200rpx;height: 66rpx;background-color: #545456;opacity: 0.8;border-radius: 40rpx;display: flex;flex-direction: row;justify-content: center;align-self: center;">
@@ -156,7 +147,7 @@
 				</view>
 						
 				<view v-if="publicVlogList.length > 0">
-					<view style="background-color: #000000;position: absolute;bottom: -192rpx;width: 100%;height: 235rpx;">
+					<view style="background-color: #000000;position: absolute;bottom: -192rpx;width: 100%;height: 225rpx;">
 						
 					</view>
 					<view class="end">
@@ -169,44 +160,12 @@
 </template>
 
 <script>
-	import uniPop from 'uni_modules/uni-popup/components/uni-popup/uni-popup.vue'
-	
 	export default {
 		data() {
 			return {
-				userIsLogin:true,
-				userInfo:{
-					bgUrl: '/static/img/tabbar/me/me/1.jpg',
-					faceUrl: '/static/img/tabbar/me/me/face.jpg',
-					newVisitors: 73,
-					winPraise: "1.5w",
-					concern: 198,
-					fans: 2679,
-					name: "罗涵娱乐",
-					SKId: "LuoHan0728",
-					SKQrcodeUrl: "",
-					introduce: "点击添加介绍...",
-					labels: [
-						{
-							id:0,
-							label:'33岁',
-						},
-						{
-							id:1,
-							label:'成都',
-						},
-						{
-							id:2,
-							label:'上海戏剧学院'
-						},
-					],
-					sex: "",
-					birthday: "",
-				},
-				
 				title: 'Hello',
+				userIsLogin:true,
 				loginWords:"请登录",
-				
 				currentTab:0,
 				publicVlogList:[
 					{
@@ -226,37 +185,13 @@
 						cover:require('../../../static/img/tabbar/me/me/share_2846016b041cbecc65a2796efa2e0a01.mp4'),
 					}
 				],
-				control:false,
 			}
 		},
+		onLoad() {
+
+		},
 		methods: {
-			open(){
-				 this.$refs.popup.open();
-			},
-			close(){
-				this.$refs.popup.close();
-			},
-			changeMyBg(){
-				var that = this;
-				uni.navigateTo({
-					animationType: "fade-in",
-					url: "component/ChangeBg?bg="+that.userInfo.bgUrl,
-				})
-			},
-			changeMyFace(){
-				var that = this;
-				uni.navigateTo({
-					animationType: "fade-in",
-					url: "component/ChangeFace?faceUrl="+that.userInfo.faceUrl,
-				})
-			},
-			myQrCode(){
-				var that = this;
-				uni.navigateTo({
-					animationType: "fade-in",
-					url: "component/QrCode?faceUrl="+that.userInfo.faceUrl+"&name="+that.userInfo.name,
-				})
-			}
+
 		}
 	}
 </script>
@@ -447,7 +382,7 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: left;
+		justify-content: space-between;
 		background-color: #000000;
 	}
 	.vlog-cover {
@@ -477,16 +412,5 @@
 		position: relative; 
 		background-color: #000000;
 		top: 130rpx;
-	}
-	
-	/* 点击获赞的弹窗 */
-	.win-praise{
-		background-color: #FFFFFF;
-	}
-	.win-praise-text{
-		color: #000000;
-		font-size: 30rpx;
-		line-height: 140rpx;
-		text-align: center;
 	}
 </style>

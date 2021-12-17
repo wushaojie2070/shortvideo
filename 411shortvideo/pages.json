@@ -24,18 +24,6 @@
 			"style": {}
 		},
 		{
-			"path":"pages/tabbar/me/component/ChangeBg",
-			"style": {}
-		},
-		{
-			"path":"pages/tabbar/me/component/ChangeFace",
-			"style": {}
-		},
-		{
-			"path":"pages/tabbar/me/component/QrCode",
-			"style": {}
-		},
-		{
 			"path": "pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release",
 			"style": {}
 		},
@@ -93,8 +81,8 @@
 				"text": "消息"
 			},
 			{
-				"pagePath": "pages/tabbar/me/Me",
-				"iconPath": "static/img/tabbar/me.png",
+				"pagePath": "pages/tabbar/me/me",
+				"iconPath": "static/img/tabbar/Me.png",
 				"selectedIconPath": "static/img/tabbar/meactive.png",
 				"text": "我"
 			}
