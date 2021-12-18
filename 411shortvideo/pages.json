@@ -20,11 +20,35 @@
 			"style": {}
 		},
 		{
-			"path": "pages/tabbar/me/me",
+			"path": "pages/tabbar/me/Me",
 			"style": {}
 		},
 		{
-			"path": "pages/tabbar/tabbar-5/vlogerInfo",
+			"path":"pages/tabbar/me/component/ChangeBg",
+			"style": {}
+		},
+		{
+			"path":"pages/tabbar/me/component/ChangeFace",
+			"style": {}
+		},
+		{
+			"path":"pages/tabbar/me/component/ChangeIntroduce",
+			"style": {}
+		},
+		{
+			"path":"pages/tabbar/me/component/ChangeInfo",
+			"style": {}
+		},
+		{
+			"path":"pages/tabbar/me/component/ChangeName",
+			"style": {}
+		},
+		{
+			"path":"pages/tabbar/me/component/ChangeSKId",
+			"style": {}
+		},
+		{
+			"path":"pages/tabbar/me/component/QrCode",
 			"style": {}
 		},
 		{
@@ -42,7 +66,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "拾刻",
+		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	},
@@ -85,8 +109,8 @@
 				"text": "消息"
 			},
 			{
-				"pagePath": "pages/tabbar/me/me",
-				"iconPath": "static/img/tabbar/Me.png",
+				"pagePath": "pages/tabbar/me/Me",
+				"iconPath": "static/img/tabbar/me.png",
 				"selectedIconPath": "static/img/tabbar/meactive.png",
 				"text": "我"
 			}
