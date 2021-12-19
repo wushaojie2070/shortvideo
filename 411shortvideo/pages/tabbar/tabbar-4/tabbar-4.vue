@@ -1,11 +1,20 @@
 <template>
-	<view class="content">
-		页面 - 44567890
+	<view class="news">
+		<view>
+			<top></top>
+			<friends></friends>
+		</view>
 	</view>
 </template>
 
 <script>
+	import top from './top.vue'
+	import friends from './friends.vue'
 	export default {
+		components:{
+			top,
+			friends,
+		},
 		data() {
 			return {
 				title: 'Hello'
@@ -21,9 +30,14 @@
 </script>
 
 <style>
-	.content {
-		text-align: center;
-		height: 400upx;
-		margin-top: 200upx;
-	}
+.news{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	background-color: #333333;
+}
 </style>
