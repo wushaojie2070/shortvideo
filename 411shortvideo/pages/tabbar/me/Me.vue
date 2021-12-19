@@ -7,22 +7,21 @@
 		<view v-if="userIsLogin" style="height: 80%;">
 			<!-- <view :style="{height: screenHeight + 'px'}"> -->
 			<image id="mybg" 
-				src="../../../static/img/tabbar/me/me/1.jpg" 
+				:src="userInfo.bgUrl" 
 				mode="aspectFill" 
 				@click="changeMyBg()"
 				class="bgimage"></image>
 			<view class="bgadd"></view>
 			<view class="other-more in-one-line">
 				<view 
-					@click="goMyInfo()"
 					class="other-more-visitor in-one-line">
-					<text class="other-more-visitor-text">
+					<view class="other-more-visitor-text">
 						<image 
 							src="../../../static/img/tabbar/me/me/访客.png"
 							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;">
 						</image>
-						新访客 16
-					</text>
+						新访客 {{userInfo.newVisitors}}
+					</view>
 				</view>
 				<image
 					src="../../../static/img/tabbar/me/me/更多.png"
@@ -37,7 +36,7 @@
 						mode="widthFix"
 						src="../../../static/img/tabbar/me/me/qq_pic_merged_1639501330923.jpg">
 					</image>
-					<view class="win-praise-text">"{{userInfo.name}}"共获得{{userInfo.winPraise}}个赞</view>
+					<view class="win-praise-text">“{{userInfo.name}}”共获得{{userInfo.winPraise}}个赞</view>
 					<hr style="color: #000000;opacity: 0.5;">
 					<button style="background-color: #FFFFFF;line-height: 100rpx;" @click="close()">确认</button>
 				</view>
@@ -76,13 +75,13 @@
 						</image>
 					</view>
 					<hr style="width: 100%;color: #FFFFFF;opacity: 0.2;">
-					<text class="infos-introduction" @click="changeIntroduce()">
+					<view class="infos-introduction" @click="changeIntroduce()">
 						{{userInfo.introduce}}
 						<image
 							src="../../../static/img/tabbar/me/me/编辑.png"
 							style="width: 18px;height: 18px;margin-left: 13px;">
 						</image>
-					</text>
+					</view>
 					<!-- <text style="position: relative; top: -520rpx;color: #ffffff;font-size: 14px;margin: 0 30rpx;">10年＋IT互联网老司机��年在线教育经验。曾任技术经理、项目经理、技术总监、部门经理。福瑞博课创始人&CTO��/text> -->
 					<view class="in-one-line">
 						<view v-for="bq in userInfo.labels" :key="bq.id">
@@ -141,14 +140,14 @@
 					</view>
 				</view>
 				<view class="vlog-list">
-					<block v-for="vlog in publicVlogList" :key="vlog.id" >
+					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id" >
 						<video 
-							class="vlog-cover" 
-							:src="vlog.cover" 
-							@click="goToVlog(vlog.id)"
-							mode="aspectFit">
+							style="width: 100%;height: 100%;"
+							:src="vlog.cover"
+							controls="true"
+							custom-cache="false">
 						</video>
-					</block>
+					</view>
 				</view>
 					
 				<view v-if="publicVlogList.length == 0" class="empty">
@@ -226,11 +225,11 @@
 						cover: '/static/img/tabbar/me/me/share_2846016b041cbecc65a2796efa2e0a01.mp4',
 					}
 				],
+				controls: true,
 			}
 		},
 		onLoad() {
-
-
+			
 		},
 		methods: {
 			open(){
@@ -479,9 +478,7 @@
 		height: 440rpx;
 		border: 1rpx solid #000000;
 		align-self: center;
-		show-play-btn: false;
-		controls: false;
-		show-fullscreen-btn: false;
+
 	}
 	.empty{
 		width: 750rpx;
@@ -509,7 +506,7 @@
 	}
 	.win-praise-text{
 		color: #000000;
-		font-size: 30rpx;
+		font-size: 15px;
 		line-height: 140rpx;
 		text-align: center;
 	}

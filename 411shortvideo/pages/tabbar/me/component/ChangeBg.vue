@@ -77,9 +77,9 @@
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				// let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				console.log(prevPage);
-				prevPage.userInfo.bgUrl = that.bgUrl; 
-				console.log(prevPage.userInfo.bgUrl);
+				console.log("prevPage",prevPage.$vm);
+				prevPage.$vm.userInfo.bgUrl = that.bgUrl; 
+				console.log(prevPage.$vm.userInfo.bgUrl);
 				console.log(1);
 			}
 		}
