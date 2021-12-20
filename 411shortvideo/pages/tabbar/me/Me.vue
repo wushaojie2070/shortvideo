@@ -218,7 +218,7 @@
 					},
 					{
 						id:3,
-						cover: '/static/img/tabbar/me/me/share_1276326b0513e8d1ebb43378fec61ec9.mp4',
+						cover: '/static/img/tabbar/me/me/罗云熙_星光大赏_录屏.mp4',
 					},
 					{
 						id:4,
