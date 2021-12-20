@@ -51,7 +51,9 @@
                     }
                 },
                 "ad" : {},
-                "speech" : {}
+                "speech" : {
+                    "ifly" : {}
+                }
             }
         }
     },
@@ -64,7 +66,21 @@
         "setting" : {
             "urlCheck" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置将用于拾刻小程序接口的效果展示"
+            }
+        }
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "BTDBZ-R5EWG-WUMQW-IMSC6-Z6RNO-2TBXT"
+                }
+            }
+        }
+    }
 }

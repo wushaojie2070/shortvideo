@@ -7,7 +7,7 @@
 					<cover-image class="sousuo-img" src="../../../static/img/index/sousuo.png" mode=""></cover-image>
 					<cover-view class="middle">
 						<cover-view class="text">推荐</cover-view>
-						<cover-view class="text" @click="gotoMap()">同城</cover-view>
+						<cover-view class="text" @click="toMap()">同城</cover-view>
 					</cover-view>
 				</cover-view>
 				<view>
@@ -107,6 +107,7 @@
 		},
 		data() {
 			return {
+				localplace:"",
 				ifshow: false,
 				windowWidth: 0,
 				windowHeight: 0,
@@ -164,19 +165,13 @@
 			this.windowHeight = uni.getSystemInfoSync().windowHeight
 			this.boxStyle.width = this.windowWidth + 'px' //给宽度加px
 			this.boxStyle.height = this.windowHeight + 'px' //可以自行更改视频高度，想视频不那么高，就把0改大一点
+			this.localplace= getApp().globalData.localplace
 			this.get() //刚进入页面加载数据
 		},
 		methods: {
 			ended() {
 				// 1.播放当前视频结束时触发，自动切换下一个视频
 				this.current = this.k + 1
-			},
-			gotoMap(){
-				console.log("gotoMap")
-				uni.navigateTo({
-					url:'components/Map'
-				})
-				
 			},
 			//点击播放&&暂停
 			tapVideoHover(state, event) {
@@ -249,6 +244,15 @@
 				this.ifshow = true //开评论框
 				console.log("ifshow",this.ifshow)
 			},
+			toMap(){
+				console.log("gotoMap")
+				var localplace = this.localplace
+				uni.navigateTo({
+					// url:"components/Map?value=" + encodeURIComponent(localplace) 
+					url:"components/Map"
+				})
+				
+			},
 			cmtclose(cmtclose){
 				this.ifshow = cmtclose;
 			},
@@ -275,10 +279,11 @@
 				// 返回数据
 				return {
 					title: "拾刻短视频",
+					
 					success: function(res) {
 						// 转发成功，可以把当前页面的链接发送给后端，用于记录当前页面被转发了多少次或其他业务
 						wx.request({
-							url: app.buildUrl("/member/share"),
+							// url: app.buildUrl("/member/share"),
 							data: {
 								url: utils.getCurrentPageUrlWithArgs()
 							},
