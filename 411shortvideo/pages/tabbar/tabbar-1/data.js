@@ -1,34 +1,34 @@
 //1.{}里包裹的是每一个视频的参数
-const userList = [{//1
-	"_id": "zxysdbd",//1.每一个视频独有 id 
-	"userId":"222211111",
-	"username": "意识到",//2.视频拥有者名称
-	"href": "../../../static/img/touxiang/5.jpg",//3.头像
-	"title": "我不管我要混分",//第一行标题
-	"msg": "我就是广播体操的King",//5.第二行内容
-	"state": "pause",//6.初始状态标志
-	"like": 0,//7.是否是自己喜欢，0不喜欢，1喜欢。默认不喜欢
-	"like_n": 0,//8.喜欢数量
-	"sms_n": 0,//9.评论数
-	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/710b0cf7-bed9-4805-a2fb-0b703483dbec.MOV",//10.视频链接
-	"playNumber": 0,//11.播放视频的数量
-	"pinlun": [],//12.评论
-	"playIng": false,//13.播放
-	"isShowimage": false,//14.是否显示封面
-	"isShowProgressBarTime": false,//15.是否显示进度条
-	"isplay": true//16.是否播放音频
-}, {//2
-	"_id": "dbddbd",
-	"userId":"11122",
-	"username": "阿水的哈",
-	"href": "../../../static/img/touxiang/2.bmp",
-	"title": "CSNeiltitletitle",
-	"msg": "像不像你妈看见你打游戏时的样子",
+const userList = [{//1	
+	"_id": "---->>>>好",
+	"userId":"4444",
+	"username": "阿斯顿",
+	"href": "../../../static/img/touxiang/9.jpg",
+	"title": "testtesttesttest",
+	"msg": "Ring Ring Ring",
 	"state": "pause",
 	"like": 0,
 	"like_n": 0,
-	"sms_n": 4,
-	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/ec383f81-6896-4274-8861-e329ae1376b4.mp4",
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//2
+	"_id": "---->>>>啊",
+	"userId":"666",
+	"username": "阿斯达",
+	"href": "../../../static/img/touxiang/6.jpg",
+	"title": "CSNeilCSNeil",
+	"msg": "破茧",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 2,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
 	"playNumber": 0,
 	"pinlun": [],
 	"playIng": false,
@@ -54,23 +54,23 @@ const userList = [{//1
 	"isShowProgressBarTime": false,
 	"isplay": true
 }, {//4
-	"_id": "---->>>>好",
-	"userId":"4444",
-	"username": "阿斯顿",
-	"href": "../../../static/img/touxiang/9.jpg",
-	"title": "testtesttesttest",
-	"msg": "Ring Ring Ring",
-	"state": "pause",
-	"like": 0,
-	"like_n": 0,
-	"sms_n": 0,
-	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
-	"playNumber": 0,
-	"pinlun": [],
-	"playIng": false,
-	"isShowimage": false,
-	"isShowProgressBarTime": false,
-	"isplay": true
+	"_id": "zxysdbd",//1.每一个视频独有 id
+	"userId":"222211111",
+	"username": "意识到",//2.视频拥有者名称
+	"href": "../../../static/img/touxiang/5.jpg",//3.头像
+	"title": "我不管我要混分",//第一行标题
+	"msg": "我就是广播体操的King",//5.第二行内容
+	"state": "pause",//6.初始状态标志
+	"like": 0,//7.是否是自己喜欢，0不喜欢，1喜欢。默认不喜欢
+	"like_n": 0,//8.喜欢数量
+	"sms_n": 0,//9.评论数
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/710b0cf7-bed9-4805-a2fb-0b703483dbec.MOV",//10.视频链接
+	"playNumber": 0,//11.播放视频的数量
+	"pinlun": [],//12.评论
+	"playIng": false,//13.播放
+	"isShowimage": false,//14.是否显示封面
+	"isShowProgressBarTime": false,//15.是否显示进度条
+	"isplay": true,//16.是否播放音频
 }, {//5
 	"_id": "---->>>>饿",
 	"userId":"CSNeil",
@@ -90,23 +90,23 @@ const userList = [{//1
 	"isShowProgressBarTime": false,
 	"isplay": true
 }, {//6
-	"_id": "---->>>>啊",
-	"userId":"666",
-	"username": "阿斯达",
-	"href": "../../../static/img/touxiang/6.jpg",
-	"title": "CSNeilCSNeil",
-	"msg": "破茧",
+	"_id": "dbddbd",
+	"userId":"11122",
+	"username": "阿水的哈",
+	"href": "../../../static/img/touxiang/2.bmp",
+	"title": "CSNeiltitletitle",
+	"msg": "像不像你妈看见你打游戏时的样子",
 	"state": "pause",
 	"like": 0,
 	"like_n": 0,
-	"sms_n": 2,
-	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
+	"sms_n": 4,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/ec383f81-6896-4274-8861-e329ae1376b4.mp4",
 	"playNumber": 0,
 	"pinlun": [],
 	"playIng": false,
 	"isShowimage": false,
 	"isShowProgressBarTime": false,
-	"isplay": true
+	"isplay": true,
 }, {//7
 	"_id": "---->>>>怎么",
 	"userId":"77",

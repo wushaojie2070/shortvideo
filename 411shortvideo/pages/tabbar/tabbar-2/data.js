@@ -1,22 +1,22 @@
 //1.{}里包裹的是每一个视频的参数
 const userList = [{//1
-	"_id": "zxyzka",//1.每一个视频独有 id 
+	"_id": "Y",
 	"userId":"6754658698785634",
-	"username": "意识到",//2.视频拥有者名称
-	"href": "../../../static/img/touxiang/1.png",//3.头像
-	"title": "",//4.第一行标题
-	"msg": "mood",//5.第二行内容
-	"state": "pause",//6.初始状态标志
-	"like": 0,//7.是否是自己喜欢，0不喜欢，1喜欢。默认不喜欢
-	"like_n": 0,//8.喜欢数量
-	"sms_n": 0,//9.评论数
-	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/710b0cf7-bed9-4805-a2fb-0b703483dbec.MOV",//10.视频链接
-	"playNumber": 0,//11.播放视频的数量
-	"pinlun": [],//12.评论
-	"playIng": false,//13.播放
-	"isShowimage": false,//14.是否显示封面
-	"isShowProgressBarTime": false,//15.是否显示进度条
-	"isplay": true//16.是否播放音频
+	"username": "user",
+	"href": "../../../static/img/touxiang/12.png",
+	"title": "",
+	"msg": "老外真会玩",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/c061b07a-4b34-4d6d-aa1a-2cf41679f17c.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
 }, {//2
 	"_id": "xhzxy",
 	"userId":"6754658698785634",
@@ -200,22 +200,22 @@ const userList = [{//1
 	"isplay": true
 }, {
 	//12
-	"_id": "Y",
+	"_id": "zxyzka",//1.每一个视频独有 id
 	"userId":"6754658698785634",
-	"username": "user",
-	"href": "../../../static/img/touxiang/12.png",
-	"title": "",
-	"msg": "老外真会玩",
-	"state": "pause",
-	"like": 0,
-	"like_n": 0,
-	"sms_n": 0,
-	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/c061b07a-4b34-4d6d-aa1a-2cf41679f17c.mp4",
-	"playNumber": 0,
-	"pinlun": [],
-	"playIng": false,
-	"isShowimage": false,
-	"isShowProgressBarTime": false,
-	"isplay": true
+	"username": "意识到",//2.视频拥有者名称
+	"href": "../../../static/img/touxiang/1.png",//3.头像
+	"title": "",//4.第一行标题
+	"msg": "mood",//5.第二行内容
+	"state": "pause",//6.初始状态标志
+	"like": 0,//7.是否是自己喜欢，0不喜欢，1喜欢。默认不喜欢
+	"like_n": 0,//8.喜欢数量
+	"sms_n": 0,//9.评论数
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/710b0cf7-bed9-4805-a2fb-0b703483dbec.MOV",//10.视频链接
+	"playNumber": 0,//11.播放视频的数量
+	"pinlun": [],//12.评论
+	"playIng": false,//13.播放
+	"isShowimage": false,//14.是否显示封面
+	"isShowProgressBarTime": false,//15.是否显示进度条
+	"isplay": true,//16.是否播放音频
 }]
 export default userList;
