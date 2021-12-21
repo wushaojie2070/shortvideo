@@ -2,7 +2,7 @@
 	<view class="page">
 		<view class="face-wrapper in-one-column" :style="{height: windowHeight+'px'}">
 			<image mode="aspectFill" :src="faceUrl" class="face-size" v-if="faceUrl"></image>
-			<!-- <image src="../../static/images/defaultBgImg.png" class="bg-size" style="align-self: center;"></image> -->
+			
 			<view 
 				@click="changeFace()"
 				class="face-change in-one-column"
@@ -13,7 +13,7 @@
 		<view class="save" @click="getFace()">
 			<view class="save-face">
 				<image
-					src="../../../../static/img/tabbar/me/me/保存.png"
+					src="../../../../static/img/me/me/保存.png"
 					class="save-image">
 				</image>
 			</view>
@@ -77,9 +77,9 @@
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				// let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				console.log("prevPage",prevPage);
-				prevPage.userInfo.faceUrl = that.faceUrl; 
-				console.log(prevPage.userInfo.faceUrl);
+				console.log("prevPage",prevPage.$vm);
+				prevPage.$vm.userInfo.faceUrl = that.faceUrl; 
+				console.log(prevPage.$vm.userInfo.faceUrl);
 				console.log(1);
 			}
 		}

@@ -7,25 +7,24 @@
 		<view v-if="userIsLogin" style="height: 80%;">
 			<!-- <view :style="{height: screenHeight + 'px'}"> -->
 			<image id="mybg" 
-				src="../../../static/img/tabbar/me/me/1.jpg" 
+				:src="userInfo.bgUrl" 
 				mode="aspectFill" 
 				@click="changeMyBg()"
 				class="bgimage"></image>
 			<view class="bgadd"></view>
 			<view class="other-more in-one-line">
 				<view 
-					@click="goMyInfo()"
 					class="other-more-visitor in-one-line">
-					<text class="other-more-visitor-text">
+					<view class="other-more-visitor-text">
 						<image 
-							src="../../../static/img/tabbar/me/me/访客.png"
+							src="../../../static/img/me/me/访客.png"
 							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;">
 						</image>
-						新访客 16
-					</text>
+						新访客 {{userInfo.newVisitors}}
+					</view>
 				</view>
 				<image
-					src="../../../static/img/tabbar/me/me/更多.png"
+					src="../../../static/img/me/me/更多.png"
 					@click="addFriends()"
 					class="other-more-set">
 				</image>
@@ -35,9 +34,9 @@
 			    <view class="win-praise">
 					<image 
 						mode="widthFix"
-						src="../../../static/img/tabbar/me/me/qq_pic_merged_1639501330923.jpg">
+						src="../../../static/img/me/me/qq_pic_merged_1639501330923.jpg">
 					</image>
-					<view class="win-praise-text">"{{userInfo.name}}"共获得{{userInfo.winPraise}}个赞</view>
+					<view class="win-praise-text">“{{userInfo.name}}”共获得{{userInfo.winPraise}}个赞</view>
 					<hr style="color: #000000;opacity: 0.5;">
 					<button style="background-color: #FFFFFF;line-height: 100rpx;" @click="close()">确认</button>
 				</view>
@@ -70,19 +69,19 @@
 						<text class="infos-info-code">拾刻号：</text>
 						<text class="infos-info-code" @click="myQrCode()">{{userInfo.SKId}}</text>
 						<image
-							src="../../../static/img/tabbar/me/me/二维码.png"
+							src="../../../static/img/me/me/二维码.png"
 							@click="myQrCode()"
 							style="width: 20px;height: 20px;margin: 0 5px -5px;">
 						</image>
 					</view>
 					<hr style="width: 100%;color: #FFFFFF;opacity: 0.2;">
-					<text class="infos-introduction" @click="changeIntroduce()">
+					<view class="infos-introduction" @click="changeIntroduce()">
 						{{userInfo.introduce}}
 						<image
-							src="../../../static/img/tabbar/me/me/编辑.png"
+							src="../../../static/img/me/me/编辑.png"
 							style="width: 18px;height: 18px;margin-left: 13px;">
 						</image>
-					</text>
+					</view>
 					<!-- <text style="position: relative; top: -520rpx;color: #ffffff;font-size: 14px;margin: 0 30rpx;">10年＋IT互联网老司机��年在线教育经验。曾任技术经理、项目经理、技术总监、部门经理。福瑞博课创始人&CTO��/text> -->
 					<view class="in-one-line">
 						<view v-for="bq in userInfo.labels" :key="bq.id">
@@ -141,14 +140,18 @@
 					</view>
 				</view>
 				<view class="vlog-list">
-					<block v-for="vlog in publicVlogList" :key="vlog.id" >
+					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id" >
 						<video 
-							class="vlog-cover" 
-							:src="vlog.cover" 
-							@click="goToVlog(vlog.id)"
-							mode="aspectFit">
+							style="width: 100%;height: 100%;"
+							:src="vlog.cover"
+							:controls="true"
+							:show-progress="false"
+							:custom-cache="false"
+							:http-cache="true" :page-gesture="false" 
+							:show-fullscreen-btn="false" :show-play-btn="false" :show-loading="false" :show-center-play-btn="false" :enable-progress-gesture="false"
+							@error="error($event)">
 						</video>
-					</block>
+					</view>
 				</view>
 					
 				<view v-if="publicVlogList.length == 0" class="empty">
@@ -176,8 +179,8 @@
 			return {
 				userIsLogin:true,
 				userInfo:{
-					bgUrl: '/static/img/tabbar/me/me/1.jpg',
-					faceUrl: '/static/img/tabbar/me/me/face.jpg',
+					bgUrl: '/static/img/me/me/1.jpg',
+					faceUrl: '/static/img/me/me/face.jpg',
 					newVisitors: 73,
 					winPraise: "1.5w",
 					concern: 198,
@@ -211,28 +214,34 @@
 				publicVlogList:[
 					{
 						id:1,
-						cover: '/static/img/tabbar/me/me/share_5dcd70c6e6d7add2cbeefee50119561a.mp4',
+						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/5017a17a-389b-45e0-8d91-711c9dc76759.mp4",
 					},
 					{
 						id:2,
-						cover: '/static/img/tabbar/me/me/share_79a09a8d46c794590c02d83948a28b55.mp4',
+						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
 					},
 					{
 						id:3,
-						cover: '/static/img/tabbar/me/me/share_1276326b0513e8d1ebb43378fec61ec9.mp4',
+						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
 					},
 					{
 						id:4,
-						cover: '/static/img/tabbar/me/me/share_2846016b041cbecc65a2796efa2e0a01.mp4',
+						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/53543262-55f5-4685-a5e3-b56ce75bcb88.mp4",
 					}
 				],
+				controls: true,
 			}
 		},
 		onLoad() {
-
-
+			
 		},
 		methods: {
+			error: function(e){
+				uni.showModal({
+					content: e.target.errMsg,
+				       showCancel: false
+		        })
+			},
 			open(){
 				this.$refs.popup.open();
 			},
@@ -296,6 +305,7 @@
 		display: flex;
 		flex-direction: column;	
 	}
+	
 	/* 背景图片 */
 	.bgimage{
 		width: 100%;
@@ -479,9 +489,7 @@
 		height: 440rpx;
 		border: 1rpx solid #000000;
 		align-self: center;
-		show-play-btn: false;
-		controls: false;
-		show-fullscreen-btn: false;
+
 	}
 	.empty{
 		width: 750rpx;
@@ -509,7 +517,7 @@
 	}
 	.win-praise-text{
 		color: #000000;
-		font-size: 30rpx;
+		font-size: 15px;
 		line-height: 140rpx;
 		text-align: center;
 	}

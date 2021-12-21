@@ -19,7 +19,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 		
@@ -31,7 +31,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 			
@@ -51,7 +51,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 			
@@ -63,7 +63,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 			
@@ -75,7 +75,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
 			</view>
 		</view> -->
 			
@@ -87,7 +87,34 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
+			</view>
+		</view>
+		
+		<view class="single-line-box in-one-line">
+			<text class="left-lable" style="align-self: center;">二维码</text>
+			
+			<view class="right-part in-one-line" @click="myQrCode()">
+				<image 
+					class="right-content my-desc-info" 
+					style="width: 25px;height: 25px;"
+					src="/static/img/me/me/二维码.png"></image>
+				<image 
+					class="right-arrow" 
+					style="align-self: center;" 
+					src="/static/img/me/Info/右单书名号.png" ></image>
+			</view>
+		</view>
+		
+		<view class="single-line-box in-one-line">
+			<text class="left-lable" style="align-self: center;">主页背景</text>
+			
+			<view class="right-part in-one-line" @click="changeMyBg()">
+				<text class="right-content my-desc-info" style="align-self: center;">更换背景图片</text>
+				<image 
+					class="right-arrow" 
+					style="align-self: center;" 
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 	</view>
@@ -160,6 +187,35 @@
 					url: "ChangeIntroduce?introduce="+that.userInfo.introduce,
 				})
 			},
+			myQrCode(){
+				var that = this;
+				uni.navigateTo({
+					animationType: "zoom-fade-out",
+					url: "QrCode?faceUrl="+that.userInfo.faceUrl+"&name="+that.userInfo.name,
+				})
+			},
+			changeMyBg(){
+				var that = this;
+				uni.navigateTo({
+					animationType: "zoom-fade-out",
+					url: "ChangeBg?bg="+that.userInfo.bgUrl,
+				})
+			},
+		},
+		watch:{
+			userInfo:{
+				deep:true,
+				handler(newValue,oldValue){
+					var that = this;
+					let pages = getCurrentPages();  //获取所有页面栈实例列表
+					// let nowPage = pages[ pages.length - 1];  //当前页页面实例
+					let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
+					console.log("prevPage",prevPage.$vm);
+					prevPage.$vm.userInfo = that.userInfo; 
+					console.log(prevPage.$vm.userInfo);
+					console.log(1);
+				}
+			}
 		}
 	}
 </script>

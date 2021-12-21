@@ -2,7 +2,7 @@
 	<view class="page">
 		<view class="bg-wrapper in-one-column" :style="{height: windowHeight+'px'}">
 			<image mode="aspectFill" :src="bgUrl" class="bg-size" v-if="bgUrl"></image>
-			<!-- <image src="../../static/images/defaultBgImg.png" class="bg-size" style="align-self: center;"></image> -->
+			
 			<view 
 				@click="changeBg()"
 				class="bg-change in-one-column"
@@ -13,7 +13,7 @@
 		<view class="save" @click="getBg()">
 			<view class="save-bg">
 				<image
-					src="../../../../static/img/tabbar/me/me/保存.png"
+					src="../../../../static/img/me/me/保存.png"
 					class="save-image">
 				</image>
 			</view>
@@ -77,9 +77,9 @@
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				// let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				console.log(prevPage);
-				prevPage.userInfo.bgUrl = that.bgUrl; 
-				console.log(prevPage.userInfo.bgUrl);
+				console.log("prevPage",prevPage.$vm);
+				prevPage.$vm.userInfo.bgUrl = that.bgUrl; 
+				console.log(prevPage.$vm.userInfo.bgUrl);
 				console.log(1);
 			}
 		}

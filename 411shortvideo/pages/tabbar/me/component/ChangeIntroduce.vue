@@ -4,7 +4,6 @@
 			<text class="introduce-title">个人简介</text>
 			<view @click="ifChange = true">
 				<textarea
-					
 					class="introduce-textarea" 
 					v-model="introduce" 
 					maxlength="200">
