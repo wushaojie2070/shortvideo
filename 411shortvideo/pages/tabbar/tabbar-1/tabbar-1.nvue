@@ -245,13 +245,13 @@
 				})
 			},
 			toComment(index) {
-				console.log("这个得调用评论接口,现在是写死的")
-				var msg = commentList
-				console.log("commentList.length" + msg.length)
-				this.cmdList = []
-				for (let i = 0; i < msg.length; i++) {
-					this.cmdList.push(msg[i])
-				}
+				// console.log("这个得调用评论接口,现在是写死的")
+				// var msg = commentList
+				// console.log("commentList.length" + msg.length)
+				// this.cmdList = []
+				// for (let i = 0; i < msg.length; i++) {
+				// 	this.cmdList.push(msg[i])
+				// }
 				// console.log("cmdList[0].id===>" + this.cmdList[4].id)
 				this.ifshow = true //开评论框
 				console.log("开评论框", this.ifshow)
@@ -282,7 +282,7 @@
 				this.ifshow = cmtclose;
 			},
 			cLike(like, index) {
-				console.log("点赞换♥图片颜色")
+				console.log("点赞换♥图片颜色,后期接数据做判断")
 				// console.log("like+++>"+like)
 				// console.log("datalist1"+this.dataList[index].like)
 				if (like == 1) {
@@ -448,7 +448,7 @@
 
 	.content {
 		width: 720rpx;
-		z-index: 99;
+		/* z-index: 99; */
 		position: absolute;
 		bottom: 30px;
 		/* justify-content: center; */
