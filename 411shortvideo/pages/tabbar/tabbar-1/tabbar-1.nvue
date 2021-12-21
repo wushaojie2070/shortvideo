@@ -6,9 +6,13 @@
 				<cover-view class="firstNav">
 					<cover-image class="sousuo-img" src="../../../static/img/index/sousuo.png" mode=""></cover-image>
 					<cover-view class="middle">
-						<cover-view class="text">推荐</cover-view>
-						<cover-view class="text" @click="toMap()">同城</cover-view>
-					</cover-view>
+						<!-- text1是选择显示下划线  recorloc==1为选中推荐-->
+						<cover-view class="text1" v-if="recorloc==1" @click="toRec()">推荐</cover-view>
+						<cover-view class="text" v-if="recorloc==0" @click="toRec()">推荐</cover-view>
+						<cover-view class="text1" v-if="recorloc==0" @click="toMap(0)">同城</cover-view>
+						<cover-view class="text" v-if="recorloc==1" @click="toMap(0)">同城</cover-view>
+						
+					</cover-view><cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
 				</cover-view>
 				<view>
 					<!-- 
@@ -72,26 +76,32 @@
 							mode=""></image>
 					</view>
 				</view>
-			
+
 
 				<!-- 最底下的文字部分 -->
 				<view class="content">
+					<view v-if="recorloc==0" @click="toMap(1)">
+						<image style="height: 50rpx;width: 50rpx;border-radius: 50%; margin-left: 10rpx;" 
+					 src="../../../static/img/index/ditu.png" mode=""></image>	
+					<text style="position: absolute; margin-left: 70rpx;height: 40rpx;width:200rpx;opacity:0.8;
+					 overflow: hidden;text-overflow: ellipsis;">浙江省杭州市</text>
+					</view>
 					<text class="userName" :style="'width: '+ (windowWidth - 520) +'px;'">@{{list.title}}</text>
 					<!-- i={{i}} -->
 					<text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.msg}}-(第{{k+1}}个)</text>
 					<!-- k={{k}} -->
-					<text class="music">错位时空  --艾辰</text>
+					<text class="music">错位时空 --艾辰</text>
 				</view>
 				<view v-show="ifshow" class="commentshow">
-					<videocomment  @cmtclose="cmtclose"></videocomment>
+					<videocomment @cmtclose="cmtclose"></videocomment>
 				</view>
 			</swiper-item>
-		</swiper>		
-		
-	<!-- 评论框 -->
-		
+		</swiper>
 
-	
+		<!-- 评论框 -->
+
+
+
 	</view>
 </template>
 
@@ -103,11 +113,13 @@
 	// import hbcomment from "@/components/hb-comment/hb-comment.vue"
 	export default {
 		components: {
-			videocomment,Map
+			videocomment,
+			Map
 		},
 		data() {
 			return {
-				localplace:"",
+				recorloc:1,
+				localplace: "",
 				ifshow: false,
 				windowWidth: 0,
 				windowHeight: 0,
@@ -165,7 +177,7 @@
 			this.windowHeight = uni.getSystemInfoSync().windowHeight
 			this.boxStyle.width = this.windowWidth + 'px' //给宽度加px
 			this.boxStyle.height = this.windowHeight + 'px' //可以自行更改视频高度，想视频不那么高，就把0改大一点
-			this.localplace= getApp().globalData.localplace
+			this.localplace = getApp().globalData.localplace
 			this.get() //刚进入页面加载数据
 		},
 		methods: {
@@ -197,7 +209,7 @@
 				}
 			},
 			get() {
-				// 1.这里引入后端请求数据,还没做,
+				// 1.这里引入后端请求数据,还没做,是死数据
 				var msg = userList
 				
 				// 2.这里把视频添加到视频列表
@@ -233,31 +245,44 @@
 				})
 			},
 			toComment(index) {
-				//这个得调用评论接口,现在是写死的
+				console.log("这个得调用评论接口,现在是写死的")
 				var msg = commentList
-				console.log("commentList.length"+msg.length)
+				console.log("commentList.length" + msg.length)
 				this.cmdList = []
 				for (let i = 0; i < msg.length; i++) {
 					this.cmdList.push(msg[i])
 				}
 				// console.log("cmdList[0].id===>" + this.cmdList[4].id)
 				this.ifshow = true //开评论框
-				console.log("ifshow",this.ifshow)
+				console.log("开评论框", this.ifshow)
 			},
-			toMap(){
-				console.log("gotoMap")
+			toRec() {
+				console.log("去推荐,接推荐的视频接口")
+				this.recorloc=1
+			},
+			toMap(index) {
+				this.localplace = getApp().globalData.localplace
 				var localplace = this.localplace
-				uni.navigateTo({
+				if(localplace==""||index==1){
+					console.log("未确定地址,去地图界面接口")
+					uni.navigateTo({
 					// url:"components/Map?value=" + encodeURIComponent(localplace) 
-					url:"components/Map"
+					url: "components/Map"
 				})
+				this.recorloc=1
+				} else {
+					console.log("已确定地址,接同城的视频接口")
+					this.recorloc=0
+				}
 				
+				
+
 			},
-			cmtclose(cmtclose){
+			cmtclose(cmtclose) {
 				this.ifshow = cmtclose;
 			},
 			cLike(like, index) {
-				//点赞换♥图片颜色
+				console.log("点赞换♥图片颜色")
 				// console.log("like+++>"+like)
 				// console.log("datalist1"+this.dataList[index].like)
 				if (like == 1) {
@@ -279,7 +304,7 @@
 				// 返回数据
 				return {
 					title: "拾刻短视频",
-					
+
 					success: function(res) {
 						// 转发成功，可以把当前页面的链接发送给后端，用于记录当前页面被转发了多少次或其他业务
 						wx.request({
@@ -326,8 +351,8 @@
 		justify-content: space-between;
 		padding: 0 20px;
 	}
-	
-	
+
+
 	.middle {
 		flex: 1;
 		display: flex;
@@ -335,15 +360,30 @@
 		justify-content: center;
 		align-items: center;
 	}
-	
+
 	.text {
 		color: #FFFFFF;
 		margin: 0 10px;
 	}
-	.sousuo-img{
+	.text1 {
+		color: #FFFFFF;
+		margin: 0 10px;
+		text-decoration: underline;
+	}
+	.text2 {
+		color: #FFFFFF;
+		margin: 0 235px;
+		position: absolute;
+		font-size: 25rpx;
+		height: 40rpx;width:220rpx;opacity:0.5;
+		 overflow: hidden;text-overflow: ellipsis;
+	}
+
+	.sousuo-img {
 		width: 20px;
 		height: 20px;
 	}
+
 	.videoHover {
 		position: absolute;
 		top: 0;
@@ -435,6 +475,7 @@
 		align-items: center;
 		background-color: unset;
 	}
+
 	.commentshow {
 		position: fixed;
 		bottom: 0;
@@ -443,16 +484,16 @@
 		background-color: #161822;
 		border-radius: 20px 20px 0 0;
 		border-top: #808080 solid 2px;
-		
+
 	}
-	
+
 
 	.userName {
 		/* font-size: 35rpx;
 		color: #ffffff;
 		margin-top: 80upx;
 		margin-left: 25rpx; */
-		
+
 		height: 35px;
 		line-height: 35px;
 		font-size: 25px;
@@ -469,6 +510,7 @@
 		word-wrap: break-word;
 		color: #FFFFFF;
 	}
+
 	.music {
 		height: 35px;
 		line-height: 35px;
@@ -477,12 +519,12 @@
 		animation: music 4s linear 0.2s infinite;
 		color: #FFFFFF;
 	}
-	
+
 	@keyframes music {
 		0% {
 			transform: translate3d(80%, 0, 0);
 		}
-	
+
 		100% {
 			transform: translate3d(-80%, 0, 0);
 		}
@@ -491,23 +533,25 @@
 	.root {
 		background-color: #000000;
 	}
+
 	.img {
 		height: 50px;
 		width: 50px;
 		border-radius: 50%;
 	}
+
 	.around {
 		margin-top: 35px;
 		width: 50px;
 		height: 50px;
 		animation: rotate 5s linear 0.2s infinite;
 	}
-	
+
 	@keyframes rotate {
 		0% {
 			transform: rotate(0deg);
 		}
-	
+
 		100% {
 			transform: rotate(360deg);
 		}

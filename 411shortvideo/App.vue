@@ -5,7 +5,7 @@
 						id: null,
 						path: null,
 					},
-					localplace:'暂未设置地址',
+					localplace:'',
 				},
 		onLaunch: function() {
 			console.log('App Launch');
