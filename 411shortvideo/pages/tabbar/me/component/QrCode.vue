@@ -4,7 +4,7 @@
 			<view style="width: 100%;height: 55%;">
 				<image
 					mode="widthFix"
-					src="../../../../static/img/tabbar/me/qrcode/二维码_图.png"
+					src="../../../../static/img/me/qrcode/二维码_图.png"
 					style="width: 90%;position: relative;left: 5%;top: 90rpx">
 				</image>
 				<image
@@ -23,7 +23,7 @@
 					<view class="btn-bg">
 						<image
 							mode="aspectFit"
-							src="../../../../static/img/tabbar/me/qrcode/扫一扫.png"
+							src="../../../../static/img/me/qrcode/扫一扫.png"
 							style="width: 70rpx;height: 70rpx;"
 							class="btn-image">
 						</image>
@@ -34,7 +34,7 @@
 					<view class="btn-bg" @click="getQrCode()">
 						<image
 							mode="aspectFit"
-							src="../../../../static/img/tabbar/me/qrcode/保存.png"
+							src="../../../../static/img/me/qrcode/保存.png"
 							style="width: 65rpx;height: 65rpx;"
 							class="btn-image">
 						</image>

@@ -19,7 +19,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 		
@@ -31,7 +31,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 			
@@ -51,7 +51,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 			
@@ -63,7 +63,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 			
@@ -75,7 +75,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png"src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
 			</view>
 		</view> -->
 			
@@ -87,7 +87,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 		
@@ -98,11 +98,11 @@
 				<image 
 					class="right-content my-desc-info" 
 					style="width: 25px;height: 25px;"
-					src="/static/img/tabbar/me/me/二维码.png"></image>
+					src="/static/img/me/me/二维码.png"></image>
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 		
@@ -114,7 +114,7 @@
 				<image 
 					class="right-arrow" 
 					style="align-self: center;" 
-					src="/static/img/tabbar/me/Info/右单书名号.png" ></image>
+					src="/static/img/me/Info/右单书名号.png" ></image>
 			</view>
 		</view>
 	</view>

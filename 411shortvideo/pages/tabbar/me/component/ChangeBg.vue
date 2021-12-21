@@ -2,7 +2,7 @@
 	<view class="page">
 		<view class="bg-wrapper in-one-column" :style="{height: windowHeight+'px'}">
 			<image mode="aspectFill" :src="bgUrl" class="bg-size" v-if="bgUrl"></image>
-			<!-- <image src="../../static/images/defaultBgImg.png" class="bg-size" style="align-self: center;"></image> -->
+			
 			<view 
 				@click="changeBg()"
 				class="bg-change in-one-column"
@@ -13,7 +13,7 @@
 		<view class="save" @click="getBg()">
 			<view class="save-bg">
 				<image
-					src="../../../../static/img/tabbar/me/me/保存.png"
+					src="../../../../static/img/me/me/保存.png"
 					class="save-image">
 				</image>
 			</view>
