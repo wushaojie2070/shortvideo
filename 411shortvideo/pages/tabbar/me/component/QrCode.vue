@@ -19,7 +19,7 @@
 			</view>
 			
 			<view class="orcde-btn in-one-line">
-				<view class="btn-one">
+				<view class="btn-one" @click="scan()">
 					<view class="btn-bg">
 						<image
 							mode="aspectFit"
@@ -73,6 +73,16 @@ export default {
 			goBack(){
 				uni.navigateBack({
 					delta: 1,
+				})
+			},
+			scan(){
+				var that = this;
+				uni.scanCode({
+					scanType: "qrCode",
+					complete: function (resp) {
+						console.log('条码类型：' + resp.scanType);
+						console.log('条码内容：' + resp.result);
+					}
 				})
 			},
 			getQrCode(){

@@ -241,7 +241,10 @@
 			tozuozhe(userId) {
 				uni.setStorageSync("userPageId", userId);
 				uni.navigateTo({
-					url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
+					url: "/pages/tabbar/me/Author?userPageId=" + userId,
+					complete: function(resp){
+						console.log(resp);
+					}
 				})
 			},
 			toComment(index) {

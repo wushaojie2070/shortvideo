@@ -13,8 +13,7 @@
 				class="bgimage"></image>
 			<view class="bgadd"></view>
 			<view class="other-more in-one-line">
-				<view 
-					class="other-more-visitor in-one-line">
+				<view class="other-more-visitor in-one-line">
 					<view class="other-more-visitor-text">
 						<image 
 							src="../../../static/img/me/me/访客.png"
@@ -41,6 +40,7 @@
 					<button style="background-color: #FFFFFF;line-height: 100rpx;" @click="close()">确认</button>
 				</view>
 			</uni-popup>
+			<!-- 主体内容 -->
 			<view class="mine">
 				<view class="in-one-line">
 					<image 
@@ -91,7 +91,6 @@
 						</view>
 					</view>
 
-				
 					<view class="infos-btn in-one-line">
 						<view @click="goMyInfo()" class="infos-btn-data infos-btn-data-first in-one-line">
 							<text class="infos-btn-text">编辑资料</text>
@@ -102,38 +101,25 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view style="display: flex;flex-direction: row;justify-content: center;margin-right: 30rpx;">
-					
-				判断当前页是否是自己，如果是自己则显示编辑资料和设置，如果不是，则显示关注或取关 
-				<view v-if="!isMe && isFollow" 
-					@click="cancelFollow()"
-					style="margin-right: 20rpx;border-width: 1px;border-color: #FFFFFF;width: 200rpx;height: 66rpx;background-color: #545456;opacity: 0.8;border-radius: 40rpx;display: flex;flex-direction: row;justify-content: center;align-self: center;">
-					<text style="font-size: 13px;color: #FFFFFF;font-weight: 500;align-self: center;">已关注</text>
-				</view>
-				<view v-if="!isMe && !isFollow" 
-					@click="followMe()"
-					style="margin-right: 20rpx;border-width: 1px;border-color: #FFFFFF;width: 200rpx;height: 66rpx;background-color: #ef274d;opacity: 0.8;border-radius: 40rpx;display: flex;flex-direction: row;justify-content: center;align-self: center;">
-					<text style="font-size: 13px;color: #FFFFFF;font-weight: 500;align-self: center;">关注他/text>
-				</view>
-			</view> -->
+
 			<view class="content">
 				<view class="in-one-line">
-					<view class="title-one" @click="switchTab(0)">
+					<view class="title-me" @click="switchTab(0)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 0}">作品</text>
 						<view v-if="currentTab == 0"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
 					</view>
-					<view class="title-one" @click="switchTab(1)">
+					<view class="title-me" @click="switchTab(1)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 1}">私密</text>
 						<view v-if="currentTab == 1"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
 					</view>
-					<view class="title-one" @click="switchTab(2)">
+					<view class="title-me" @click="switchTab(2)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 2}">赞过</text>
 						<view v-if="currentTab == 2"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
 					</view>
-					<view class="title-one" @click="switchTab(3)">
+					<view class="title-me" @click="switchTab(3)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 3}">收藏</text>
 						<view v-if="currentTab == 3"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
@@ -179,6 +165,7 @@
 			return {
 				userIsLogin:true,
 				userInfo:{
+					id: '1234',
 					bgUrl: '/static/img/me/me/1.jpg',
 					faceUrl: '/static/img/me/me/face.jpg',
 					newVisitors: 73,
@@ -205,10 +192,9 @@
 						},
 					],
 					birthday: "",
+					isFollow: true,
 				},
-				
 				title: 'Hello',
-				userIsLogin:true,
 				loginWords:"请登录",
 				currentTab:0,
 				publicVlogList:[
@@ -233,7 +219,7 @@
 			}
 		},
 		onLoad() {
-			
+
 		},
 		methods: {
 			error: function(e){
@@ -241,6 +227,12 @@
 					content: e.target.errMsg,
 				       showCancel: false
 		        })
+			},
+			renewalClick(){
+				this.$refs.renewal.open();
+				setTimeout(()=>{
+					this.$refs.renewal.close();
+				},500);
 			},
 			open(){
 				this.$refs.popup.open();
@@ -250,6 +242,9 @@
 			},
 			switchTab(id){
 				this.currentTab = id;
+			},
+			changeFollow(flag){
+				this.userInfo.isFollow = !flag;
 			},
 			changeMyBg(){
 				var that = this;
@@ -323,7 +318,7 @@
 	.other-more{
 		position:absolute;
 		top: 20rpx;
-		left: 56%;
+		right: 2.5%;
 	}
 	.other-more-visitor{
 		justify-content: center;
@@ -463,11 +458,16 @@
 		top: -190rpx;
 		width: 100%;
 	}
-	.title-one{
+	.title-me{
 		width: 25%;
 		align-self: center;
 		text-align: center;
 	}
+/* 	.title-other{
+		width: 50% !important;
+		align-self: center;
+		text-align: center;
+	} */
 	.tab-normal {
 		line-height: 74rpx;
 		font-size: 18px;

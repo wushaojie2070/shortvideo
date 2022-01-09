@@ -42,7 +42,7 @@
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				//let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				prevPage.userInfo.introduce = that.introduce;
+				prevPage.$vm.userInfo.introduce = that.introduce;
 				uni.navigateBack({
 					delta: 1,
 				})
