@@ -4,8 +4,7 @@
 			<text class="login-info" style="align-self: center;" >{{loginWords}}</text>
 		</view>
 		
-		<view v-if="userIsLogin" style="height: 80%;">
-			<!-- <view :style="{height: screenHeight + 'px'}"> -->
+		<view v-if="userIsLogin" :style="{height: windowHeight + 'px'}">
 			<image id="mybg" 
 				:src="userInfo.bgUrl" 
 				mode="aspectFill" 
@@ -238,6 +237,7 @@
 				userPageId: '',
 				title: 'Hello',
 				loginWords:"请登录",
+				windowHeight: 0,
 				currentTab:0,
 				publicVlogList:[
 					{
@@ -261,7 +261,13 @@
 			}
 		},
 		onLoad(option) {
-			console.log(option.userPageId);
+			var that = this;
+			uni.getSystemInfo({
+			    success: function (res) {
+			        that.windowHeight = res.windowHeight;
+			    }
+			});
+			/* console.log(option.userPageId); */
 			if(option.userPageId == this.userInfo.id || option.userPageId == null){
 				console.log("此视频的作者为本人！");
 				this.isMe = true;

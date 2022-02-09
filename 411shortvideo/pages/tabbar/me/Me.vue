@@ -3,9 +3,42 @@
 		<view v-if="!userIsLogin" class="login-info-wrapper" style="height: 100%" @click="goLogin()">
 			<text class="login-info" style="align-self: center;" >{{loginWords}}</text>
 		</view>
+		<!-- 更多弹窗 -->
+		<uni-drawer ref="evenMore" mode="right" :maskClick="true" width="250">
+			<view style="background-color: #161824;height: 100%;">
+				<scroll-view scroll-y="true" class="even-more in-one-column">
+					<!-- <button @click="closeMore()" type="primary">关闭Drawer</button> -->
+					<view @click="myQrCode()" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/二维码.png" class="more-image"></image>
+						<text class="more-text">我的二维码</text>
+					</view>
+					<view @click="" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/观看历史.png" class="more-image"></image>
+						<text class="more-text">观看历史</text>
+					</view>
+					<view class="in-one-line" style="margin-right: 60rpx;opacity: 0.1;">
+						<hr style="width: 100%;color: #FFFFFF;padding:0;margin: 20rpx 60rpx 20rpx 0;">
+					</view>
+					<view @click="" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/客服.png" class="more-image"></image>
+						<text class="more-text">我的客服</text>
+					</view>
+					<!-- <view @click="" class="in-one-line one-more" v-for="x in 10" :key="x"> -->
+					<view @click="" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/设置.png" class="more-image"></image>
+						<text class="more-text">设置</text>
+					</view>
+				</scroll-view>
+				<view class="even-more-set">
+					<view @click="" class="in-one-line more-set">
+						<image mode="aspectFit" src="/static/img/me/me/更多设置.png" class="more-image-one"></image>
+						<text class="more-text" style="line-height: 55rpx;">更多设置</text>
+					</view>
+				</view>
+			</view>
+		</uni-drawer>
 		
-		<view v-if="userIsLogin" style="height: 80%;">
-			<!-- <view :style="{height: screenHeight + 'px'}"> -->
+		<view v-if="userIsLogin" :style="{height: windowHeight + 'px'}">
 			<image id="mybg" 
 				:src="userInfo.bgUrl" 
 				mode="aspectFill" 
@@ -24,7 +57,7 @@
 				</view>
 				<image
 					src="../../../static/img/me/me/更多.png"
-					@click="addFriends()"
+					@click="more()"
 					class="other-more-set">
 				</image>
 			</view>
@@ -196,6 +229,7 @@
 				},
 				title: 'Hello',
 				loginWords:"请登录",
+				windowHeight: 0,
 				currentTab:0,
 				publicVlogList:[
 					{
@@ -219,7 +253,12 @@
 			}
 		},
 		onLoad() {
-
+			var that = this;
+			uni.getSystemInfo({
+			    success: function (res) {
+			        that.windowHeight = res.windowHeight;
+			    }
+			});
 		},
 		methods: {
 			error: function(e){
@@ -281,6 +320,12 @@
 					animationType: "zoom-fade-out",
 					url: "component/ChangeInfo?userInfo="+info,
 				})
+			},
+			more(){
+				this.$refs.evenMore.open();
+			},
+			closeMore(){
+				this.$refs.evenMore.close();
 			}
 		}
 	}
@@ -520,5 +565,44 @@
 		font-size: 15px;
 		line-height: 140rpx;
 		text-align: center;
+	}
+	
+	/* 更多右侧弹窗 */
+	.even-more{
+		height: 81%;
+		background-color: #161824;
+		padding: 40rpx 60rpx 50rpx 60rpx;
+	}
+	.one-more{
+		width: 100%;
+		line-height: 100rpx;
+		height: 100rpx;
+		text-align: center;
+		vertical-align: middle;
+	}
+	.more-image{
+		width: 11% !important;
+		height: auto;
+	}
+	.more-image-one{
+		height: 55rpx !important;
+		width: 55rpx !important;
+	}
+	.more-text{
+		text-align: center;
+		font-size: 15px;
+		margin-left: 40rpx;
+	}
+	.even-more-set{
+		position: absolute;
+		bottom: 60rpx;
+		left: 60rpx;
+		right: 60rpx;
+		background-color: #3a3a44;
+		padding: 26rpx;
+		border-radius: 4rpx;
+	}
+	.more-set{
+		justify-content: center;
 	}
 </style>
