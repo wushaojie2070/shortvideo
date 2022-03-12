@@ -4,7 +4,7 @@
 			<form @submit="formSubmit" @reset="formReset">
 
 				<view class="uni-form-item uni-column">
-					<view class="title">标题</view>
+					<view class="title">wsj上传测试</view>
 					<input type="text" value="请输入你的标题" />
 				</view>
 				<view class="uni-form-item uni-column">
