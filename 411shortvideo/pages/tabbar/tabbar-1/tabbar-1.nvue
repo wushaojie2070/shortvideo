@@ -11,8 +11,9 @@
 						<cover-view class="text" v-if="recorloc==0" @click="toRec()">推荐</cover-view>
 						<cover-view class="text1" v-if="recorloc==0" @click="toMap(0)">同城</cover-view>
 						<cover-view class="text" v-if="recorloc==1" @click="toMap(0)">同城</cover-view>
-						
-					</cover-view><cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
+
+					</cover-view>
+					<cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
 				</cover-view>
 				<view>
 					<!-- 
@@ -81,9 +82,9 @@
 				<!-- 最底下的文字部分 -->
 				<view class="content">
 					<view v-if="recorloc==0" @click="toMap(1)">
-						<image style="height: 50rpx;width: 50rpx;border-radius: 50%; margin-left: 10rpx;" 
-					 src="../../../static/img/index/ditu.png" mode=""></image>	
-					<text style="position: absolute; margin-left: 70rpx;height: 40rpx;width:200rpx;opacity:0.8;
+						<image style="height: 50rpx;width: 50rpx;border-radius: 50%; margin-left: 10rpx;"
+							src="../../../static/img/index/ditu.png" mode=""></image>
+						<text style="position: absolute; margin-left: 70rpx;height: 40rpx;width:200rpx;opacity:0.8;
 					 overflow: hidden;text-overflow: ellipsis;">浙江省杭州市</text>
 					</view>
 					<text class="userName" :style="'width: '+ (windowWidth - 520) +'px;'">@{{list.title}}</text>
@@ -108,6 +109,7 @@
 <script>
 	import videocomment from './components/video-comment.vue'
 	import userList from './data.js' //这个是假数据
+	// import request from '../../../utils/request.js'
 	import commentList from './components/comment.js'
 	import Map from './components/Map.vue'
 	// import hbcomment from "@/components/hb-comment/hb-comment.vue"
@@ -118,12 +120,13 @@
 		},
 		data() {
 			return {
-				recorloc:1,
+				recorloc: 1,
 				localplace: "",
 				ifshow: false,
 				windowWidth: 0,
 				windowHeight: 0,
-				dataList: [],
+				dataList: [],//是播放的视频数组
+				videoList:[1234],//是接口的视频数组
 				cmdList: [],
 				k: 0,
 				oldVideo: "",
@@ -208,34 +211,62 @@
 					this.get()
 				}
 			},
+
+			// async getvideoList() {
+			// 	const list = await request({
+			// 		url:'/vlog/indexList?page=1&pageSize=10',
+			// 	})
+			// 	console.log(list)
+			// 	// console.log("接口拿到的数组是::::::"+list.data.data.rows[1].url)
+			// },
+			
 			get() {
-				// 1.这里引入后端请求数据,还没做,是死数据
-				var msg = userList
+				uni.request({
+					url: "https://skrvideo.fun/vlog/indexList?page=1&pageSize=12",
+					method: 'GET',
+					success: (res) => {
+						//videoList是接口的视频数组
+						// console.log("this.dataList"+JSON.stringify(this.dataList))
+						// console.log("this.videoList添加前"+this.videoList) 走到了
+						this.videoList = res.data.data
+						console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))//走到了
+						this.text = "请求成功"
+						
+						
+						console.log("aaaaa"+this.videoList.rows[1].url)
+						// console.log("this.videoList22222" + JSON.stringify(this.videoList.rows[1].url))
+						// 1.这里引入后端请求数据,还没做,是死数据
+						var msg = userList
+						// 2.这里把视频添加到视频列表
+						for (let i = 0; i < 12; i++) {
+							this.dataList.push(msg[i])
+							this.dataList[i].src=this.videoList.rows[i].url
+						}
+						console.log("this.datalistllllllll"+JSON.stringify(this.dataList[1].src))
+						// 3.播放当前视频
+						setTimeout(() => {
+							this.dataList[this.k].isplay = false
+							this.dataList[this.k].state = 'play'
+							uni.createVideoContext(this.dataList[this.k]._id, this).play()
+							this.dataList[this.k].playIng = true
+						}, 200)
+						// start - 预加载开始
+						var p = this.k
+							++p
+						setTimeout(() => {
+							uni.createVideoContext(this.dataList[p]._id, this).play()
+						}, 20)
+						clearTimeout(this.timeout)
+						this.timeout = setTimeout(() => {
+							uni.createVideoContext(this.dataList[p]._id, this).seek(0)
+							uni.createVideoContext(this.dataList[p]._id, this).pause()
+							console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p]._id)
+						}, 1500)
+						// end - 预加载结束
+					},
+				})
 				
-				// 2.这里把视频添加到视频列表
-				for (let i = 0; i < 12; i++) {
-					this.dataList.push(msg[i])
-				}
-				// 3.播放当前视频
-				setTimeout(() => {
-					this.dataList[this.k].isplay = false
-					this.dataList[this.k].state = 'play'
-					uni.createVideoContext(this.dataList[this.k]._id, this).play()
-					this.dataList[this.k].playIng = true
-				}, 200)
-				// start - 预加载开始
-				var p = this.k
-					++p
-				setTimeout(() => {
-					uni.createVideoContext(this.dataList[p]._id, this).play()
-				}, 20)
-				clearTimeout(this.timeout)
-				this.timeout = setTimeout(() => {
-					uni.createVideoContext(this.dataList[p]._id, this).seek(0)
-					uni.createVideoContext(this.dataList[p]._id, this).pause()
-					console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p]._id)
-				}, 1500)
-				// end - 预加载结束
+				
 
 			},
 			tozuozhe(userId) {
@@ -258,24 +289,24 @@
 			},
 			toRec() {
 				console.log("去推荐,接推荐的视频接口")
-				this.recorloc=1
+				this.recorloc = 1
 			},
 			toMap(index) {
 				this.localplace = getApp().globalData.localplace
 				var localplace = this.localplace
-				if(localplace==""||index==1){
+				if (localplace == "" || index == 1) {
 					console.log("未确定地址,去地图界面接口")
 					uni.navigateTo({
-					// url:"components/Map?value=" + encodeURIComponent(localplace) 
-					url: "components/Map"
-				})
-				this.recorloc=1
+						// url:"components/Map?value=" + encodeURIComponent(localplace) 
+						url: "components/Map"
+					})
+					this.recorloc = 1
 				} else {
 					console.log("已确定地址,接同城的视频接口")
-					this.recorloc=0
+					this.recorloc = 0
 				}
-				
-				
+
+
 
 			},
 			cmtclose(cmtclose) {
@@ -365,18 +396,23 @@
 		color: #FFFFFF;
 		margin: 0 10px;
 	}
+
 	.text1 {
 		color: #FFFFFF;
 		margin: 0 10px;
 		text-decoration: underline;
 	}
+
 	.text2 {
 		color: #FFFFFF;
 		margin: 0 235px;
 		position: absolute;
 		font-size: 25rpx;
-		height: 40rpx;width:220rpx;opacity:0.5;
-		 overflow: hidden;text-overflow: ellipsis;
+		height: 40rpx;
+		width: 220rpx;
+		opacity: 0.5;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 
 	.sousuo-img {
