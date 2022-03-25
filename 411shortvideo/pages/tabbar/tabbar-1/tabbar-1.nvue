@@ -21,12 +21,12 @@
 					4.poster（封面（方案一））：这里的封面默认处理存储在腾讯云的视频
 					5.show-loading：这里默认去掉播放转圈的标志
 					 -->
-					<video v-if="Math.abs(k-index)<=1" :id="list.vlogId" :loop="true" :muted="true"
+					<video v-if="Math.abs(k-index)<=1" :id="list.vlogId" :loop="true" :muted="list.isplay"
 						:controls="false" :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'"
-						:http-cache="true" :page-gesture="false" :show-fullscreen-btn="false" :show-loading="false"
+						:http-cache="true" :page-gesture="false" :show-fullscreen-btn="false" :show-loading="true"
 						:show-center-play-btn="false" :enable-progress-gesture="false"
 						:poster="list.cover" :src="list.url" @ended="ended"
-						@click="tapVideoHover($event)"></video>
+						@click="tapVideoHover(list.state,$event)"></video>
             
 			<!-- 		<image v-if="!list.playIng" :src="list.url+'?x-oss-process=video/snapshot,t_100,f_jpg'"
 						:style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px; position: absolute;'"
@@ -34,9 +34,9 @@
             
 				</view>
 				<!-- 播放状态：pause 的时候就会暂停 -->
-				<view class="videoHover" @click="tapVideoHover($event)"
+				<view class="videoHover" @click="tapVideoHover(list.state,$event)"
 					:style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'">
-					<image v-if="state=='pause'" class="playState" src="@/static/img/index/play.png"></image>
+					<!-- <image v-if="list.state=='pause'" class="playState" src="@/static/img/index/play.png"></image> -->
 				</view>
 				<view class="userInfo">
 					<!-- 1.头像 -->
@@ -73,8 +73,7 @@
 					</button>
 					<view class="around">
 						<image class="img"
-							src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1457622709,3420713108&fm=26&gp=0.jpg"
-							mode=""></image>
+							src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1457622709,3420713108&fm=26&gp=0.jpg"mode=""></image>
 					</view>
 				</view>
 
@@ -91,7 +90,7 @@
 					<!-- i={{i}} -->
 					<text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.content}}</text>
 					<!-- k={{k}} -->
-					<text class="music">错位时空 --艾辰</text>
+					<!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
 				</view>
 				<view v-show="ifshow" class="commentshow">
 					<videocomment @cmtclose="cmtclose"></videocomment>
@@ -119,7 +118,7 @@
 		},
 		data() {
 			return {
-        state: 'pause',
+        // state: 'pause',
 				recorloc: 1,
 				localplace: "",
 				ifshow: false,
@@ -148,7 +147,7 @@
 				console.log(k)
 				this.dataList[old_k].playIng = false //如果视频暂停，就加载封面
 				this.dataList[old_k].isplay = true
-				this.state = 'pause'
+				this.dataList[old_k].state = 'pause'
 				uni.createVideoContext(this.dataList[old_k].vlogId, this).play()
 				clearTimeout(this.oldVideo)
 				this.oldVideo = setTimeout(() => {
@@ -157,7 +156,7 @@
 					console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k].vlogId)
 				}, 500)
 				console.log('已经暂停 第' + (old_k + 1) + '个视频～') //提示
-				this.state = 'play'
+				this.dataList[k].state = 'play'
 				uni.createVideoContext(this.dataList[k].vlogId, this).play()
 				clearTimeout(this.voice)
 				this.voice = setTimeout(() => {
@@ -193,17 +192,17 @@
 				this.current = this.k + 1
 			},
 			//点击播放&&暂停
-			tapVideoHover( event) {
-				console.log('state--', this.state);
-				if (this.state == 'play' || this.state == 'continue') {
-					this.state = 'pause';
+			tapVideoHover(state, event) {
+				console.log('state--', state);
+				if (state == 'play' || state == 'continue') {
+					this.dataList[this.k].state = 'pause';
 				} else {
-					this.state = 'continue';
+					this.dataList[this.k].state = 'continue';
 				}
-				if (this.state == 'continue') {
+				if (this.dataList[this.k].state == 'continue') {
 					uni.createVideoContext(this.dataList[this.k].vlogId, this).play(); //暂停以后继续播放
 				}
-				if (this.state == 'pause') {
+				if (this.dataList[this.k].state == 'pause') {
 					uni.createVideoContext(this.dataList[this.k].vlogId, this).pause(); //暂停以后继续播放
 				}
 			},
@@ -245,19 +244,22 @@
 						var msg = this.videoList.rows
 						// 2.这里把视频添加到视频列表
 						for (let i = 0; i < 10; i++) {
-							this.dataList.push(msg[i])
+              this.dataList.push(msg[i])
+              this.dataList[i].state = 'pause'
 							this.dataList[i].url=this.videoList.rows[i].url
               this.dataList[i].playIng = false
-              this.dataList[i].isplay = true
+              this.dataList[i].isplay = false
+              
 						}
-            this.state = 'pause'
-            // console.log("this.videoList添加后"+this.dataList) 
+            
+            console.log("this.videoList添加后"+JSON.stringify(this.dataList)) 
 						// console.log("this.datalistllllllll"+JSON.stringify(this.dataList[1].src))
 						// 3.播放当前视频
 						setTimeout(() => {
 							this.dataList[this.k].isplay = false
-							this.state = 'play'
+							this.dataList[this.k].state = 'play'
 							uni.createVideoContext(this.dataList[this.k].vlogId, this).play()
+              
 							this.dataList[this.k].playIng = true
 						}, 200)
 						// start - 预加载开始
