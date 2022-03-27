@@ -1,11 +1,45 @@
 <template>
 	<view class="page">
-		<view v-if="!userIsLogin" class="login-info-wrapper" style="height: 100%" @click="goLogin()">
-			<text class="login-info" style="align-self: center;" >{{loginWords}}</text>
+		<!-- 未登录 -->
+		<view v-if="!userIsLogin" class="login-info-wrapper" :style="{height: windowHeight + 'px',}" @tap="" @click="goLogin()">
+			<text class="login-info" style="align-self: center;" >请登录</text>
 		</view>
-		
-		<view v-if="userIsLogin" style="height: 80%;">
-			<!-- <view :style="{height: screenHeight + 'px'}"> -->
+		<!-- 更多弹窗 -->
+		<uni-drawer ref="evenMore" mode="right" :maskClick="true" width="250">
+			<view style="background-color: #161824;height: 100%;">
+				<scroll-view scroll-y="true" class="even-more in-one-column">
+					<!-- <button @click="closeMore()" type="primary">关闭Drawer</button> -->
+					<view @click="myQrCode()" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/二维码.png" class="more-image"></image>
+						<text class="more-text">我的二维码</text>
+					</view>
+					<view @click="" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/观看历史.png" class="more-image"></image>
+						<text class="more-text">观看历史</text>
+					</view>
+					<view class="in-one-line" style="margin-right: 60rpx;opacity: 0.1;">
+						<hr style="width: 100%;color: #FFFFFF;padding:0;margin: 20rpx 60rpx 20rpx 0;">
+					</view>
+					<view @click="" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/客服.png" class="more-image"></image>
+						<text class="more-text">我的客服</text>
+					</view>
+					<!-- <view @click="" class="in-one-line one-more" v-for="x in 10" :key="x"> -->
+					<view @click="" class="in-one-line one-more">
+						<image mode="aspectFit" src="/static/img/me/me/设置.png" class="more-image"></image>
+						<text class="more-text">设置</text>
+					</view>
+				</scroll-view>
+				<view class="even-more-set">
+					<view @click="" class="in-one-line more-set">
+						<image mode="aspectFit" src="/static/img/me/me/更多设置.png" class="more-image-one"></image>
+						<text class="more-text" style="line-height: 55rpx;">更多设置</text>
+					</view>
+				</view>
+			</view>
+		</uni-drawer>
+		<!-- 已登录 -->
+		<view v-if="userIsLogin" :style="{height: windowHeight + 'px'}">
 			<image id="mybg" 
 				:src="userInfo.bgUrl" 
 				mode="aspectFill" 
@@ -13,8 +47,7 @@
 				class="bgimage"></image>
 			<view class="bgadd"></view>
 			<view class="other-more in-one-line">
-				<view 
-					class="other-more-visitor in-one-line">
+				<view class="other-more-visitor in-one-line">
 					<view class="other-more-visitor-text">
 						<image 
 							src="../../../static/img/me/me/访客.png"
@@ -25,7 +58,7 @@
 				</view>
 				<image
 					src="../../../static/img/me/me/更多.png"
-					@click="addFriends()"
+					@click="more()"
 					class="other-more-set">
 				</image>
 			</view>
@@ -41,6 +74,7 @@
 					<button style="background-color: #FFFFFF;line-height: 100rpx;" @click="close()">确认</button>
 				</view>
 			</uni-popup>
+			<!-- 主体内容 -->
 			<view class="mine">
 				<view class="in-one-line">
 					<image 
@@ -76,7 +110,8 @@
 					</view>
 					<hr style="width: 100%;color: #FFFFFF;opacity: 0.2;">
 					<view class="infos-introduction" @click="changeIntroduce()">
-						{{userInfo.introduce}}
+						<text v-if="userInfo.introduce != ''">{{userInfo.introduce}}</text>
+						<text v-if="userInfo.introduce == ''">点击添加介绍...</text>
 						<image
 							src="../../../static/img/me/me/编辑.png"
 							style="width: 18px;height: 18px;margin-left: 13px;">
@@ -91,7 +126,6 @@
 						</view>
 					</view>
 
-				
 					<view class="infos-btn in-one-line">
 						<view @click="goMyInfo()" class="infos-btn-data infos-btn-data-first in-one-line">
 							<text class="infos-btn-text">编辑资料</text>
@@ -102,38 +136,25 @@
 					</view>
 				</view>
 			</view>
-			<!-- <view style="display: flex;flex-direction: row;justify-content: center;margin-right: 30rpx;">
-					
-				判断当前页是否是自己，如果是自己则显示编辑资料和设置，如果不是，则显示关注或取关 
-				<view v-if="!isMe && isFollow" 
-					@click="cancelFollow()"
-					style="margin-right: 20rpx;border-width: 1px;border-color: #FFFFFF;width: 200rpx;height: 66rpx;background-color: #545456;opacity: 0.8;border-radius: 40rpx;display: flex;flex-direction: row;justify-content: center;align-self: center;">
-					<text style="font-size: 13px;color: #FFFFFF;font-weight: 500;align-self: center;">已关注</text>
-				</view>
-				<view v-if="!isMe && !isFollow" 
-					@click="followMe()"
-					style="margin-right: 20rpx;border-width: 1px;border-color: #FFFFFF;width: 200rpx;height: 66rpx;background-color: #ef274d;opacity: 0.8;border-radius: 40rpx;display: flex;flex-direction: row;justify-content: center;align-self: center;">
-					<text style="font-size: 13px;color: #FFFFFF;font-weight: 500;align-self: center;">关注他/text>
-				</view>
-			</view> -->
+
 			<view class="content">
 				<view class="in-one-line">
-					<view class="title-one" @click="switchTab(0)">
+					<view class="title-me" @click="switchTab(0)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 0}">作品</text>
 						<view v-if="currentTab == 0"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
 					</view>
-					<view class="title-one" @click="switchTab(1)">
+					<view class="title-me" @click="switchTab(1)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 1}">私密</text>
 						<view v-if="currentTab == 1"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
 					</view>
-					<view class="title-one" @click="switchTab(2)">
+					<view class="title-me" @click="switchTab(2)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 2}">赞过</text>
 						<view v-if="currentTab == 2"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
 					</view>
-					<view class="title-one" @click="switchTab(3)">
+					<view class="title-me" @click="switchTab(3)">
 						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 3}">收藏</text>
 						<view v-if="currentTab == 3"
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
@@ -177,8 +198,10 @@
 	export default {
 		data() {
 			return {
-				userIsLogin:true,
-				userInfo:{
+				userIsLogin:false,
+				userId: '',
+				/* userInfo:{
+					id: '1234',
 					bgUrl: '/static/img/me/me/1.jpg',
 					faceUrl: '/static/img/me/me/face.jpg',
 					newVisitors: 73,
@@ -189,7 +212,7 @@
 					SKId: "LuoHan0728",
 					SKQrcodeUrl: "",
 					sex: 0,
-					introduce: "点击添加介绍...",
+					introduce: "",
 					labels: [
 						{
 							id:0,
@@ -205,11 +228,12 @@
 						},
 					],
 					birthday: "",
-				},
-				
+					isFollow: true,
+				}, */
+				userInfo: {},
 				title: 'Hello',
-				userIsLogin:true,
 				loginWords:"请登录",
+				windowHeight: 0,
 				currentTab:0,
 				publicVlogList:[
 					{
@@ -233,7 +257,33 @@
 			}
 		},
 		onLoad() {
-			
+			var that = this;
+			uni.getSystemInfo({
+			    success: function (res) {
+			        that.windowHeight = res.windowHeight;
+			    }
+			});
+			uni.getStorage({
+				key: 'userId',
+				success: function(res){
+					that.userIsLogin = true
+					that.userId = res.data
+					uni.request({
+						url: 'https://skrvideo.fun/userInfo/query?userId='+that.userId,
+						method: 'GET',
+						dataType: 'json',
+						success:function(res){
+							console.log(res.data.data);
+							that.userInfo = res.data.date;
+							console.log(that)
+						}
+					})
+				},
+				fail:function(res){
+					// console.log('fail',res)
+					that.userIsLogin = false
+				}
+			})
 		},
 		methods: {
 			error: function(e){
@@ -241,6 +291,21 @@
 					content: e.target.errMsg,
 				       showCancel: false
 		        })
+			},
+			renewalClick(){
+				this.$refs.renewal.open();
+				setTimeout(()=>{
+					this.$refs.renewal.close();
+				},500);
+			},
+			goLogin(){
+				var that = this;
+				if(!this.userIsLogin){
+					uni.navigateTo({
+						animationType: "slide-in-bottom",
+						url: "Register"
+					})
+				}
 			},
 			open(){
 				this.$refs.popup.open();
@@ -250,6 +315,9 @@
 			},
 			switchTab(id){
 				this.currentTab = id;
+			},
+			changeFollow(flag){
+				this.userInfo.isFollow = !flag;
 			},
 			changeMyBg(){
 				var that = this;
@@ -286,6 +354,12 @@
 					animationType: "zoom-fade-out",
 					url: "component/ChangeInfo?userInfo="+info,
 				})
+			},
+			more(){
+				this.$refs.evenMore.open();
+			},
+			closeMore(){
+				this.$refs.evenMore.close();
 			}
 		}
 	}
@@ -306,6 +380,17 @@
 		flex-direction: column;	
 	}
 	
+	/* 未登录 */
+	.login-info-wrapper {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.login-info {
+		color: #FFFFFF;
+		font-size: 36rpx;
+	}
+	
 	/* 背景图片 */
 	.bgimage{
 		width: 100%;
@@ -323,7 +408,7 @@
 	.other-more{
 		position:absolute;
 		top: 20rpx;
-		left: 56%;
+		right: 2.5%;
 	}
 	.other-more-visitor{
 		justify-content: center;
@@ -463,11 +548,16 @@
 		top: -190rpx;
 		width: 100%;
 	}
-	.title-one{
+	.title-me{
 		width: 25%;
 		align-self: center;
 		text-align: center;
 	}
+/* 	.title-other{
+		width: 50% !important;
+		align-self: center;
+		text-align: center;
+	} */
 	.tab-normal {
 		line-height: 74rpx;
 		font-size: 18px;
@@ -520,5 +610,44 @@
 		font-size: 15px;
 		line-height: 140rpx;
 		text-align: center;
+	}
+	
+	/* 更多右侧弹窗 */
+	.even-more{
+		height: 81%;
+		background-color: #161824;
+		padding: 40rpx 60rpx 50rpx 60rpx;
+	}
+	.one-more{
+		width: 100%;
+		line-height: 100rpx;
+		height: 100rpx;
+		text-align: center;
+		vertical-align: middle;
+	}
+	.more-image{
+		width: 11% !important;
+		height: auto;
+	}
+	.more-image-one{
+		height: 55rpx !important;
+		width: 55rpx !important;
+	}
+	.more-text{
+		text-align: center;
+		font-size: 15px;
+		margin-left: 40rpx;
+	}
+	.even-more-set{
+		position: absolute;
+		bottom: 60rpx;
+		left: 60rpx;
+		right: 60rpx;
+		background-color: #3a3a44;
+		padding: 26rpx;
+		border-radius: 4rpx;
+	}
+	.more-set{
+		justify-content: center;
 	}
 </style>

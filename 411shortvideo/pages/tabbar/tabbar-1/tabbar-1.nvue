@@ -1,63 +1,62 @@
 <template>
 	<view>
-    <cover-view class="firstNav">
-    	<cover-image class="sousuo-img" src="../../../static/img/index/sousuo.png" mode=""></cover-image>
-    	<cover-view class="middle">
-    		<!-- text1是选择显示下划线  recorloc==1为选中推荐,==0为选中同城,text1有下划线-->
-        <cover-view :class="'text '+(recorloc=='1'?'text1':'')" @click="toRec()">推荐</cover-view>
-        <cover-view :class="'text '+(recorloc=='0'?'text1':'')"  @click="toMap(0)">同城</cover-view>
-    	</cover-view>
-    	<cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
-    </cover-view>
 		<swiper :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'" :vertical="true" @change="change"
 			:current="current" :indicator-dots="false">
-      <!-- 视频数组 -->
 			<swiper-item v-for="(list,index) in dataList">
+				<cover-view class="firstNav">
+					<cover-image class="sousuo-img" src="../../../static/img/index/sousuo.png" mode=""></cover-image>
+					<cover-view class="middle">
+						<!-- text1是选择显示下划线  recorloc==1为选中推荐-->
+						<cover-view class="text1" v-if="recorloc==1" @click="toRec()">推荐</cover-view>
+						<cover-view class="text" v-if="recorloc==0" @click="toRec()">推荐</cover-view>
+						<cover-view class="text1" v-if="recorloc==0" @click="toMap(0)">同城</cover-view>
+						<cover-view class="text" v-if="recorloc==1" @click="toMap(0)">同城</cover-view>
+						
+					</cover-view><cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
+				</cover-view>
 				<view>
 					<!-- 
 					1.v-if：用于控制视频在节点的渲染数
 					2.muted的默认值是 false，代表默认是禁音视频的
 					3.http-cache默认开启视频缓存
-					4.poster（封面（方案一））：这里的封面默认处理存储在腾讯云的视频
+					4.poster（封面（方案一））：这里的封面默认处理存储在阿里云的视频
 					5.show-loading：这里默认去掉播放转圈的标志
 					 -->
-					<video v-if="Math.abs(k-index)<=1" :id="list.vlogId" :loop="true" :muted="list.isplay"
+					<video v-if="Math.abs(k-index)<=1" :id="list._id" :loop="true" :muted="list.isplay"
 						:controls="false" :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'"
-						:http-cache="true" :page-gesture="false" :show-fullscreen-btn="false" :show-loading="true"
+						:http-cache="true" :page-gesture="false" :show-fullscreen-btn="false" :show-loading="false"
 						:show-center-play-btn="false" :enable-progress-gesture="false"
-						:poster="list.cover" :src="list.url" @ended="ended"
+						:poster="list.src+'?x-oss-process=video/snapshot,t_100,f_jpg'" :src="list.src" @ended="ended"
 						@click="tapVideoHover(list.state,$event)"></video>
-            
-			<!-- 		<image v-if="!list.playIng" :src="list.url+'?x-oss-process=video/snapshot,t_100,f_jpg'"
+					<image v-if="!list.playIng" :src="list.src+'?x-oss-process=video/snapshot,t_100,f_jpg'"
 						:style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px; position: absolute;'"
-						mode="aspectFit"></image> -->
-            
+						mode="aspectFit"></image>
 				</view>
 				<!-- 播放状态：pause 的时候就会暂停 -->
 				<view class="videoHover" @click="tapVideoHover(list.state,$event)"
 					:style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'">
-					<!-- <image v-if="list.state=='pause'" class="playState" src="@/static/img/index/play.png"></image> -->
+					<image v-if="list.state=='pause'" class="playState" src="@/static/img/index/play.png"></image>
 				</view>
 				<view class="userInfo">
 					<!-- 1.头像 -->
 					<!-- <image @click="tozuozhe" class="userAvatar" :src="list.href" mode="aspectFill"></image> -->
-					<image @click="tozuozhe(list.vlogerId)" class="userAvatar" :src="list.vlogerFace" mode="aspectFill"></image>
+					<image @click="tozuozhe(list.userId)" class="userAvatar" :src="list.href" mode="aspectFill"></image>
 					<!-- 2.点赞 -->
-					<view @click="cLike(list.doILikeThisVlog,index);" style="opacity: 0.9; margin-top: 17px;">
-						<image v-if="list.doILikeThisVlog" src="@/static/img/index/xin.png"
+					<view @click="cLike(list.like,index);" style="opacity: 0.9; margin-top: 17px;">
+						<image v-if="list.like" src="@/static/img/index/xin.png"
 							style="width: 40px; height: 40px; position: absolute; right: 6px;"></image>
-						<image v-if="!list.doILikeThisVlog" src="@/static/img/index/aixin.png"
+						<image v-if="!list.like" src="@/static/img/index/aixin.png"
 							style="width: 40px; height: 40px; position: absolute; right: 6px;"></image>
 						<text
 							style="color: #FFFFFF; margin-top: 5px; font-size: 14px; text-align: center; margin-top: 40px; font-weight: bold;"
-							:class="{'likeNumActive':list.doILikeThisVlog}">{{list.likeCounts}}</text>
+							:class="{'likeNumActive':list.like}">{{list.like_n}}</text>
 					</view>
 					<!-- 3.评论 -->
-					<view class="comment" @click="toComment(list.vlogId)" style="opacity: 0.9; margin-top: 17px;">
+					<view class="comment" @click="toComment(index)" style="opacity: 0.9; margin-top: 17px;">
 						<image src="@/static/img/index/pinlun.png"
 							style="width: 35px; height: 35px; position: absolute; right: 7px;"></image>
 						<text
-							style="color: #FFFFFF; margin-top: 5px; font-size: 14px; font-weight: bold; text-align: center; margin-top: 40px;">{{list.commentsCounts}}</text>
+							style="color: #FFFFFF; margin-top: 5px; font-size: 14px; font-weight: bold; text-align: center; margin-top: 40px;">{{list.sms_n}}</text>
 					</view>
 					<!-- 4.分享 -->
 					<!-- <view @click="share" open-type="share" style="opacity: 0.9; margin-top: 17px;">
@@ -73,7 +72,8 @@
 					</button>
 					<view class="around">
 						<image class="img"
-							src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1457622709,3420713108&fm=26&gp=0.jpg"mode=""></image>
+							src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1457622709,3420713108&fm=26&gp=0.jpg"
+							mode=""></image>
 					</view>
 				</view>
 
@@ -81,19 +81,19 @@
 				<!-- 最底下的文字部分 -->
 				<view class="content">
 					<view v-if="recorloc==0" @click="toMap(1)">
-						<image style="height: 50rpx;width: 50rpx;border-radius: 50%; margin-left: 10rpx;"
-							src="../../../static/img/index/ditu.png" mode=""></image>
-						<text style="position: absolute; margin-left: 70rpx;height: 40rpx;width:200rpx;opacity:0.8;
+						<image style="height: 50rpx;width: 50rpx;border-radius: 50%; margin-left: 10rpx;" 
+					 src="../../../static/img/index/ditu.png" mode=""></image>	
+					<text style="position: absolute; margin-left: 70rpx;height: 40rpx;width:200rpx;opacity:0.8;
 					 overflow: hidden;text-overflow: ellipsis;">浙江省杭州市</text>
 					</view>
-					<text class="userName" :style="'width: '+ (windowWidth - 520) +'px;'">@{{list.vlogerName}}</text>
+					<text class="userName" :style="'width: '+ (windowWidth - 520) +'px;'">@{{list.title}}</text>
 					<!-- i={{i}} -->
-					<text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.content}}</text>
+					<text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.msg}}-(第{{k+1}}个)</text>
 					<!-- k={{k}} -->
-					<!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
+					<text class="music">错位时空 --艾辰</text>
 				</view>
-				<view v-if="ifshow" class="commentshow">
-					<videocomment :commentList = "commentList"  @cmtclose="cmtclose" ></videocomment>
+				<view v-show="ifshow" class="commentshow">
+					<videocomment @cmtclose="cmtclose"></videocomment>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -107,7 +107,7 @@
 
 <script>
 	import videocomment from './components/video-comment.vue'
-	// import request from '../../../utils/request.js'
+	import userList from './data.js' //这个是假数据
 	import commentList from './components/comment.js'
 	import Map from './components/Map.vue'
 	// import hbcomment from "@/components/hb-comment/hb-comment.vue"
@@ -118,25 +118,14 @@
 		},
 		data() {
 			return {
-        // state: 'pause',
-				recorloc: 1,
+				recorloc:1,
 				localplace: "",
 				ifshow: false,
 				windowWidth: 0,
 				windowHeight: 0,
-				dataList: [],//是播放的视频数组
-				videoList:[1234],//是接口的视频数组
-				cmdList: [],//这个是接口拿到的评论数组
-        commentList: [],//这个是运作的评论数组
+				dataList: [],
+				cmdList: [],
 				k: 0,
-        page: 0,
-        pageSize: 10,
-        total: 2,
-        records: 20,
-        cmtpage: 0,
-        cmtpageSize: 10,
-        cmttotal: 2,
-        cmtrecords: 20,
 				oldVideo: "",
 				voice: "",
 				timeout: "",
@@ -148,21 +137,21 @@
 			}
 		},
 		watch: {
-			k(k, old_k) { 
+			k(k, old_k) {
 				console.log(k)
 				this.dataList[old_k].playIng = false //如果视频暂停，就加载封面
 				this.dataList[old_k].isplay = true
 				this.dataList[old_k].state = 'pause'
-				uni.createVideoContext(this.dataList[old_k].vlogId, this).play()
+				uni.createVideoContext(this.dataList[old_k]._id, this).play()
 				clearTimeout(this.oldVideo)
 				this.oldVideo = setTimeout(() => {
-					uni.createVideoContext(this.dataList[old_k].vlogId, this).seek(0)
-					uni.createVideoContext(this.dataList[old_k].vlogId, this).pause()
-					console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k].vlogId)
+					uni.createVideoContext(this.dataList[old_k]._id, this).seek(0)
+					uni.createVideoContext(this.dataList[old_k]._id, this).pause()
+					console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k]._id)
 				}, 500)
 				console.log('已经暂停 第' + (old_k + 1) + '个视频～') //提示
 				this.dataList[k].state = 'play'
-				uni.createVideoContext(this.dataList[k].vlogId, this).play()
+				uni.createVideoContext(this.dataList[k]._id, this).play()
 				clearTimeout(this.voice)
 				this.voice = setTimeout(() => {
 					this.dataList[k].isplay = false
@@ -173,13 +162,13 @@
 				var p = k
 					++p
 				setTimeout(() => {
-					uni.createVideoContext(this.dataList[p].vlogId, this).play()
+					uni.createVideoContext(this.dataList[p]._id, this).play()
 				}, 20)
 				clearTimeout(this.timeout)
 				this.timeout = setTimeout(() => {
-					uni.createVideoContext(this.dataList[p].vlogId, this).seek(0)
-					uni.createVideoContext(this.dataList[p].vlogId, this).pause()
-					console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].vlogId)
+					uni.createVideoContext(this.dataList[p]._id, this).seek(0)
+					uni.createVideoContext(this.dataList[p]._id, this).pause()
+					console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p]._id)
 				}, 1800)
 			}
 		},
@@ -190,7 +179,6 @@
 			this.boxStyle.height = this.windowHeight + 'px' //可以自行更改视频高度，想视频不那么高，就把0改大一点
 			this.localplace = getApp().globalData.localplace
 			this.get() //刚进入页面加载数据
-      console.log("调用评论接口onload")
 		},
 		methods: {
 			ended() {
@@ -206,12 +194,11 @@
 					this.dataList[this.k].state = 'continue';
 				}
 				if (this.dataList[this.k].state == 'continue') {
-					uni.createVideoContext(this.dataList[this.k].vlogId, this).play(); //暂停以后继续播放
+					uni.createVideoContext(this.dataList[this.k]._id, this).play(); //暂停以后继续播放
 				}
 				if (this.dataList[this.k].state == 'pause') {
-					uni.createVideoContext(this.dataList[this.k].vlogId, this).pause(); //暂停以后继续播放
+					uni.createVideoContext(this.dataList[this.k]._id, this).pause(); //暂停以后继续播放
 				}
-        console.log('this.state--', state);
 			},
 			change(event) {
 				this.k = event.detail.current
@@ -221,117 +208,46 @@
 					this.get()
 				}
 			},
-
-			// async getvideoList() {
-			// 	const list = await request({
-			// 		url:'/vlog/indexList?page=1&pageSize=10',
-			// 	})
-			// 	console.log(list)
-			// 	// console.log("接口拿到的数组是::::::"+list.data.data.rows[1].url)
-			// },
-			
 			get() {
-        this.page++
-        if(this.page > this.total)
-        this.page = 1
-        var k ="https://skrvideo.fun/vlog/indexList?page="+this.page+"&pageSize="+this.pageSize+""
-        // console.log("k:::::"+k)
-				uni.request({
-          url: k,
-					method: 'GET',
-					success: (res) => {
-						//videoList是接口的视频数组
-						// console.log("this.dataList"+JSON.stringify(this.dataList))
-						this.videoList = res.data.data
-            this.page = res.data.data.page
-            this.total = res.data.data.total
-            this.records = res.data.data.records
-						// console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))//走到了
-						// 1.这里引入后端请求数据
-						var msg = this.videoList.rows
-						// 2.这里把视频添加到视频列表
-						for (let i = 0; i < msg.length; i++) {
-              this.dataList.push(msg[i])
-              this.dataList[i].state = 'pause'
-							this.dataList[i].url=this.videoList.rows[i].url
-              this.dataList[i].playIng = false
-              this.dataList[i].isplay = false
-              
-						}
-            
-            // console.log("this.videoList添加后"+JSON.stringify(this.dataList)) 
-						// console.log("this.datalistllllllll"+JSON.stringify(this.dataList[1].src))
-						// 3.播放当前视频
-						setTimeout(() => {
-							this.dataList[this.k].isplay = false
-							this.dataList[this.k].state = 'play'
-							uni.createVideoContext(this.dataList[this.k].vlogId, this).play()
-              
-							this.dataList[this.k].playIng = true
-						}, 200)
-						// start - 预加载开始
-						var p = this.k
-							++p
-						setTimeout(() => {
-							uni.createVideoContext(this.dataList[p].vlogId, this).play()
-						}, 20)
-						clearTimeout(this.timeout)
-						this.timeout = setTimeout(() => {
-							uni.createVideoContext(this.dataList[p].vlogId, this).seek(0)
-							uni.createVideoContext(this.dataList[p].vlogId, this).pause()
-							console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].vlogId)
-						}, 1500)
-						// end - 预加载结束
-					},
-				})
+				// 1.这里引入后端请求数据,还没做,是死数据
+				var msg = userList
+				
+				// 2.这里把视频添加到视频列表
+				for (let i = 0; i < 12; i++) {
+					this.dataList.push(msg[i])
+				}
+				// 3.播放当前视频
+				setTimeout(() => {
+					this.dataList[this.k].isplay = false
+					this.dataList[this.k].state = 'play'
+					uni.createVideoContext(this.dataList[this.k]._id, this).play()
+					this.dataList[this.k].playIng = true
+				}, 200)
+				// start - 预加载开始
+				var p = this.k
+					++p
+				setTimeout(() => {
+					uni.createVideoContext(this.dataList[p]._id, this).play()
+				}, 20)
+				clearTimeout(this.timeout)
+				this.timeout = setTimeout(() => {
+					uni.createVideoContext(this.dataList[p]._id, this).seek(0)
+					uni.createVideoContext(this.dataList[p]._id, this).pause()
+					console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p]._id)
+				}, 1500)
+				// end - 预加载结束
+
 			},
 			tozuozhe(userId) {
 				uni.setStorageSync("userPageId", userId);
 				uni.navigateTo({
-					url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
+					url: "/pages/tabbar/me/Author?userPageId=" + userId,
+					complete: function(resp){
+						console.log(resp);
+					}
 				})
 			},
-			toComment(vlogId) {
-        
-        console.log("调用评论接口")
-        this.cmtpage++
-        if(this.cmtpage > this.cmttotal)
-        this.cmtpage = 1
-        var cmt ="https://skrvideo.fun/comment/list?page="+this.cmtpage+"&pageSize="+this.cmtpageSize+"&vlogId="+vlogId+""
-        // console.log("k:::::"+k)
-        uni.request({
-          url: cmt,
-        	method: 'GET',
-        	success: (res) => {
-        		//commentList是接口的评论数组
-        		// console.log("this.dataList"+JSON.stringify(this.dataList))
-        		this.cmdList = res.data.data
-            this.cmtpage = res.data.data.page
-            this.cmttotal = res.data.data.total
-            this.cmtrecords = res.data.data.records
-        		// console.log("this.cmdList" + JSON.stringify(this.cmdList))//走到了
-        		// 1.这里引入后端请求数据
-        		var msg = this.cmdList.rows
-        		// 2.这里把视频添加到视频列表
-            this.commentList = []
-        		for (let i = 0; i < msg.length; i++) {
-              this.commentList.push(msg[i])
-              this.commentList[i].id = i
-              //时间格式转换
-              let temp = this.commentList[i].createTime.split('T')   //split()方法，以T字符为截断，划分成2块，返回一个数组
-              const year = temp[0].slice(0,4)  //slice()截取字符，开始--结束
-              const month = temp[0].slice(5,7)
-              const day = temp[0].slice(8,10)
-                              
-              const time = temp[1].slice(0,5) 
-              this.commentList[i].createTime = `${year}年${month}月${day}日 ${time}`
-        		}
-            console.log("this.commentList::::"+JSON.stringify(this.commentList))
-          },
-        })
-        
-        // https://skrvideo.fun:443/comment/list?page=1&pageSize=50&userId=&vlogId=21100597F3ABW0ZC
-  
+			toComment(index) {
 				// console.log("这个得调用评论接口,现在是写死的")
 				// var msg = commentList
 				// console.log("commentList.length" + msg.length)
@@ -345,23 +261,25 @@
 			},
 			toRec() {
 				console.log("去推荐,接推荐的视频接口")
-				this.recorloc = 1
+				this.recorloc=1
 			},
 			toMap(index) {
 				this.localplace = getApp().globalData.localplace
 				var localplace = this.localplace
-				if (localplace == "" || index == 1) {
+				if(localplace==""||index==1){
 					console.log("未确定地址,去地图界面接口")
 					uni.navigateTo({
-						// url:"components/Map?value=" + encodeURIComponent(localplace) 
-						url: "components/Map"
-					})
-					this.recorloc = 1
+					// url:"components/Map?value=" + encodeURIComponent(localplace) 
+					url: "components/Map"
+				})
+				this.recorloc=1
 				} else {
 					console.log("已确定地址,接同城的视频接口")
-					this.recorloc = 0
-          // this.get()
+					this.recorloc=0
 				}
+				
+				
+
 			},
 			cmtclose(cmtclose) {
 				this.ifshow = cmtclose;
@@ -371,12 +289,13 @@
 				// console.log("like+++>"+like)
 				// console.log("datalist1"+this.dataList[index].like)
 				if (like == 1) {
-					this.dataList[index].doILikeThisVlog = 0
+					this.dataList[index].like = 0
 				} else if (like == 0) {
-					this.dataList[index].doILikeThisVlog = 1
+					this.dataList[index].like = 1
 				}
 				// console.log("datalist2"+this.dataList[index].like)
 			},
+
 			onShareAppMessage: function(res) {
 				var that = this;
 				//console.log('res=====',res);
@@ -449,23 +368,18 @@
 		color: #FFFFFF;
 		margin: 0 10px;
 	}
-
 	.text1 {
 		color: #FFFFFF;
 		margin: 0 10px;
 		text-decoration: underline;
 	}
-
 	.text2 {
 		color: #FFFFFF;
 		margin: 0 235px;
 		position: absolute;
 		font-size: 25rpx;
-		height: 40rpx;
-		width: 220rpx;
-		opacity: 0.5;
-		overflow: hidden;
-		text-overflow: ellipsis;
+		height: 40rpx;width:220rpx;opacity:0.5;
+		 overflow: hidden;text-overflow: ellipsis;
 	}
 
 	.sousuo-img {

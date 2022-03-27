@@ -4,6 +4,7 @@
 			<image mode="aspectFill" :src="faceUrl" class="face-size" v-if="faceUrl"></image>
 			
 			<view 
+				v-if="isMe == true"
 				@click="changeFace()"
 				class="face-change in-one-column"
 				:class="{'button-change-face':!changeTouched, 'button-change-face-touched': changeTouched}">
@@ -26,6 +27,7 @@
 		data(){
 			return{
 				faceUrl: "",
+				isMe: true,
 				updata: true,
 				changeTouched: false,
 				windowHeight: 0,
@@ -33,8 +35,13 @@
 		},
 		onLoad(option) {
 			var that = this;
-			// console.log(option.faceUrl);
+			// console.log(option);
 			that.faceUrl = option.faceUrl;
+			if(option.isMe == null ||option.isMe == true){
+				this.isMe = true;
+			}else{
+				this.isMe = false;
+			}
 			uni.getSystemInfo({
 			    success: function (res) {
 			        that.windowHeight = res.windowHeight;
@@ -44,7 +51,6 @@
 		methods:{
 			changeFace(){
 				let that = this;
-				
 				this.changeTouched = true;
 				uni.chooseImage({
 					count:1,
@@ -75,12 +81,10 @@
 			faceUrl(newValue,oldValue){
 				var that = this;
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
-				// let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				console.log("prevPage",prevPage.$vm);
+				/* console.log("prevPage",prevPage.$vm); */
 				prevPage.$vm.userInfo.faceUrl = that.faceUrl; 
-				console.log(prevPage.$vm.userInfo.faceUrl);
-				console.log(1);
+				/* console.log(prevPage.$vm.userInfo.faceUrl); */
 			}
 		}
 	}

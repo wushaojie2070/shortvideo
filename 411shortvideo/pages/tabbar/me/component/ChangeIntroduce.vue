@@ -6,7 +6,9 @@
 				<textarea
 					class="introduce-textarea" 
 					v-model="introduce" 
-					maxlength="200">
+					maxlength="200"
+					placeholder="点击添加介绍..."
+					placeholder-style="color: #FFFFFF;">
 				</textarea>
 			</view>
 			<button :class="{'introduce-btn-change':!ifChange,'introduce-btn': ifChange}" @click="saveIntroduce()">保存</button>
@@ -42,7 +44,7 @@
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
 				//let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				prevPage.userInfo.introduce = that.introduce;
+				prevPage.$vm.userInfo.introduce = that.introduce;
 				uni.navigateBack({
 					delta: 1,
 				})

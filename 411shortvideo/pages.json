@@ -9,23 +9,37 @@
 		},
 		{
 			"path": "pages/tabbar/tabbar-2/tabbar-2",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "拾刻"
+			}
 		},
 		{
 			"path": "pages/tabbar/tabbar-3/tabbar-3",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "拾刻"
+			}
 		},
 		{
 			"path": "pages/tabbar/tabbar-4/tabbar-4",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "拾刻"
+			}
 		},
 		{
 			"path": "pages/tabbar/me/Me",
+			"style": {
+				"navigationBarTitleText": "拾刻"
+			}
+		},
+		{
+			"path":"pages/tabbar/me/Author",
 			"style": {}
 		},
 		{
-			"path":"pages/tabbar/tabbar-5/vlogerInfo",
-			"style": {}
+			"path":"pages/tabbar/me/Register",
+			"style": {
+				// "navigationBarTitleText": "注册"
+			}
 		},
 		{
 			"path":"pages/tabbar/me/component/ChangeBg",

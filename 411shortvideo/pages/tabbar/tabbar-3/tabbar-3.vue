@@ -1,79 +1,139 @@
 <template>
-	<view>
-		<view>
-			<form @submit="formSubmit" @reset="formReset">
-
-				<view class="uni-form-item uni-column">
-					<view class="title">wsj上传测试</view>
-					<input type="text" value="请输入你的标题" />
+	<view class="content" :class="{'active':active}">
+		<image class="logo" :class="{'active':active}" src="../../../static/logo.png"  mode="aspectFit"></image>
+		<view class="tabbar-box-wrap">
+			<view class="tabbar-box">
+				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release')">
+					<image class="box-image" src="../../../static/img/release.png" mode="aspectFit"></image>
+					<text class="explain">发图文</text>
 				</view>
-				<view class="uni-form-item uni-column">
-					<view class="title">checkbox</view>
-					<checkbox-group name="checkbox">
-						<label>
-							<checkbox value="checkbox1" /><text>选项一</text>
-						</label>
-						<label>
-							<checkbox value="checkbox2" /><text>选项二</text>
-						</label>
-					</checkbox-group>
+				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-video/tabbar-3-video')">
+					<image class="box-image" src="../../../static/img/video.png" mode="aspectFit"></image>
+					<text class="explain">发视频</text>
 				</view>
-				<view class="uni-form-item uni-column">
-					<view class="title">slider</view>
-					<slider value="50" name="slider" show-value></slider>
+				<view class="tabbar-box-item" @click="goToPage('/pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa')">
+					<image class="box-image" src="../../../static/img/qa.png" mode="aspectFit"></image>
+					<text class="explain">提问</text>
 				</view>
-				<view class="uni-form-item uni-column">
-					<view class="title">input</view>
-					<input class="uni-input" name="input" placeholder="这是一个输入框" />
-				</view>
-				<view>{{text}}</view>
-				<view class="uni-btn-v">
-					<button form-type="submit">提交</button>
-					<button type="default" form-type="reset">重置</button>
-					<button type="default" @click="getphone()">测试</button>
-				</view>
-			</form>
+			</view>
 		</view>
 	</view>
-</template>
+</template> 
 
 <script>
-	export default {
-		data() {
-			return {
-				text:"测试"
-			}
-		},
-		methods: {
-			formSubmit: function(e) {
-				console.log('form发生了submit事件，携带数据为：' + JSON.stringify(e.detail.value))
-				var formdata = e.detail.value
-				uni.showModal({
-					content: '表单数据内容：' + JSON.stringify(formdata),
-					showCancel: false
-				});
-			},
-			formReset: function(e) {
-				console.log('清空数据')
-			},
-			getphone(){
-				uni.request({
-					url:"https://skrvideo.fun/vlog/indexList?page=1&pageSize=3",
-					method:'GET',
-					success: (res) => {
-					    console.log(res)
-						this.text="请求成功"
-					}
-				})
+export default {
+	data() {
+		return {
+			active: false
+		};
+	},
+	onLoad() {},
+	onShow() {
+		// setTimeout(() => {
+		this.active = true;
+		// }, 500);
+	},
+	onHide() {
+		this.active = false;
+	},
+	methods: {
+		goToPage(url) {
+			if (!url) return;
+			uni.navigateTo({
+				url
+			});
+		}
+	}
+};
+</script>
+
+<style lang="scss" scoped>
+.content {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	/* #ifdef H5 */
+	height: calc(100vh - var(--window-bottom) - var(--window-top));
+	/* #endif */
+	/* #ifndef H5 */
+	height: 100vh;
+	/* #endif */
+	transition: opacity 0.3s;
+	background: #999;
+	opacity: 0;
+	&.active {
+		opacity: 1;
+	}
+	.logo {
+		position: relative;
+		margin-top: -400upx;
+		width: 200upx;
+		height: 200upx;
+		// z-index: -1;
+		opacity: 0;
+		transition: opacity 0.3s;
+		&.active {
+			opacity: 1;
+		}
+	}
+}
+.tabbar-box-wrap {
+	position: absolute;
+	width: 100%;
+	padding: 50upx;
+	box-sizing: border-box;
+	bottom: 0;
+	left: 0;
+	.tabbar-box {
+		position: relative;
+		display: flex;
+		width: 100%;
+		background: #fff;
+		border-radius: 20upx;
+		padding: 15upx 20upx;
+		box-sizing: border-box;
+		z-index: 2;
+		box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1);
+		&:after {
+			content: '';
+			position: absolute;
+			bottom: -16upx;
+			left: 0;
+			right: 0;
+			margin: auto;
+			width: 50upx;
+			height: 50upx;
+			transform: rotate(45deg);
+			background: #fff;
+			z-index: 1;
+			box-shadow: 2px 2px 5px 1px rgba(0, 0, 0, 0.1);
+			border-radius: 2px;
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #ffffff;
+			border-radius: 20upx;
+			z-index: 2;
+		}
+		.tabbar-box-item {
+			// position: relative;
+			width: 100%;
+			z-index: 3;
+			margin: 10upx;
+			color: $uni-color-subtitle;
+			text-align: center;
+			font-size: $uni-font-size-base;
+			.box-image {
+				width: 100%;
+				height: $uni-img-size-lg;
 			}
 		}
 	}
-</script>
-
-<style>
-	.content {
-		margin: 0 auto;
-		padding: 20upx;
-		box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.1);
-	}
+}
 </style>

@@ -1,0 +1,221 @@
+//1.{}里包裹的是每一个视频的参数
+const userList = [{//1	
+	"_id": "---->>>>好",
+	"userId":"4444",
+	"username": "阿斯顿",
+	"href": "../../../static/img/touxiang/9.jpg",
+	"title": "testtesttesttest",
+	"msg": "Ring Ring Ring",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//2
+	"_id": "---->>>>啊",
+	"userId":"666",
+	"username": "阿斯达",
+	"href": "../../../static/img/touxiang/6.jpg",
+	"title": "CSNeilCSNeil",
+	"msg": "破茧",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 2,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//3
+	"_id": "dbd",
+	"userId":"223332",
+	"username": "阿斯达达",
+	"href": "../../../static/img/touxiang/3.jpg",
+	"title": "testtest",
+	"msg": "最向往的地方-林俊杰",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/53543262-55f5-4685-a5e3-b56ce75bcb88.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//4
+	"_id": "zxysdbd",//1.每一个视频独有 id
+	"userId":"222211111",
+	"username": "意识到",//2.视频拥有者名称
+	"href": "../../../static/img/touxiang/5.jpg",//3.头像
+	"title": "我不管我要混分",//第一行标题
+	"msg": "我就是广播体操的King",//5.第二行内容
+	"state": "pause",//6.初始状态标志
+	"like": 0,//7.是否是自己喜欢，0不喜欢，1喜欢。默认不喜欢
+	"like_n": 0,//8.喜欢数量
+	"sms_n": 0,//9.评论数
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/710b0cf7-bed9-4805-a2fb-0b703483dbec.MOV",//10.视频链接
+	"playNumber": 0,//11.播放视频的数量
+	"pinlun": [],//12.评论
+	"playIng": false,//13.播放
+	"isShowimage": false,//14.是否显示封面
+	"isShowProgressBarTime": false,//15.是否显示进度条
+	"isplay": true,//16.是否播放音频
+}, {//5
+	"_id": "---->>>>饿",
+	"userId":"CSNeil",
+	"username": "史蒂夫",
+	"href": "../../../static/img/touxiang/1.png",
+	"title": "test",
+	"msg": "有何不可",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 3,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/5017a17a-389b-45e0-8d91-711c9dc76759.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//6
+	"_id": "dbddbd",
+	"userId":"11122",
+	"username": "阿水的哈",
+	"href": "../../../static/img/touxiang/2.bmp",
+	"title": "CSNeiltitletitle",
+	"msg": "像不像你妈看见你打游戏时的样子",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 4,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/ec383f81-6896-4274-8861-e329ae1376b4.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true,
+}, {//7
+	"_id": "---->>>>怎么",
+	"userId":"77",
+	"username": "很久很久",
+	"href": "../../../static/img/touxiang/7.png",
+	"title": "CSNeiltest",
+	"msg": "后会无期-徐良-汪苏泷",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 1,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/c8f7a17f-6eb8-453a-9f43-944ecc7a9f11.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//8
+	"_id": "---->>>>还没",
+	"userId":"88888",
+	"username": "哈哈哈哈哈",
+	"href": "../../../static/img/touxiang/8.jpg",
+	"title": "testtest",
+	"msg": "笑死了哈哈哈哈哈",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/f905c750-c70e-46b2-aaa6-37778d308f13.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//9
+	"_id": "---->>>>下课",
+	"userId":"999999999999999",
+	"username": "望·即",
+	"href": "../../../static/img/touxiang/4.jpg",
+	"title": "testtesttesttest",
+	"msg": "Justin Biber- As long as you love me",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/9392e85c-36db-473f-8ec3-4f8ed83a382a.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {//10
+	"_id": "60e86a9e9056cd000110da51",
+	"userId":"6754658698785634",
+	"username": "user",
+	"href": "../../../static/img/touxiang/10.jpg",
+	"title": "testtest",
+	"msg": "苹果2019年发布会开场动画",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/e1cd785e-56ae-4c96-a713-126bf2950e19.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {
+	//11
+	"_id": "60e86a9e9056cd000110da5q",
+	"userId":"6754658698785634",
+	"username": "user",
+	"href": "../../../static/img/touxiang/11.png",
+	"title": "testtest",
+	"msg": "每天笑一笑",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/97b50a6d-f77d-4418-b38d-844e0b9eec97.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}, {
+	//12
+	"_id": "60e86a9e9056c2010110da5q",
+	"userId":"6754658698785634",
+	"username": "user",
+	"href": "../../../static/img/touxiang/12.png",
+	"title": "testtest",
+	"msg": "老外真会玩",
+	"state": "pause",
+	"like": 0,
+	"like_n": 0,
+	"sms_n": 0,
+	"src": "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-2908110e-6da2-4899-8b44-d45c153457ad/c061b07a-4b34-4d6d-aa1a-2cf41679f17c.mp4",
+	"playNumber": 0,
+	"pinlun": [],
+	"playIng": false,
+	"isShowimage": false,
+	"isShowProgressBarTime": false,
+	"isplay": true
+}]
+export default userList;

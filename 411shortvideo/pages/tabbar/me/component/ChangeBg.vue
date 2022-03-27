@@ -4,6 +4,7 @@
 			<image mode="aspectFill" :src="bgUrl" class="bg-size" v-if="bgUrl"></image>
 			
 			<view 
+				v-if="isMe == true"
 				@click="changeBg()"
 				class="bg-change in-one-column"
 				:class="{'button-change-bg':!changeTouched, 'button-change-bg-touched': changeTouched}">
@@ -26,6 +27,7 @@
 		data(){
 			return{
 				bgUrl: "",
+				isMe: true,
 				updata: true,
 				changeTouched: false,
 				windowHeight: 0,
@@ -33,8 +35,13 @@
 		},
 		onLoad(option) {
 			var that = this;
-			console.log(option.bg);
+			console.log(option);
 			this.bgUrl = option.bg;
+			if(option.isMe == null ||option.isMe == true){
+				this.isMe = true;
+			}else{
+				this.isMe = false;
+			}
 			uni.getSystemInfo({
 			    success: function (res) {
 			        that.windowHeight = res.windowHeight;
@@ -75,12 +82,10 @@
 			bgUrl(newValue,oldValue){
 				var that = this;
 				let pages = getCurrentPages();  //获取所有页面栈实例列表
-				// let nowPage = pages[ pages.length - 1];  //当前页页面实例
 				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				console.log("prevPage",prevPage.$vm);
+				/* console.log("prevPage",prevPage.$vm); */
 				prevPage.$vm.userInfo.bgUrl = that.bgUrl; 
-				console.log(prevPage.$vm.userInfo.bgUrl);
-				console.log(1);
+				/* console.log(prevPage.$vm.userInfo.bgUrl); */
 			}
 		}
 	}
