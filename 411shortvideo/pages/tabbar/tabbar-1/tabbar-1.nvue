@@ -1,18 +1,18 @@
 <template>
 	<view>
+    <cover-view class="firstNav">
+    	<cover-image class="sousuo-img" src="../../../static/img/index/sousuo.png" mode=""></cover-image>
+    	<cover-view class="middle">
+    		<!-- text1是选择显示下划线  recorloc==1为选中推荐,==0为选中同城,text1有下划线-->
+        <cover-view :class="'text '+(recorloc=='1'?'text1':'')" @click="toRec()">推荐</cover-view>
+        <cover-view :class="'text '+(recorloc=='0'?'text1':'')"  @click="toMap(0)">同城</cover-view>
+    	</cover-view>
+    	<cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
+    </cover-view>
 		<swiper :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'" :vertical="true" @change="change"
 			:current="current" :indicator-dots="false">
       <!-- 视频数组 -->
 			<swiper-item v-for="(list,index) in dataList">
-				<cover-view class="firstNav">
-					<cover-image class="sousuo-img" src="../../../static/img/index/sousuo.png" mode=""></cover-image>
-					<cover-view class="middle">
-						<!-- text1是选择显示下划线  recorloc==1为选中推荐-->
-            <cover-view class="recorloc==0?'text':'text1'" @click="toRec()">推荐</cover-view>
-            <cover-view class="recorloc==1?'text':'text1'" @click="toMap(0)">同城</cover-view>
-					</cover-view>
-					<cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">当前:{{localplace}}</cover-view>
-				</cover-view>
 				<view>
 					<!-- 
 					1.v-if：用于控制视频在节点的渲染数
@@ -53,7 +53,7 @@
 							:class="{'likeNumActive':list.doILikeThisVlog}">{{list.likeCounts}}</text>
 					</view>
 					<!-- 3.评论 -->
-					<view class="comment" @click="toComment(index)" style="opacity: 0.9; margin-top: 17px;">
+					<view class="comment" @click="toComment(list.vlogId)" style="opacity: 0.9; margin-top: 17px;">
 						<image src="@/static/img/index/pinlun.png"
 							style="width: 35px; height: 35px; position: absolute; right: 7px;"></image>
 						<text
@@ -92,8 +92,8 @@
 					<!-- k={{k}} -->
 					<!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
 				</view>
-				<view v-show="ifshow" class="commentshow">
-					<videocomment @cmtclose="cmtclose"></videocomment>
+				<view v-if="ifshow" class="commentshow">
+					<videocomment :commentList = "commentList"  @cmtclose="cmtclose" ></videocomment>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -126,12 +126,17 @@
 				windowHeight: 0,
 				dataList: [],//是播放的视频数组
 				videoList:[1234],//是接口的视频数组
-				cmdList: [],
+				cmdList: [],//这个是接口拿到的评论数组
+        commentList: [],//这个是运作的评论数组
 				k: 0,
         page: 0,
         pageSize: 10,
         total: 2,
         records: 20,
+        cmtpage: 0,
+        cmtpageSize: 10,
+        cmttotal: 2,
+        cmtrecords: 20,
 				oldVideo: "",
 				voice: "",
 				timeout: "",
@@ -185,6 +190,7 @@
 			this.boxStyle.height = this.windowHeight + 'px' //可以自行更改视频高度，想视频不那么高，就把0改大一点
 			this.localplace = getApp().globalData.localplace
 			this.get() //刚进入页面加载数据
+      console.log("调用评论接口onload")
 		},
 		methods: {
 			ended() {
@@ -205,6 +211,7 @@
 				if (this.dataList[this.k].state == 'pause') {
 					uni.createVideoContext(this.dataList[this.k].vlogId, this).pause(); //暂停以后继续播放
 				}
+        console.log('this.state--', state);
 			},
 			change(event) {
 				this.k = event.detail.current
@@ -243,7 +250,7 @@
 						// 1.这里引入后端请求数据
 						var msg = this.videoList.rows
 						// 2.这里把视频添加到视频列表
-						for (let i = 0; i < 10; i++) {
+						for (let i = 0; i < msg.length; i++) {
               this.dataList.push(msg[i])
               this.dataList[i].state = 'pause'
 							this.dataList[i].url=this.videoList.rows[i].url
@@ -252,7 +259,7 @@
               
 						}
             
-            console.log("this.videoList添加后"+JSON.stringify(this.dataList)) 
+            // console.log("this.videoList添加后"+JSON.stringify(this.dataList)) 
 						// console.log("this.datalistllllllll"+JSON.stringify(this.dataList[1].src))
 						// 3.播放当前视频
 						setTimeout(() => {
@@ -284,7 +291,47 @@
 					url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
 				})
 			},
-			toComment(index) {
+			toComment(vlogId) {
+        
+        console.log("调用评论接口")
+        this.cmtpage++
+        if(this.cmtpage > this.cmttotal)
+        this.cmtpage = 1
+        var cmt ="https://skrvideo.fun/comment/list?page="+this.cmtpage+"&pageSize="+this.cmtpageSize+"&vlogId="+vlogId+""
+        // console.log("k:::::"+k)
+        uni.request({
+          url: cmt,
+        	method: 'GET',
+        	success: (res) => {
+        		//commentList是接口的评论数组
+        		// console.log("this.dataList"+JSON.stringify(this.dataList))
+        		this.cmdList = res.data.data
+            this.cmtpage = res.data.data.page
+            this.cmttotal = res.data.data.total
+            this.cmtrecords = res.data.data.records
+        		// console.log("this.cmdList" + JSON.stringify(this.cmdList))//走到了
+        		// 1.这里引入后端请求数据
+        		var msg = this.cmdList.rows
+        		// 2.这里把视频添加到视频列表
+            this.commentList = []
+        		for (let i = 0; i < msg.length; i++) {
+              this.commentList.push(msg[i])
+              this.commentList[i].id = i
+              //时间格式转换
+              let temp = this.commentList[i].createTime.split('T')   //split()方法，以T字符为截断，划分成2块，返回一个数组
+              const year = temp[0].slice(0,4)  //slice()截取字符，开始--结束
+              const month = temp[0].slice(5,7)
+              const day = temp[0].slice(8,10)
+                              
+              const time = temp[1].slice(0,5) 
+              this.commentList[i].createTime = `${year}年${month}月${day}日 ${time}`
+        		}
+            console.log("this.commentList::::"+JSON.stringify(this.commentList))
+          },
+        })
+        
+        // https://skrvideo.fun:443/comment/list?page=1&pageSize=50&userId=&vlogId=21100597F3ABW0ZC
+  
 				// console.log("这个得调用评论接口,现在是写死的")
 				// var msg = commentList
 				// console.log("commentList.length" + msg.length)
@@ -313,6 +360,7 @@
 				} else {
 					console.log("已确定地址,接同城的视频接口")
 					this.recorloc = 0
+          // this.get()
 				}
 			},
 			cmtclose(cmtclose) {
