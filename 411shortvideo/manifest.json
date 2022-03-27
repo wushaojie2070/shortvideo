@@ -62,10 +62,10 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-        "appid" : "wx64d44043b43ac288",
+        "appid" : "wx1329ed33581981c2",
         "setting" : {
             "urlCheck" : true,
-			"minified" : true
+            "minified" : true
         },
         "usingComponents" : true,
         "permission" : {

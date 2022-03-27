@@ -2,7 +2,7 @@
 	<view class="page">
 		<!-- 未登录-->
 		<view v-if="!userIsLogin" class="login-info-wrapper" :style="{height: windowHeight + 'px',}" @tap="" @click="goLogin()">
-			<text class="login-info" style="align-self: center;" >请登录/text>
+			<text class="login-info" style="align-self: center;" >请登录</text>
 		</view>
 		<!-- 更多弹窗 -->
 		<uni-drawer ref="evenMore" mode="right" :maskClick="true" width="250">
@@ -11,7 +11,7 @@
 					<!-- <button @click="closeMore()" type="primary">关闭Drawer</button> -->
 					<view @click="myQrCode()" class="in-one-line one-more">
 						<image mode="aspectFit" src="/static/img/me/me/二维码.png" class="more-image"></image>
-						<text class="more-text">我的二维码/text>
+						<text class="more-text">我的二维码</text>
 					</view>
 					<view @click="" class="in-one-line one-more">
 						<image mode="aspectFit" src="/static/img/me/me/观看历史.png" class="more-image"></image>
@@ -232,7 +232,7 @@
 				}, */
 				userInfo: {},
 				title: 'Hello',
-				loginWords:"请登录,
+				loginWords:"请登录",
 				windowHeight: 0,
 				currentTab:0,
 				publicVlogList:[
