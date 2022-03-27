@@ -1,8 +1,8 @@
 <template>
 	<view class="page">
-		<!-- 未登录 -->
+		<!-- 未登录-->
 		<view v-if="!userIsLogin" class="login-info-wrapper" :style="{height: windowHeight + 'px',}" @tap="" @click="goLogin()">
-			<text class="login-info" style="align-self: center;" >请登录</text>
+			<text class="login-info" style="align-self: center;" >请登录/text>
 		</view>
 		<!-- 更多弹窗 -->
 		<uni-drawer ref="evenMore" mode="right" :maskClick="true" width="250">
@@ -11,7 +11,7 @@
 					<!-- <button @click="closeMore()" type="primary">关闭Drawer</button> -->
 					<view @click="myQrCode()" class="in-one-line one-more">
 						<image mode="aspectFit" src="/static/img/me/me/二维码.png" class="more-image"></image>
-						<text class="more-text">我的二维码</text>
+						<text class="more-text">我的二维码/text>
 					</view>
 					<view @click="" class="in-one-line one-more">
 						<image mode="aspectFit" src="/static/img/me/me/观看历史.png" class="more-image"></image>
@@ -38,7 +38,7 @@
 				</view>
 			</view>
 		</uni-drawer>
-		<!-- 已登录 -->
+		<!-- 已登录-->
 		<view v-if="userIsLogin" :style="{height: windowHeight + 'px'}">
 			<image id="mybg" 
 				:src="userInfo.bgUrl" 
@@ -53,7 +53,7 @@
 							src="../../../static/img/me/me/访客.png"
 							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;">
 						</image>
-						新访客 {{userInfo.newVisitors}}
+						新访客{{userInfo.newVisitors}}
 					</view>
 				</view>
 				<image
@@ -62,7 +62,7 @@
 					class="other-more-set">
 				</image>
 			</view>
-			<!-- 点击获赞的弹窗-->
+			<!-- 点击获赞的弹窗->
 			<uni-popup ref="popup" type="center">
 			    <view class="win-praise">
 					<image 
@@ -184,7 +184,7 @@
 						
 					</view>
 					<view class="end">
-						<text style="color: #FFFFFF;font-size: 14px;">- 知深浅 | 唯有你-</text>
+						<text style="color: #FFFFFF;font-size: 14px;">- 知深浅 | 唯有你</text>
 					</view>
 				</view>
 			</view>
@@ -216,7 +216,7 @@
 					labels: [
 						{
 							id:0,
-							label:'33岁',
+							label:'33岁,
 						},
 						{
 							id:1,
@@ -232,7 +232,7 @@
 				}, */
 				userInfo: {},
 				title: 'Hello',
-				loginWords:"请登录",
+				loginWords:"请登录,
 				windowHeight: 0,
 				currentTab:0,
 				publicVlogList:[
@@ -380,7 +380,7 @@
 		flex-direction: column;	
 	}
 	
-	/* 未登录 */
+	/* 未登录*/
 	.login-info-wrapper {
 		display: flex;
 		flex-direction: column;
@@ -601,7 +601,7 @@
 		top: 130rpx;
 	}
 	
-	/* 点击获赞的弹窗*/
+	/* 点击获赞的弹窗/
 	.win-praise{
 		background-color: #FFFFFF;
 	}
