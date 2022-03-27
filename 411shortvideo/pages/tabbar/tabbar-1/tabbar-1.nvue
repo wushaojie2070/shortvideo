@@ -28,7 +28,7 @@
 						:poster="list.cover" :src="list.url" @ended="ended"
 						@click="tapVideoHover(list.state,$event)"></video>
             
-			<!-- 		<image v-if="!list.playIng" :src="list.url+'?x-oss-process=video/snapshot,t_100,f_jpg'"
+			<!-- 		<image v-if="!list.play" :src="list.url+'?x-oss-process=video/snapshot,t_100,f_jpg'"
 						:style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px; position: absolute;'"
 						mode="aspectFit"></image> -->
             
@@ -60,7 +60,7 @@
 							style="color: #FFFFFF; margin-top: 5px; font-size: 14px; font-weight: bold; text-align: center; margin-top: 40px;">{{list.commentsCounts}}</text>
 					</view>
 					<!-- 4.分享 -->
-					<!-- <view @click="share" open-type="share" style="opacity: 0.9; margin-top: 17px;">
+					<!-- <view @click="share"  style="opacity: 0.9; margin-top: 17px;">
 						<image src="@/static/img/index/share-fill.png" style="width: 40px; height: 40px; position: absolute; right: 5px;"></image>
 						<text style="color: #FFFFFF; margin-top: 5px; font-size: 14px; text-align: center; font-weight: bold; margin-top: 40px;">分享</text>
 					</view> -->
@@ -150,8 +150,9 @@
 		watch: {
 			k(k, old_k) { 
 				console.log(k)
-				this.dataList[old_k].playIng = false //如果视频暂停，就加载封面
+				this.dataList[old_k].play = false //如果视频暂停，就加载封面
 				this.dataList[old_k].isplay = true
+        console.log("isplay变true,oldk放声音"+this.dataList[old_k].isplay)
 				this.dataList[old_k].state = 'pause'
 				uni.createVideoContext(this.dataList[old_k].vlogId, this).play()
 				clearTimeout(this.oldVideo)
@@ -160,15 +161,19 @@
 					uni.createVideoContext(this.dataList[old_k].vlogId, this).pause()
 					console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k].vlogId)
 				}, 500)
+        uni.createVideoContext(this.dataList[old_k]._id + '' + old_k,this).stop()//如果视频暂停，那么旧视频停止，这里的this.dataList[old_k]._id + '' + old_k，后面加 old_k 是为了每一个视频的 id 值不同，这样就可以大程度的避免串音问题
+        
+        
 				console.log('已经暂停 第' + (old_k + 1) + '个视频～') //提示
 				this.dataList[k].state = 'play'
 				uni.createVideoContext(this.dataList[k].vlogId, this).play()
 				clearTimeout(this.voice)
 				this.voice = setTimeout(() => {
 					this.dataList[k].isplay = false
+          console.log("isplay变false,k不放声音"+this.dataList[k].isplay)
 				}, 300)
 				setTimeout(() => {
-					this.dataList[k].playIng = true
+					this.dataList[k].play = true
 				}, 850)
 				var p = k
 					++p
@@ -253,9 +258,7 @@
 						for (let i = 0; i < msg.length; i++) {
               this.dataList.push(msg[i])
               this.dataList[i].state = 'pause'
-							this.dataList[i].url=this.videoList.rows[i].url
-              this.dataList[i].playIng = false
-              this.dataList[i].isplay = false
+              this.dataList[i].isplay = true
               
 						}
             
@@ -264,10 +267,11 @@
 						// 3.播放当前视频
 						setTimeout(() => {
 							this.dataList[this.k].isplay = false
+              console.log("isplay变false,this.k不放声音"+this.dataList[this.k].isplay)
 							this.dataList[this.k].state = 'play'
 							uni.createVideoContext(this.dataList[this.k].vlogId, this).play()
               
-							this.dataList[this.k].playIng = true
+							this.dataList[this.k].play = true
 						}, 200)
 						// start - 预加载开始
 						var p = this.k
@@ -288,10 +292,7 @@
 			tozuozhe(userId) {
 				uni.setStorageSync("userPageId", userId);
 				uni.navigateTo({
-					url: "/pages/tabbar/me/Author?userPageId=" + userId,
-					complete: function(resp){
-						console.log(resp);
-					}
+					url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
 				})
 			},
 			toComment(vlogId) {
