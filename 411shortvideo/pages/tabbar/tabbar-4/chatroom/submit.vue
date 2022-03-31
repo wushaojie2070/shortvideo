@@ -5,10 +5,7 @@
 				<view class="bt-img">
 					<image class="chat-img" src="../../../../static/img/news/zxj.png"></image>
 				</view>
-				<textarea class="chat-text" auto-height="true" @input="inputs($event)" v-model="msg" @focus="focus()"></textarea>
-				<view class="bt-img">
-					<image class="chat-img" src="../../../../static/img/news/yy.png"></image>
-				</view>
+				<textarea class="chat-text" auto-height="true" placeholder="发送消息" @input="inputs($event)" v-model="msg" @focus="focus()"></textarea>
 				<view class="bt-img" @click="changeisemoji()">
 					<image class="chat-img" src="../../../../static/img/news/bq.png"></image>
 				</view>
@@ -33,26 +30,6 @@
 				<view class="more-list" @tap="ps()">
 					<image class="more-list-img" src="../../../../static/img/news/ps.png"></image>
 					<view class="more-list-title">拍摄</view>
-				</view>
-				<view class="more-list">
-					<image class="more-list-img" src="../../../../static/img/news/hb.png"></image>
-					<view class="more-list-title">红包</view>
-				</view>
-				<view class="more-list">
-					<image class="more-list-img" src="../../../../static/img/news/spth.png"></image>
-					<view class="more-list-title">视频通话</view>
-				</view>
-				<view class="more-list">
-					<image class="more-list-img" src="../../../../static/img/news/yyth.png"></image>
-					<view class="more-list-title">语音通话</view>
-				</view>
-				<view class="more-list">
-					<image class="more-list-img" src="../../../../static/img/news/yqksp.png"></image>
-					<view class="more-list-title">一起看视频</view>
-				</view>
-				<view class="more-list">
-					<image class="more-list-img" src="../../../../static/img/news/yqc.png"></image>
-					<view class="more-list-title">一起唱</view>
 				</view>
 				<view class="more-list">
 					<image class="more-list-img" src="../../../../static/img/news/wdxh.png"></image>
@@ -167,7 +144,7 @@
 	}
 	.emoji{
 		width: 100%;
-		height: 200px;
+		height: 150px;
 		bottom: 0px;
 		box-shadow: 0px -1px 0px 0px;
 	}
@@ -208,14 +185,13 @@
 	}
 	.more{
 		width: 100%;
-		height: 200px;
+		height: 150px;
 		bottom: 0px;
 		background-color: #292a33;
-		box-shadow: 0px -1px 0px 0px;
 	}
 	.more-list{
-		width: 25%;
-		height: 40%;
+		padding-top: 25px;
+		width: 33%;
 		text-align: center;
 		float: left;
 		margin-top: 15px;

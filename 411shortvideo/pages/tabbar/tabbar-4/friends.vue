@@ -1,89 +1,31 @@
 <template>
 	<view class="friends">
-		<view class="box">
-			<view class="icon" @click="tochat()">
-				<view class="friends-img">
-					<image class="img" src="../../../static/img/news/friends3.png" mode=""></image>
-				</view>
-				<view class="friends-name">
-					青
-				</view>
-			</view>
-			<view class="icon">
-				<view class="friends-img">
-						<image class="img" src="../../../static/img/news/friends1.png" mode=""></image>
-					</view>
-					<view class="friends-name">
-						宁波财经学院
-					</view>
-				</view>
-				<view class="icon">
-					<view class="friends-img">
-						<image class="img" src="../../../static/img/news/friends2.png" mode=""></image>
-					</view>
-					<view class="friends-name">
-						Icekiller
-					</view>
-				</view>	
-			</view>
 		<view style="width: 100%;height: 1px;background: #393a43;"></view>
-		<view class="List" @click="Tofan()">
-			<view class="List-item">
-				<view class="List-img-box">
-					<image class="List-img" src="../../../static/img/news/fans.png" mode=""></image>
-				</view>
-				<view class="List-text">
-					<view class="List-top">
-						<view class="List-name">
-							粉丝
+		<scroll-view class="List">
+				<view class="fantab">
+					<view class="List" @click="tochat()">
+						<view class="List-item" v-for="item in fanslist" :key="item.fanId">
+							<view class="List-img-box">
+								<image class="List-img" :src="item.face" mode=""></image>
+							</view>
+							<view class="List-text" >
+								<view class="List-top">
+									<view class="List-name">
+										{{item.nickname}}
+									</view>
+								</view>
+								<view class="List-content">
+									关注了你
+								</view>
+							</view>
+							<view class="List-icon">
+								<button style="background-color: #e9445a;color: #FFFFFF;line-height: 30px; font-size: 14px;" @click.stop="clickbtn(item)" v-show="!item.friend">回关</button>
+								<button style="background-color: #393a43;color: #ebebec;line-height: 30px; font-size: 14px;" @click.stop="clickbtn(item)" v-show="item.friend">互相关注</button>
+							</view>
 						</view>
 					</view>
-					<view class="List-content">
-						小鱼（音乐推荐）关注了你
 					</view>
-				</view>
-				<view class="List-icon">
-					>
-				</view>
-			</view>
-		</view>
-		<view class="List">
-			<view class="List-item">
-				<view class="List-img-box">
-					<image class="List-img" src="../../../static/img/news/hudong.png" mode=""></image>
-				</view>
-				<view class="List-text">
-					<view class="List-top">
-						<view class="List-name">
-							互动消息
-						</view>
-					</view>
-					<view class="List-content">
-						青 在评论中提到了你
-					</view>
-				</view>
-				<view class="List-icon">
-					>
-				</view>
-			</view>
-		</view>
-		<view class="List">
-			<view class="List-item" v-for="item in newslist" :key="item.id">
-				<view class="List-img-box">
-					<image class="List-img" :src="item.s" mode=""></image>
-				</view>
-				<view class="List-text">
-					<view class="List-top">
-						<view class="List-name">
-							{{item.name}}
-						</view>
-					</view>
-					<view class="List-content">
-						{{item.content}}
-					</view>
-				</view>
-			</view>
-		</view>
+		</scroll-view>
 		<view style="width: 100%;height: 1px;background: #393a43;"></view>
 		<view class="more">
 			无更多消息
@@ -93,39 +35,56 @@
 
 <script>
 	export default{
+
 		data(){
 			return{
-				newslist:[
-					{
-						id:1,
-						s:'../../../static/img/news/friends3.png',
-						name:"青",
-						content:'在线'
-					},
-					{
-						id:2,
-						s:'../../../static/img/news/friends1.png',
-						name:"宁波财经学院",
-						content:'今天在线'
-					},
-					{
-						id:3,
-						s:'../../../static/img/news/friends2.png',
-						name:"IceKiller",
-						content:'昨天在线'
-					},
-				]
-			};
+				fanslist:[],
+			}
+		},
+		mounted() {
+			var that = this;
+			console.log(1);
+			uni.request({
+				url:"https://skrvideo.fun/fans/queryMyFans",
+				method:"GET",
+				data:{
+					"myId":"211003H4SG5Y1ZF8",
+					"page":1,
+					"pageSize":3
+				},
+				dataType:"json",
+				success:(res)=>{
+					console.log(res);
+					that.fanslist=res.data.data.rows
+				},
+				fail: (res) => {
+					console.log(res)
+				}
+			})
 		},
 		methods:{
-			Tofan(){
-				uni.navigateTo({
-					url:'./fans'
-				})
-			},
 			tochat(){
 				uni.navigateTo({
 					url:'./chatroom/chatroom'
+				})
+			},
+			clickbtn(item){
+				console.log(item)
+				item.friend=!item.friend
+				uni.request({
+					url:"https://skrvideo.fun/fans/follow",
+					method:"POST",
+					data:{
+						"myId":"211003H4SG5Y1ZF8",
+						"vlogerId":item.fanId
+					},
+					dataType:"json",
+					success: (res) => {
+						console.log(res)
+					},
+					fail: (res) => {
+						console.log(res)
+					}
 				})
 			}
 		}
@@ -133,35 +92,6 @@
 </script>
 
 <style>
-.friends{
-	width: 100%;
-	height: 100%;
-	background: #333333;
-}
-.box{
-	width: 100%;
-	height: 100px;
-}
-.icon{
-	width: 25%;
-	height: 70px;
-	float: left;
-	margin:0 auto;
-}
-.friends-img{
-	text-align: center;
-}
-.img{
-	width: 60px;
-	height: 60px;
-	margin-top: 8px;
-}
-.friends-name{
-	font-size: 12px;
-	text-align: center;
-	color: #c5c6c8;
-	margin-top: 3px;
-}
 .List{
 	background: #333333;
 }
@@ -176,6 +106,7 @@
 .List-img{
 	width: 55px;
 	height: 55px;
+	border-radius: 40px;
 }
 .List-text{
 	margin-top: 5px;

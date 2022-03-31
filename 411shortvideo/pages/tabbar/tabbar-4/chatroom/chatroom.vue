@@ -4,15 +4,9 @@
 			<view class="fanstxt">
 				青
 			</view>
-		<view>
-			<image @click="renews()" class="img-return" src="../../../../static/img/news/chahao-1.png" mode=""></image>
-		</view>
-		<view>
-			<image @click="chatroommore()" class="img-dian" src="../../../../static/img/news/dian.png" mode=""></image>
-		</view>
 		<view style="width: 100%;height: 1px;background: #393a43;"></view>
 		</view>
-		<scroll-view class="chat" scroll-y="true" scroll-with-animation="true" :scroll-into-view="scrolltoview">
+		<scroll-view class="chat" scroll-y="true" scroll-with-animation="true" :scroll-into-view="scrolltoview" @click="change()">
 			<view :class="{'chat-main1':!ispadding,'chat-main2':ispadding}" >
 				<view v-for="item in messagelist" :class="{'chat-ls1':item.isleft,'chat-ls2':!item.isleft}" :id="'msg'+item.id">
 					<view class="chat-time">{{item.time}}</view>
@@ -27,7 +21,7 @@
 			</view>
 		</scroll-view>
 		<view>
-			<submit @inputs = "msgadd" @padding ="changepadding(arguments)" @imgadd = "imgadd"></submit>
+			<submit ref="son" @inputs = "msgadd" @padding ="changepadding(arguments)" @imgadd = "imgadd"></submit>
 		</view>
 	</view>
 </template>
@@ -120,17 +114,12 @@
 			}
 		},
 		methods: {
-			renews(){
-				uni.switchTab({
-					url:'../tabbar-4'
-				})
-			},
-			chatroommore(){
-				uni.navigateTo({
-					url:'./chatroommore'
-				})
-			},
-			msgadd(e){
+			change(){
+				this.$refs.son.isemoji=false;
+				this.$refs.son.ismore=false;
+				this.ispadding=false;
+			}
+			,msgadd(e){
 				let len = this.messagelist.length;
 				let date = new Date();
 				let times = formatDate(date,'yyyy年MM月dd日 hh:mm')
@@ -249,7 +238,7 @@
 	.chat-main2{
 		padding-left:10px ;
 		padding-right:10px;
-		padding-bottom: 250px;
+		padding-bottom: 200px;
 	}
 	.chat-ls1{
 		width: 100%;

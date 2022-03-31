@@ -80,20 +80,12 @@
 		{
 			"path": "pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa",
 			"style": {}
-		},
-		{
-            "path" : "pages/tabbar/tabbar-4/fans",
-            "style":{}
-        }
-        ,{
+		},{
             "path" : "pages/tabbar/tabbar-4/chatroom/chatroom",
             "style" :{}
             
         },{
             "path" : "pages/tabbar/tabbar-4/search",
-            "style" :{} 
-        },{
-            "path" : "pages/tabbar/tabbar-4/chatroom/chatroommore",
             "style" :{} 
         }
 	],
