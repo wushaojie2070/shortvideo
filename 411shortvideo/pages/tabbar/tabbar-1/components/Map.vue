@@ -55,7 +55,15 @@
 						this.markers[0].latitude = res.latitude;
 						this.markers[0].longitude = res.longitude;
 						getApp().globalData.localplace = res.address;
-						// console.log("地址::::"+res.address)
+            getApp().globalData.localprovince = res.address.slice(0,res.address.indexOf("省")+1)
+            getApp().globalData.localcity = res.address.slice(res.address.indexOf("省")+1,res.address.indexOf("市")+1)
+            
+						console.log("地址已存再全局变量里::::"+res.address)
+            // var str = res.address;
+            console.log("省:::"+res.address.slice(0,res.address.indexOf("省")+1));  // 2
+            console.log("市:::"+res.address.slice(res.address.indexOf("省")+1,res.address.indexOf("市")+1));  // 5
+            // slice(2,5)
+            // console.log("取市"+res.address.slice(res.address.indexOf("省")+1,res.address.indexOf("市")+1))
 						// this.markers[0].iconPath = '../../static/imgs/map.png';
 					}
 				});
