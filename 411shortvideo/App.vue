@@ -5,6 +5,8 @@
 						id: null,
 						path: null,
 					},
+          localprovince:'',
+          localcity:'',
 					localplace:'',
 				},
 		onLaunch: function() {
