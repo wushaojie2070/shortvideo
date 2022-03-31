@@ -53,7 +53,7 @@
 				friendslist:[
 					{
 						id:1,
-						s:'../../../static/img/news/friends3.png',
+						s:'../../../static/img/news/friends3-2.png',
 						name:"青",
 						shows:true
 					},
