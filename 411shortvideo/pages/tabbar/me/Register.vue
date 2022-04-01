@@ -102,6 +102,7 @@
 									key: 'userId',
 									data: res.data.data.id,
 								})
+                console.log("userId存至setStorage:::"+res.data.data.id)
 								uni.showToast({
 									title: '注册成功！',
 									icon: 'none'

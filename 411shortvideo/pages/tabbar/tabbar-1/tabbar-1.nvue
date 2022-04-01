@@ -53,7 +53,7 @@
 							:class="{'likeNumActive':list.doILikeThisVlog}">{{list.likeCounts}}</text>
 					</view>
 					<!-- 3.评论 -->
-					<view class="comment" @click="toComment(list.vlogId)" style="opacity: 0.9; margin-top: 17px;">
+					<view class="comment" @click="iflogin(list.vlogId)" style="opacity: 0.9; margin-top: 17px;">
 						<image src="@/static/img/index/pinlun.png"
 							style="width: 35px; height: 35px; position: absolute; right: 7px;"></image>
 						<text
@@ -93,7 +93,7 @@
 					<!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
 				</view>
 				<view v-if="ifshow" class="commentshow">
-					<videocomment :commentList = "commentList"  @cmtclose="cmtclose" ></videocomment>
+					<videocomment :commentList = "commentList" @changecmtlike="changecmtlike"  @cmtclose="cmtclose" ></videocomment>
 				</view>
 			</swiper-item>
 		</swiper>
@@ -128,10 +128,12 @@
 				videoList:[1234],//是接口的视频数组
 				cmdList: [],//这个是接口拿到的评论数组
         commentList: [],//这个是运作的评论数组
+        userId:0,
 				k: 0,
         page: 0,
         pageSize: 10,
         total: 2,
+        vlogId:0,
         records: 20,
         cmtpage: 0,
         cmtpageSize: 10,
@@ -152,7 +154,6 @@
 				console.log(k)
 				this.dataList[old_k].play = false //如果视频暂停，就加载封面
 				this.dataList[old_k].isplay = true
-        console.log("isplay变true,oldk放声音"+this.dataList[old_k].isplay)
 				this.dataList[old_k].state = 'pause'
 				uni.createVideoContext(this.dataList[old_k].vlogId, this).play()
 				clearTimeout(this.oldVideo)
@@ -200,7 +201,9 @@
 		methods: {
 			ended() {
 				// 1.播放当前视频结束时触发，自动切换下一个视频
+        if(this.ifshow == false)
 				this.current = this.k + 1
+
 			},
 			//点击播放&&暂停
 			tapVideoHover(state, event) {
@@ -295,13 +298,34 @@
 					url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
 				})
 			},
-			toComment(vlogId) {
+      iflogin(vlogId) {
+        this.vlogId = vlogId
+        var that = this
+        uni.getStorage({
+        	key: 'userId',
+        	success: function (res) {
+            var uid = res.data
+        		console.log("内uiddd::"+uid)
+            that.toComment(vlogId,uid)
+            },
+            fail: (res) => {
+            	console.log('fail',res);
+              that.toComment(vlogId,0)
+            }
+            
+            })
+      },
+			toComment(vlogId,uid) {
         
         console.log("调用评论接口")
         this.cmtpage++
         if(this.cmtpage > this.cmttotal)
         this.cmtpage = 1
+        var that = this
+        // console.log("userId:123:"+uid);
         var cmt ="https://skrvideo.fun/comment/list?page="+this.cmtpage+"&pageSize="+this.cmtpageSize+"&vlogId="+vlogId+""
+        if(uid!=0)
+        cmt = "https://skrvideo.fun/comment/list?page="+this.cmtpage+"&pageSize="+this.cmtpageSize+"&vlogId="+vlogId+"&userId="+uid+""
         // console.log("k:::::"+k)
         uni.request({
           url: cmt,
@@ -330,7 +354,7 @@
               const time = temp[1].slice(0,5) 
               this.commentList[i].createTime = `${year}年${month}月${day}日 ${time}`
         		}
-            console.log("this.commentList::::"+JSON.stringify(this.commentList))
+            // console.log("this.commentList::::"+JSON.stringify(this.commentList))
           },
         })
         
@@ -347,6 +371,10 @@
 				this.ifshow = true //开评论框
 				console.log("开评论框", this.ifshow)
 			},
+      changecmtlike(a){
+        console.log("changecmtlike走到了")
+        this.iflogin(this.vlogId)
+      },
 			toRec() {
 				console.log("去推荐,接推荐的视频接口")
 				this.recorloc = 1
