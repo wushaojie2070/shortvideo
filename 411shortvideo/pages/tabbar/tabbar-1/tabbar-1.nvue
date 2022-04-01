@@ -108,7 +108,7 @@
 <script>
 	import videocomment from './components/video-comment.vue'
 	// import request from '../../../utils/request.js'
-	import commentList from './components/comment.js'
+	// import commentList from './components/comment.js'
 	import Map from './components/Map.vue'
 	// import hbcomment from "@/components/hb-comment/hb-comment.vue"
 	export default {
