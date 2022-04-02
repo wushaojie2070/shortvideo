@@ -1,14 +1,14 @@
 <script>
 	export default {
 		globalData: {
-					updateApp: {
-						id: null,
-						path: null,
-					},
-          localprovince:'',
-          localcity:'',
-					localplace:'',
-				},
+			updateApp: {
+				id: null,
+				path: null,
+			},
+			localprovince: '',
+			localcity: '',
+			localplace: '',
+		},
 		onLaunch: function() {
 			console.log('App Launch');
 

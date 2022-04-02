@@ -104,7 +104,7 @@
 			},
 			compress: { //是否需要压缩
 				type: Boolean,
-				default: false,
+				default: true,
 			},
 			quality: { //压缩质量，范围0～100
 				type: Number,
@@ -466,13 +466,10 @@
 							url: this.action, //仅为示例，非真实的接口地址
 							filePath: item,
 							name: this.name,
-							fileType: 'image',
+							fileType: 'video',
 							formData: this.formData,
 							header: this.headers,
 							success: (uploadFileRes) => {
-								//uni.hideLoading();
-								//console.log(typeof this.uploadSuccess)
-								//console.log('')
 								uploadFileRes.fileType = type
 								if (typeof this.uploadSuccess == 'function') {
 
@@ -577,8 +574,6 @@
 				// #ifdef H5 
 				var result = type == 0 ? 'jpg' : 'mp4';
 				// #endif
-
-
 				// #ifndef H5
 				var result = path.split('.').pop().toLowerCase();
 				// #ifdef MP 

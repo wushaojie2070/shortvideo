@@ -14,7 +14,7 @@
 			}
 		},
 		{
-			"path": "pages/tabbar/tabbar-3/tabbar-3",
+			"path": "pages/tabbar/tabbar-3/tabbar-3-video",
 			"style": {
 				"navigationBarTitleText": "拾刻"
 			}
@@ -70,17 +70,6 @@
 			"style": {}
 		},
 		{
-			"path": "pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release",
-			"style": {}
-		},
-		{
-			"path": "pages/tabbar-3-detial/tabbar-3-video/tabbar-3-video",
-			"style": {}
-		},
-		{
-			"path": "pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa",
-			"style": {}
-		},{
             "path" : "pages/tabbar/tabbar-4/chatroom/chatroom",
             "style" :{}
             
@@ -114,17 +103,10 @@
 			},
 			//#ifdef MP-WEIXIN
 			{
-				"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
+				"pagePath": "pages/tabbar/tabbar-3/tabbar-3-video",
 				"iconPath": "static/img/tabbar/add.png",
 				"selectedIconPath": "static/img/tabbar/addactive.png",
 				"text": "发布"
-			},
-			//#endif
-			//#ifndef MP-WEIXIN
-			{
-				"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
-				"iconPath": "static/img/tabbar/add.png",
-				"selectedIconPath": "static/img/tabbar/addactive.png"
 			},
 			//#endif
 			{
