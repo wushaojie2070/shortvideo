@@ -94,14 +94,12 @@
         </view>
         <view v-if="ifshow" class="commentshow">
           <videocomment :commentList="commentList" @changecmtlike="changecmtlike" @cmtclose="cmtclose"></videocomment>
+          <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send" adjust-position="true" maxlength=70 class="cmttext" name="" v-model = "commentText"></textarea>
+          <button class="publishbtn" @click="addComment(list.vlogId,list.vlogerId)">发表</button>
         </view>
       </swiper-item>
     </swiper>
-
     <!-- 评论框 -->
-
-
-
   </view>
 </template>
 
@@ -119,6 +117,7 @@
     data() {
       return {
         // state: 'pause',
+        commentText:"",
         recorloc: 1,
         localplace: "",
         ifshow: false,
@@ -293,11 +292,60 @@
           },
         })
       },
-      tozuozhe(userId) {
-        uni.setStorageSync("userPageId", userId);
-        uni.navigateTo({
-          url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
-        })
+      // tozuozhe(userId) {
+      //   uni.setStorageSync("userPageId", userId);
+      //   uni.navigateTo({
+      //     url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
+      //   })
+      // },
+      
+      addComment(vlogId,vlogerId){
+        var that = this
+        uni.getStorage({
+          key: 'userId',
+          success: function(res) {
+            that.userId = res.data
+            // console.log("userId:123:" + that.userId);
+        
+            //此处应接点赞接口
+              //如果当前喜欢,接不喜欢接口
+              // console.log("that.userId::" + that.userId)
+              uni.request({
+                url: "https://skrvideo.fun/comment/create",
+                method: "POST",
+                // header: {
+                //   "Content-Type": "application/x-www-form-urlencoded"
+                // },
+                data: {
+                  commentUserId: that.userId,
+                  content: that.commentText,
+                  fatherCommentId: "0",
+                  vlogId: vlogId,
+                  vlogerId: vlogerId,
+                },
+                dataType: "json",
+                success: (res) => {
+                  console.log(res)
+                  that.commentText = ""
+                  that.iflogin(vlogId)
+                },
+                fail: (res) => {
+                  console.log(res)
+                }
+              })
+              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
+              // that.$props.commentList[index].isLike = 0
+              // that.$props.commentList[index].likeCounts--
+        
+        
+          },
+          fail: (res) => {
+            console.log('fail', res);
+            uni.switchTab({
+              url: '/pages/tabbar/me/Me'
+            });
+          }
+        });
       },
       iflogin(vlogId) {
         this.vlogId = vlogId
@@ -317,7 +365,6 @@
         })
       },
       toComment(vlogId, uid) {
-
         console.log("调用评论接口")
         this.cmtpage++
         if (this.cmtpage > this.cmttotal)
@@ -603,7 +650,7 @@
   .commentshow {
     position: fixed;
     bottom: 0;
-    height: 400px;
+    height: 430px;
     width: 100%;
     background-color: #161822;
     border-radius: 20px 20px 0 0;
@@ -679,5 +726,25 @@
     100% {
       transform: rotate(360deg);
     }
+  }
+  
+  .cmttext {
+    width: 70%;
+    height: 200rpx;
+    background-color:#FFFFFF;
+  }
+  
+  .publishbtn {
+  width: 20%;
+    margin-top: -180rpx;
+    margin-left: 75%;
+    margin-bottom: 11rpx;
+    background-color: burlywood;
+    color: white;
+    border-radius: 98rpx;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
   }
 </style>
