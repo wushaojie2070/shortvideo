@@ -21,7 +21,6 @@
 			</uni-section>
 		</view>
 		<button type="primary" @click="pushVideo()">发布</button>
-		<button type="default" @click="getinfo()">测试</button>
 	</view>
 </template>
 <script>
@@ -33,7 +32,9 @@
 				text: "",
 				remain: 30,
 				userId: 0,
-				title: ''
+				title: '',
+				city:'',
+				province:''
 			}
 		},
 		computed: {
@@ -54,16 +55,20 @@
 					})
 				}
 			})
+			this.getmap()
+		},
+		onShow(){
+			this.getmap()
 		},
 		components: {
 			htzImageUpload,
 		},
 		methods: {
-			getinfo(){
+			getmap(){
 				
 			},
 			ceshiUploadSuccess(res) { //上传成功
-				var _res = JSON.parse(res.data);
+				var _res = JSON.parse(res.data)
 				console.log(_res)
 				if (_res.status == 200) {
 					let urlid = "http://skrvideo.fun:9000" + _res.data.slice(21)
@@ -73,7 +78,7 @@
 				if (_res.status == 5132) {
 					uni.showLoading({
 						title: '你的视频时间过长请重新拍摄'
-					});
+					})
 				}
 			},
 			pushVideo() {
