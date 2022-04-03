@@ -106,7 +106,7 @@
 			},
 			ceshiUploadSuccess(res) { //上传成功
 				var _res = JSON.parse(res.data)
-				console.log(_res)
+				// console.log(_res)
 				if (_res.status == 200) {
 					let urlid = "http://skrvideo.fun:9000" + _res.data.slice(21)
 					console.log("---------", urlid)
