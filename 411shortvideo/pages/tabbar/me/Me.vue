@@ -163,8 +163,9 @@
 				<view class="vlog-list">
 					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id">
 						<view class="delete" v-show="isdelete" @click="deletevideo(vlog.vlogerId,vlog.id)">
-							删除
+							<uni-icons type="trash" size="50" color="#f03e3e"></uni-icons>
 						</view>
+						
 						<video style="width: 100%;height: 100%; float: left;position: absolute;" :src="vlog.url"
 							:controls="false" :show-progress="false" :custom-cache="false" :http-cache="true"
 							:page-gesture="false" :show-fullscreen-btn="false" :show-play-btn="false"
@@ -725,7 +726,7 @@
 		position: relative;
 		width: 32.8%;
 		height: 440rpx;
-		border: 1rpx solid #000000;
+		border: 1rpx solid #000;
 		align-self: center;
 
 	}
@@ -825,7 +826,7 @@
 		/* bottom: 0; */
 		top: 110px;
 		z-index: 1;
-		background-color: rgb(240, 62, 62, 0.5);
+		/* background-color: rgb(240, 62, 62, 0.5); */
 		border-radius: 20rpx;
 	}
 </style>
