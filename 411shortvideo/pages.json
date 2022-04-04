@@ -14,7 +14,7 @@
 			}
 		},
 		{
-			"path": "pages/tabbar/tabbar-3/tabbar-3-video",
+			"path": "pages/tabbar/tabbar-3/tabbar-3",
 			"style": {
 				"navigationBarTitleText": "拾刻"
 			}
@@ -36,9 +36,9 @@
 			"style": {}
 		},
 		{
-			"path":"pages/tabbar/me/Register",
+			"path":"pages/tabbar/me/Login",
 			"style": {
-				// "navigationBarTitleText": "注册"
+				// "navigationBarTitleText": "登录"
 			}
 		},
 		{
@@ -70,11 +70,30 @@
 			"style": {}
 		},
 		{
+			"path": "pages/tabbar-3-detial/tabbar-3-release/tabbar-3-release",
+			"style": {}
+		},
+		{
+			"path": "pages/tabbar-3-detial/tabbar-3-video/tabbar-3-video",
+			"style": {}
+		},
+		{
+			"path": "pages/tabbar-3-detial/tabbar-3-qa/tabbar-3-qa",
+			"style": {}
+		},
+		{
+            "path" : "pages/tabbar/tabbar-4/fans",
+            "style":{}
+        }
+        ,{
             "path" : "pages/tabbar/tabbar-4/chatroom/chatroom",
             "style" :{}
             
         },{
             "path" : "pages/tabbar/tabbar-4/search",
+            "style" :{} 
+        },{
+            "path" : "pages/tabbar/tabbar-4/chatroom/chatroommore",
             "style" :{} 
         }
 	],
@@ -103,10 +122,17 @@
 			},
 			//#ifdef MP-WEIXIN
 			{
-				"pagePath": "pages/tabbar/tabbar-3/tabbar-3-video",
+				"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
 				"iconPath": "static/img/tabbar/add.png",
 				"selectedIconPath": "static/img/tabbar/addactive.png",
 				"text": "发布"
+			},
+			//#endif
+			//#ifndef MP-WEIXIN
+			{
+				"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
+				"iconPath": "static/img/tabbar/add.png",
+				"selectedIconPath": "static/img/tabbar/addactive.png"
 			},
 			//#endif
 			{

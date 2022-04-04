@@ -26,9 +26,9 @@
 	export default {
 		data(){
 			return{
-				bgUrl: "",
+				bgUrl: '',
 				isMe: true,
-				updata: true,
+				userId: '',
 				changeTouched: false,
 				windowHeight: 0,
 			}
@@ -42,6 +42,12 @@
 			}else{
 				this.isMe = false;
 			}
+			uni.getStorage({
+				key: 'userId',
+				success: function(res){
+					that.userId = res.data;
+				}
+			})
 			uni.getSystemInfo({
 			    success: function (res) {
 			        that.windowHeight = res.windowHeight;
@@ -65,8 +71,23 @@
 						console.log(resp);
 						that.bgUrl = resp.tempFilePaths[0];
 						console.log(that.bgUrl);
+						uni.request({
+							url:"https://skrvideo.fun/userInfo/modifyImage",
+							method: 'POST',
+							data: {
+								"type": 1,
+								"userId": that.userId,
+								"file": that.bgUrl
+							},
+							dataType:'json',
+							success: function(res){
+								console.log(res);
+							}
+						})
 					}
 				});
+
+				
 			},
 			getBg(){
 				var that = this;
