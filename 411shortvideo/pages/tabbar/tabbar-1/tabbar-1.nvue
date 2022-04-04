@@ -361,7 +361,6 @@
             console.log('fail', res);
             that.toComment(vlogId, 0)
           }
-
         })
       },
       toComment(vlogId, uid) {
