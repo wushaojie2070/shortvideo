@@ -257,7 +257,7 @@
             this.page = res.data.data.page
             this.total = res.data.data.total
             this.records = res.data.data.records
-            // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))//走到了
+            // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))
             // 1.这里引入后端请求数据
             var msg = this.videoList.rows
             // 2.这里把视频添加到视频列表
