@@ -2,7 +2,7 @@
 <template>
   <view class="friends">
     <view style="width: 100%;height: 1px;background: #393a43;"></view>
-    <scroll-view class="List">
+    <scroll-view class="List" @scrolltolower="lower">
       <view class="fantab">
         <view class="List" @click="tochat()">
           <view class="List-item" v-for="item in fanslist" :key="item.fanId">
@@ -42,30 +42,44 @@
     data() {
       return {
         fanslist: [],
+		userId:'',
       }
     },
     mounted() {
       var that = this;
+	  uni.getStorage({
+	  	key: 'userId',
+	  	success: function (res) {
+	  		console.log(res.data);
+			that.userId = res.data
+			uni.request({
+			  url: "https://skrvideo.fun/fans/queryMyFans",
+			  method: "GET",
+			  data: {
+			    "myId": that.userId,
+			    "page": 1,
+			    "pageSize": 10
+			  },
+			  dataType: "json",
+			  success: (res) => {
+			    console.log(res);
+			    that.fanslist = res.data.data.rows
+			  },
+			  fail: (res) => {
+			    console.log(res)
+			  }
+			})
+	  	},
+		fail: function(res) {
+			console.log(res)
+		}
+	  });
       console.log(1);
-      uni.request({
-        url: "https://skrvideo.fun/fans/queryMyFans",
-        method: "GET",
-        data: {
-          "myId": "211003H4SG5Y1ZF8",
-          "page": 1,
-          "pageSize": 3
-        },
-        dataType: "json",
-        success: (res) => {
-          console.log(res);
-          that.fanslist = res.data.data.rows
-        },
-        fail: (res) => {
-          console.log(res)
-        }
-      })
     },
     methods: {
+	  lower(e){
+		  console.log(e)
+	  },
       tochat() {
         uni.navigateTo({
           url: './chatroom/chatroom'
@@ -73,25 +87,47 @@
       },
       clickbtn(item) {
         console.log(item)
-        item.friend = !item.friend
-        uni.request({
-          url: "https://skrvideo.fun/fans/follow",
-          method: "POST",
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          data: {
-            myId: '211003H4SG5Y1ZF8',
-            vlogerId: item.fanId
-          },
-          // dataType: "json",
-          success: (res) => {
-            console.log(res)
-          },
-          fail: (res) => {
-            console.log(res)
-          }
-        })
+		item.friend=!item.friend
+        if(item.friend==true){
+			uni.request({
+				url: "https://skrvideo.fun/fans/follow",
+				method: "POST",
+				header: {
+				"Content-Type": "application/x-www-form-urlencoded"
+					},
+				data: {
+				myId: this.userId,
+				vlogerId: item.fanId
+					},
+			// dataType: "json",
+			success: (res) => {
+				console.log(res)
+				},
+			fail: (res) => {
+				console.log(res)
+				}
+			})
+		}else{
+			uni.request({
+				url: "https://skrvideo.fun/fans/cancel",
+				method: "POST",
+				header: {
+				"Content-Type": "application/x-www-form-urlencoded"
+					},
+				data: {
+				myId: this.userId,
+				vlogerId: item.fanId
+					},
+			// dataType: "json",
+			success: (res) => {
+				console.log(res)
+				},
+			fail: (res) => {
+				console.log(res)
+				}
+			})
+		}
+        
       }
     }
   }
