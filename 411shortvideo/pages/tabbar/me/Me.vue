@@ -154,13 +154,24 @@
 						</view>
 					</view>
 				</view>
+				<view class="delet" v-if="currentTab == 0 && publicVlogList.length != 0">
+					删除作品
+					<view>
+						<switch color="#f03e3e" @change="switch1Change" style="transform:scale(0.7)" />
+					</view>
+				</view>
 				<view class="vlog-list">
 					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id">
-						<video style="width: 100%;height: 100%;" :src="vlog.url" :controls="true" :show-progress="false"
-							:custom-cache="false" :http-cache="true" :page-gesture="false" :show-fullscreen-btn="false"
-							:show-play-btn="false" :show-loading="false" :show-center-play-btn="false"
-							:enable-progress-gesture="false" >
+						<view class="delete" v-show="isdelete" @click="deletevideo(vlog.vlogerId,vlog.id)">
+							删除
+						</view>
+						<video style="width: 100%;height: 100%; float: left;position: absolute;" :src="vlog.url"
+							:controls="false" :show-progress="false" :custom-cache="false" :http-cache="true"
+							:page-gesture="false" :show-fullscreen-btn="false" :show-play-btn="false"
+							:show-loading="false" :show-center-play-btn="false" :enable-progress-gesture="false">
+
 						</video>
+
 					</view>
 				</view>
 
@@ -190,6 +201,7 @@
 			return {
 				userIsLogin: true,
 				userId: '',
+				isdelete: false,
 				/* userInfo:{
 					id: '1234',
 					bgUrl: '/static/img/me/me/1.jpg',
@@ -225,22 +237,23 @@
 				loginWords: "请登录",
 				windowHeight: 0,
 				currentTab: 0,
-				publicVlogList: [{
-						id: 1,
-						url: "http://skrvideo.fun:9000/skrvideo/P82YufItGWHgd1c7b68ae4e05c2db61e8351ea4e6237.mp4",
-					},
-					{
-						id: 2,
-						url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
-					},
-					{
-						id: 3,
-						url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
-					},
-					{
-						id: 4,
-						url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/53543262-55f5-4685-a5e3-b56ce75bcb88.mp4",
-					}
+				publicVlogList: [
+					// {
+					// 	id: 1,
+					// 	url: "http://skrvideo.fun:9000/skrvideo/P82YufItGWHgd1c7b68ae4e05c2db61e8351ea4e6237.mp4",
+					// },
+					// {
+					// 	id: 2,
+					// 	url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
+					// },
+					// {
+					// 	id: 3,
+					// 	url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
+					// },
+					// {
+					// 	id: 4,
+					// 	url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/53543262-55f5-4685-a5e3-b56ce75bcb88.mp4",
+					// }
 				],
 				controls: true,
 			}
@@ -253,6 +266,9 @@
 			this.getMyPublicList()
 		},
 		methods: {
+			switch1Change() {
+				this.isdelete = !this.isdelete
+			},
 			getinfo() {
 				uni.getSystemInfo({
 					success: (res) => {
@@ -373,7 +389,7 @@
 							success: (res) => {
 								console.log(res)
 								this.publicVlogList = res.data.data.rows
-								console.log(this.publicVlogList)
+								// console.log(this.publicVlogList)
 							},
 							fail: (res) => {
 								console.log(res)
@@ -382,7 +398,7 @@
 					},
 				})
 			},
-			getLikeList(){
+			getLikeList() {
 				uni.getStorage({
 					key: 'userId',
 					success: (res) => {
@@ -398,7 +414,7 @@
 							success: (res) => {
 								console.log(res)
 								this.publicVlogList = res.data.data.rows
-								console.log(this.publicVlogList)
+								// console.log(this.publicVlogList)
 							},
 							fail: (res) => {
 								console.log(res)
@@ -407,7 +423,7 @@
 					},
 				})
 			},
-			getMyPrivateList(){
+			getMyPrivateList() {
 				uni.getStorage({
 					key: 'userId',
 					success: (res) => {
@@ -423,7 +439,7 @@
 							success: (res) => {
 								console.log(res)
 								this.publicVlogList = res.data.data.rows
-								console.log(this.publicVlogList)
+								// console.log(this.publicVlogList)
 							},
 							fail: (res) => {
 								console.log(res)
@@ -431,8 +447,39 @@
 						})
 					},
 				})
+			},
+			deletevideo(id, vlogid) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除',
+					success: (res) => {
+						if (res.confirm) {
+							uni.request({
+								url: 'https://skrvideo.fun/vlog/delete',
+								method: 'POST',
+								header: {
+									"Content-Type": "application/x-www-form-urlencoded"
+								},
+								data: {
+									"userId": id,
+									"vlogId": vlogid
+								},
+								success: (res) => {
+									console.log(res)
+									this.getMyPublicList()
+								},
+								fail: (res) => {
+									console.log(res)
+								}
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+
 			}
-			
+
 		}
 	}
 </script>
@@ -670,11 +717,12 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		/* justify-content: space-between; */
 		background-color: #000000;
 	}
 
 	.vlog-cover {
+		position: relative;
 		width: 32.8%;
 		height: 440rpx;
 		border: 1rpx solid #000000;
@@ -758,5 +806,26 @@
 
 	.more-set {
 		justify-content: center;
+	}
+
+	.delet {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		width: 100%;
+		/* background-color: #ff4757; */
+	}
+
+	.delete {
+		width: 100%;
+		text-align: center;
+		font-size: 40rpx;
+		position: absolute;
+		/* bottom: 0; */
+		top: 110px;
+		z-index: 1;
+		background-color: rgb(240, 62, 62, 0.5);
+		border-radius: 20rpx;
 	}
 </style>
