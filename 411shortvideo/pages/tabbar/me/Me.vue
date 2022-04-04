@@ -159,7 +159,7 @@
         <view class="vlog-list">
           <view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id">
             <view class="delete" v-show="isdelete" @click="deletevideo(vlog.vlogerId,vlog.id)">
-              <uni-icons type="trash" size="50" color="#f03e3e"></uni-icons>
+              <uni-icons type="trash" size="50" color="#f03e3e">阿萨大</uni-icons>
             </view>
       
             <video style="width: 100%;height: 100%; float: left;position: absolute;" :src="vlog.url" :controls="false"
@@ -185,12 +185,6 @@
           </view>
         </view>
       </view>
-      
-      
-      
-      
-      
-      
       
     </view>
   </view>
@@ -235,6 +229,7 @@
         	birthday: "",
         	isFollow: true,
         }, */
+		isdelete:false,
         userInfo: {},
         title: 'Hello',
         loginWords: "请登录",
@@ -251,6 +246,9 @@
     onShow() {
       this.getMyPublicList()
     },
+	onHide() {
+	  this.currentTab = 0
+	},
     methods: {
       switch1Change() {
         this.isdelete = !this.isdelete
