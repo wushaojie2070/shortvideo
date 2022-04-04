@@ -102,14 +102,21 @@
 									key: 'userId',
 									data: res.data.data.id,
 								})
+                console.log("userId存至setStorage:::"+res.data.data.id)
 								uni.showToast({
-									title: '注册成功！',
+									title: '登录成功！',
 									icon: 'none'
 								});
+                setTimeout(()=>{
+                	uni.navigateTo({
+                							// url:"components/Map?value=" + encodeURIComponent(localplace) 
+                							url:'../tabbar-1/components/Map'
+                						})
+                },500);
 								beforePage.onLoad();
-								uni.navigateBack({
-									delta: 1
-								});
+								// uni.navigateBack({
+								// 	delta: 1
+								// });
 							}
 						},
 						fail: (res) => {

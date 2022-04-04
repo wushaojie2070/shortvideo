@@ -21,7 +21,7 @@
             </view>
             <view class="r" @tap.stop="_commentLike(item, index)">
               <image class="comment-kudos_icon" src="../../../../static/img/index/xin.png" mode=""
-                v-if="item.isLike == 0"></image>
+                v-if="item.isLike == 1"></image>
               <image class="comment-kudos_icon" src="../../../../static/img/index/xin-2.png" mode="" v-else></image>
               <text class="comment-item_kudos">获赞数:{{ item.likeCounts }}</text>
             </view>
@@ -38,18 +38,22 @@
   // import commentList from './comment.js'
   export default {
     props: ["commentList"],
+    // data: function () {
+    //   return { dataList: this.commentList }
+    // },
     data() {
       return {
+        dataList: this.commentList,
         isemoji: false,
         ismore: false,
         msg: '',
         cmtList: [], //这个是接口拿到的评论数组
-
+        userId: 0,
+        commentId: 0,
       }
     },
     onLoad() {
-      // this.getcmt()
-      console.log("调用评论接口onload")
+
     },
     methods: {
       // getcmt(){
@@ -70,16 +74,76 @@
         id,
         isLike
       }, index) {
-        console.log(id, isLike, index)
-        //此处应接点赞接口
-        if (isLike == 1) {
-          this.$props.commentList[index].isLike = 0
-          this.$props.commentList[index].likeCounts--
-        } else {
-          this.$props.commentList[index].isLike = 1
-          this.$props.commentList[index].likeCounts++
-        }
-        console.log("摁后"+this.$props.commentList[index].id, this.$props.commentList[index].isLike, index)
+        // console.log(id, isLike, index)
+        // console.log("commentid" + JSON.stringify(this.$props.commentList[index].commentId))
+        this.commentId = this.$props.commentList[index].commentId
+        var that = this
+        uni.getStorage({
+          key: 'userId',
+          success: function(res) {
+            that.userId = res.data
+            // console.log("userId:123:" + that.userId);
+
+            //此处应接点赞接口
+            if (isLike == 1) {
+              //如果当前喜欢,接不喜欢接口
+              // console.log("that.userId::" + that.userId)
+              uni.request({
+                url: "https://skrvideo.fun/comment/unlike",
+                method: "POST",
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data: {
+                  commentId: that.commentId,
+                  userId: that.userId,
+                },
+                // dataType: "json",
+                success: (res) => {
+                  console.log(res)
+                },
+                fail: (res) => {
+                  console.log(res)
+                }
+              })
+              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
+              // that.$props.commentList[index].isLike = 0
+              // that.$props.commentList[index].likeCounts--
+            } else {
+              // console.log("that.userId::"+that.userId)
+              uni.request({
+                url: "https://skrvideo.fun/comment/like",
+                method: "POST",
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data: {
+                  commentId: that.commentId,
+                  userId: that.userId,
+                },
+                // dataType: "json",
+                success: (res) => {
+                  console.log(res)
+                },
+                fail: (res) => {
+                  console.log(res)
+                }
+              })
+              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
+              // that.$props.commentList[index].isLike = 1
+              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
+              // that.$props.commentList[index].likeCounts++
+            }
+
+          },
+          fail: (res) => {
+            console.log('fail', res);
+            uni.switchTab({
+              url: '/pages/tabbar/me/Me'
+            });
+          }
+        });
+        this.$emit('changecmtlike');
       },
 
     },

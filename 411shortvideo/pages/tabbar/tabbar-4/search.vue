@@ -2,7 +2,7 @@
 	<view class="search-box">
 		<view class="top">
 			<view class="close-box" @click="addclose()">
-				<image class="close-img" src="../../../static/img/news/chahao-1.png" mode=""></image>
+				<!-- <image class="close-img" src="../../../static/img/news/chahao-1.png" mode=""></image> -->
 			</view>
 			<view class="input">
 				<input placeholder="搜索" v-model='query' />
