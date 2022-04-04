@@ -1,7 +1,9 @@
 <template>
-  <view class="comment-detail">
+  <view class="comment-detail" @blur="cmtclose()">
     <view style="width: 100%; height: 100%; left: 20rpx;" @click="cmtclose()">
-      <image class="close-img" src="../../../../static/img/news/chahao.png" mode=""></image>
+      <!-- <image class="close-img" src="../../../../static/img/news/chahao.png" mode=""></image> -->
+      <uni-icons  type="closeempty" size="35" color="#ffffff"></uni-icons>
+      
     </view>
     <!-- 评论内容 -->
     <view class="list">
@@ -26,7 +28,11 @@
                 <image class="comment-kudos_icon" src="../../../../static/img/index/xin-2.png" mode="" v-else></image>
                 <text class="comment-item_kudos">获赞数:{{ item.likeCounts }}</text>
               </view>
-              <button @click="delclick(index)" v-if="userId == item.commentUserId" class="delbtn">删除</button>
+              <!-- <button @click="delclick(index)" v-if="userId == item.commentUserId" class="delbtn">删除</button> -->
+              <view @click="delclick(index)" v-if="userId == item.commentUserId" class="delbtn">
+              <uni-icons  type="trash" size="25" color="#ffffff"></uni-icons>
+              <text class="comment-item_kudos">删除</text>
+              </view>
             </view>
           </view>
           <view class="list1"></view>
@@ -271,13 +277,13 @@
   }
 
   .delbtn {
-    background-color: #FFFFF2;
-    width: 150rpx;
-    height: 70rpx;
+    // background-color: #FFFFF2;
+    // width: 150rpx;
+    // height: 70rpx;
     margin-top: 20rpx;
     // padding-bottom: 30rpx;
     margin-bottom: 10rpx;
-    color: fuchsia;
+    // color: fuchsia;
   }
 
   .comment-kudos_icon {

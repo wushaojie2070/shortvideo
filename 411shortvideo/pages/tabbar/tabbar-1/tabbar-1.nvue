@@ -94,7 +94,7 @@
           <!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
         </view>
         <view v-if="ifshow" class="commentshow">
-          <videocomment :commentList="commentList" @changecmtlike="changecmtlike" @cmtclose="cmtclose"></videocomment>
+          <videocomment :commentList="commentList" @changecmtlike="changecmtlike"  @cmtclose="cmtclose"></videocomment>
           <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send"
             adjust-position="true" maxlength=70 class="cmttext" name="" v-model="commentText"></textarea>
           <button class="publishbtn" @click="addComment(list.vlogId,list.vlogerId)">发表</button>
@@ -209,6 +209,7 @@
       },
       //点击播放&&暂停
       tapVideoHover(state, event) {
+        this.ifshow = false;
         console.log('state--', state);
         if (state == 'play' || state == 'continue') {
           this.dataList[this.k].state = 'pause';
