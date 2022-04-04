@@ -451,10 +451,11 @@
         console.log("点赞换♥图片颜色,后期接数据做判断")
         // console.log("like+++>"+like)
         // console.log("datalist1"+this.dataList[index].like)
-        if (like == 1) {
-          this.dataList[index].doILikeThisVlog = 0
-        } else if (like == 0) {
-          this.dataList[index].doILikeThisVlog = 1
+        if (like == true) {
+          this.dataList[index].doILikeThisVlog = false
+          
+        } else if (like == false) {
+          this.dataList[index].doILikeThisVlog = true
         }
         // console.log("datalist2"+this.dataList[index].like)
       },
