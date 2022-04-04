@@ -17,14 +17,33 @@
 		},
 		data() {
 			return {
-				title: 'Hello'
+				userIsLogin:false,
 			}
 		},
 		onLoad() {
-
-		},
+			var that = this;
+			uni.getStorage({
+			  key: 'userId',
+			  success: function(res) {
+			    that.userIsLogin = true
+			  },
+			  fail: function(res) {
+			    // console.log('fail',res)
+			    that.userIsLogin = false
+				that.goLogin();
+			  }
+			})
+			},
 		methods: {
-
+			goLogin() {
+			  var that = this;
+			  if (!this.userIsLogin) {
+			    uni.navigateTo({
+			      animationType: "slide-in-bottom",
+			      url: "../me/Register"
+			    })
+			  }
+			}
 		}
 	}
 </script>
