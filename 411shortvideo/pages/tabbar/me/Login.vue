@@ -8,7 +8,8 @@
 						<input class="reg-input input-auth" type="text" v-model="verificationCode" placeholder="请输入验证码" placeholder-style="color: #ffffff"/>
 						<button class="reg-auth-code"@click="getSMSCode()">获取验证码</button>
 					</view>
-					<button class="register" @click="register()">立即注册</button>
+					<button class="register" @click="register()">立即登录</button>
+					<text style="color: #FFFFFF;font-size: 10px;">第一次登录自动注册~</text>
 				</view>
 			</view>
 		</view>
@@ -102,21 +103,14 @@
 									key: 'userId',
 									data: res.data.data.id,
 								})
-                console.log("userId存至setStorage:::"+res.data.data.id)
 								uni.showToast({
 									title: '登录成功！',
 									icon: 'none'
 								});
-                setTimeout(()=>{
-                	uni.navigateTo({
-                							// url:"components/Map?value=" + encodeURIComponent(localplace) 
-                							url:'../tabbar-1/components/Map'
-                						})
-                },500);
 								beforePage.onLoad();
-								// uni.navigateBack({
-								// 	delta: 1
-								// });
+								uni.navigateBack({
+									delta: 1
+								});
 							}
 						},
 						fail: (res) => {
