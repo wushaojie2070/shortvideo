@@ -699,7 +699,7 @@
     background-color: #161822;
     border-radius: 20px 20px 0 0;
     border-top: #808080 solid 2px;
-
+    
   }
 
 
@@ -773,15 +773,21 @@
   }
 
   .cmttext {
-    width: 70%;
-    height: 200rpx;
+    width: 75%;
+    height: 60rpx;
+    margin-top: 20rpx;
+    margin-left: 10rpx;
+    padding-left: 20rpx;
+    padding-top: 8rpx;
     background-color: #FFFFFF;
+    border-radius: 50px 50px 50px 50px;
   }
 
   .publishbtn {
     width: 20%;
-    margin-top: -180rpx;
-    margin-left: 75%;
+    height: 60rpx;
+    margin-top: -60rpx;
+    margin-left: 78%;
     margin-bottom: 11rpx;
     background-color: burlywood;
     color: white;
