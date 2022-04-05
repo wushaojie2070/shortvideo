@@ -1,6 +1,6 @@
 <template>
 	<view class="page">
-		<view :style="{height: windowHeight + 'px',width: windowWidth + 'px'}">
+		<view :style="{width: windowWidth + 'px'}" style="height: 100%;">
 			<view class="register-bg">
 				<view class="register-info">
 					<input class="reg-input" type="text" v-model="phone" placeholder="请输入电话" placeholder-style="color: #ffffff"/>
@@ -20,7 +20,6 @@
 	export default {
 		data() {
 			return {
-				windowHeight: 0,
 				windowWidth: 0,
 				phone: '',
 				verificationCode: '',
@@ -30,7 +29,6 @@
 			var that = this;
 			uni.getSystemInfo({
 			    success: function (res) {
-			        that.windowHeight = res.windowHeight;
 					that.windowWidth = res.windowWidth;
 			    }
 			});
@@ -102,6 +100,10 @@
 								uni.setStorage({
 									key: 'userId',
 									data: res.data.data.id,
+								})
+								uni.setStorage({
+									key: 'userToken',
+									data: res.data.data.userToken,
 								})
 								uni.showToast({
 									title: '登录成功！',

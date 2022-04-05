@@ -26,20 +26,20 @@
 			}
 		},
 		{
-			"path": "pages/tabbar/me/Me",
+			"path": "pages/tabbar/me/index",
 			"style": {
 				"navigationBarTitleText": "拾刻"
 			}
-		},
-		{
-			"path":"pages/tabbar/me/Author",
-			"style": {}
 		},
 		{
 			"path":"pages/tabbar/me/Login",
 			"style": {
 				// "navigationBarTitleText": "登录"
 			}
+		},
+		{
+			"path":"pages/tabbar/me/Author",
+			"style":{}
 		},
 		{
 			"path":"pages/tabbar/me/component/ChangeBg",
@@ -113,7 +113,7 @@
 				"text": "消息"
 			},
 			{
-				"pagePath": "pages/tabbar/me/Me",
+				"pagePath": "pages/tabbar/me/index",
 				"iconPath": "static/img/tabbar/me.png",
 				"selectedIconPath": "static/img/tabbar/meactive.png",
 				"text": "我"
