@@ -64,7 +64,7 @@
 						<image src="@/static/img/index/share-fill.png" style="width: 40px; height: 40px; position: absolute; right: 5px;"></image>
 						<text style="color: #FFFFFF; margin-top: 5px; font-size: 14px; text-align: center; font-weight: bold; margin-top: 40px;">分享</text>
 					</view> -->
-          <button open-type="share" class="btn_share">
+        <!--  <button open-type="share" class="btn_share">
             <image src="@/static/img/index/share.png"
               style="width: 40px; height: 40px; position: absolute; right: -3px;">
             </image>
@@ -75,7 +75,7 @@
             <image class="img"
               src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=1457622709,3420713108&fm=26&gp=0.jpg"
               mode=""></image>
-          </view>
+          </view> -->
         </view>
 
 
@@ -91,10 +91,10 @@
           <!-- i={{i}} -->
           <text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.content}}</text>
           <!-- k={{k}} -->
-          <!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
+          <!-- <text class="music">错位时空 --艾辰</text> -->
         </view>
         <view v-if="ifshow" class="commentshow">
-          <videocomment :commentList="commentList" @changecmtlike="changecmtlike"  @cmtclose="cmtclose"></videocomment>
+          <videocomment :commentList="commentList" @changecmtlike="changecmtlike" @cmtclose="cmtclose"></videocomment>
           <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send"
             adjust-position="true" maxlength=70 class="cmttext" name="" v-model="commentText"></textarea>
           <button class="publishbtn" @click="addComment(list.vlogId,list.vlogerId)">发表</button>
@@ -409,17 +409,6 @@
             // console.log("this.commentList::::"+JSON.stringify(this.commentList))
           },
         })
-
-        // https://skrvideo.fun:443/comment/list?page=1&pageSize=50&userId=&vlogId=21100597F3ABW0ZC
-
-        // console.log("这个得调用评论接口,现在是写死的")
-        // var msg = commentList
-        // console.log("commentList.length" + msg.length)
-        // this.cmdList = []
-        // for (let i = 0; i < msg.length; i++) {
-        // 	this.cmdList.push(msg[i])
-        // }
-        // console.log("cmdList[0].id===>" + this.cmdList[4].id)
         this.ifshow = true //开评论框
         console.log("开评论框", this.ifshow)
       },
@@ -513,36 +502,37 @@
         });
         // console.log("datalist2"+this.dataList[index].like)
       },
-      onShareAppMessage: function(res) {
-        var that = this;
-        //console.log('res=====',res);
-        if (res.from === 'button') {
-          //console.log('来自页面内转发按钮');
-        } else if (res.from === 'menu') {
-          //console.log('右上角菜单转发按钮');
-        }
-        // 返回数据
-        return {
-          title: "拾刻短视频",
+      // 分享
+      // onShareAppMessage: function(res) {
+      //   var that = this;
+      //   //console.log('res=====',res);
+      //   if (res.from === 'button') {
+      //     //console.log('来自页面内转发按钮');
+      //   } else if (res.from === 'menu') {
+      //     //console.log('右上角菜单转发按钮');
+      //   }
+      //   // 返回数据
+      //   return {
+      //     title: "拾刻短视频",
 
-          success: function(res) {
-            // 转发成功，可以把当前页面的链接发送给后端，用于记录当前页面被转发了多少次或其他业务
-            wx.request({
-              // url: app.buildUrl("/member/share"),
-              data: {
-                url: utils.getCurrentPageUrlWithArgs()
-              },
-              success: function(res) {
-                console.log('转发成功');
-              }
-            });
-          },
-          fail: function(res) {
-            console.log('转发失败');
-            // 转发失败
-          }
-        }
-      },
+      //     success: function(res) {
+      //       // 转发成功，可以把当前页面的链接发送给后端，用于记录当前页面被转发了多少次或其他业务
+      //       wx.request({
+      //         // url: app.buildUrl("/member/share"),
+      //         data: {
+      //           url: utils.getCurrentPageUrlWithArgs()
+      //         },
+      //         success: function(res) {
+      //           console.log('转发成功');
+      //         }
+      //       });
+      //     },
+      //     fail: function(res) {
+      //       console.log('转发失败');
+      //       // 转发失败
+      //     }
+      //   }
+      // },
     }
   }
 </script>
