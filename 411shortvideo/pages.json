@@ -110,7 +110,7 @@
 				"pagePath": "pages/tabbar/tabbar-4/tabbar-4",
 				"iconPath": "static/img/tabbar/news.png",
 				"selectedIconPath": "static/img/tabbar/newsactive.png",
-				"text": "消息"
+				"text": "粉丝"
 			},
 			{
 				"pagePath": "pages/tabbar/me/Me",
