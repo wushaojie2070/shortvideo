@@ -42,7 +42,8 @@
           <!-- <image @click="tozuozhe" class="userAvatar" :src="list.href" mode="aspectFill"></image> -->
           <image @click="tozuozhe(list.vlogerId)" class="userAvatar" :src="list.vlogerFace" mode="aspectFill"></image>
           <!-- 2.点赞 -->
-          <view @click="cLike(list.doILikeThisVlog,index);" style="opacity: 0.9; margin-top: 17px;">
+          <view @click="cLike(list.vlogId,list.vlogerId,list.doILikeThisVlog,index);"
+            style="opacity: 0.9; margin-top: 17px;">
             <image v-if="list.doILikeThisVlog" src="@/static/img/index/xin.png"
               style="width: 40px; height: 40px; position: absolute; right: 6px;"></image>
             <image v-if="!list.doILikeThisVlog" src="@/static/img/index/aixin.png"
@@ -93,8 +94,9 @@
           <!-- <text class="music">错位时空 --艾辰</text> -->//这个最好之后换成评论
         </view>
         <view v-if="ifshow" class="commentshow">
-          <videocomment :commentList="commentList" @changecmtlike="changecmtlike" @cmtclose="cmtclose"></videocomment>
-          <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send" adjust-position="true" maxlength=70 class="cmttext" name="" v-model = "commentText"></textarea>
+          <videocomment :commentList="commentList" @changecmtlike="changecmtlike"  @cmtclose="cmtclose"></videocomment>
+          <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send"
+            adjust-position="true" maxlength=70 class="cmttext" name="" v-model="commentText"></textarea>
           <button class="publishbtn" @click="addComment(list.vlogId,list.vlogerId)">发表</button>
         </view>
       </swiper-item>
@@ -117,7 +119,7 @@
     data() {
       return {
         // state: 'pause',
-        commentText:"",
+        commentText: "",
         recorloc: 1,
         localplace: "",
         ifshow: false,
@@ -162,7 +164,7 @@
           console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k].vlogId)
         }, 500)
         uni.createVideoContext(this.dataList[old_k]._id + '' + old_k, this)
-        .stop() //如果视频暂停，那么旧视频停止，这里的this.dataList[old_k]._id + '' + old_k，后面加 old_k 是为了每一个视频的 id 值不同，这样就可以大程度的避免串音问题
+          .stop() //如果视频暂停，那么旧视频停止，这里的this.dataList[old_k]._id + '' + old_k，后面加 old_k 是为了每一个视频的 id 值不同，这样就可以大程度的避免串音问题
 
 
         console.log('已经暂停 第' + (old_k + 1) + '个视频～') //提示
@@ -207,6 +209,7 @@
       },
       //点击播放&&暂停
       tapVideoHover(state, event) {
+        this.ifshow = false;
         console.log('state--', state);
         if (state == 'play' || state == 'continue') {
           this.dataList[this.k].state = 'pause';
@@ -254,7 +257,7 @@
             this.page = res.data.data.page
             this.total = res.data.data.total
             this.records = res.data.data.records
-            // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))//走到了
+            // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))
             // 1.这里引入后端请求数据
             var msg = this.videoList.rows
             // 2.这里把视频添加到视频列表
@@ -292,52 +295,52 @@
           },
         })
       },
-      // tozuozhe(userId) {
-      //   uni.setStorageSync("userPageId", userId);
-      //   uni.navigateTo({
-      //     url: "/pages/tabbar/tabbar-5/vlogerInfo?userPageId=" + userId
-      //   })
-      // },
-      
-      addComment(vlogId,vlogerId){
+      tozuozhe(userId) {
+        uni.setStorageSync("userPageId", userId);
+        uni.navigateTo({
+          url: "/pages/tabbar/me/Author?userPageId=" + userId
+        })
+      },
+
+      addComment(vlogId, vlogerId) {
         var that = this
         uni.getStorage({
           key: 'userId',
           success: function(res) {
             that.userId = res.data
             // console.log("userId:123:" + that.userId);
-        
+
             //此处应接点赞接口
-              //如果当前喜欢,接不喜欢接口
-              // console.log("that.userId::" + that.userId)
-              uni.request({
-                url: "https://skrvideo.fun/comment/create",
-                method: "POST",
-                // header: {
-                //   "Content-Type": "application/x-www-form-urlencoded"
-                // },
-                data: {
-                  commentUserId: that.userId,
-                  content: that.commentText,
-                  fatherCommentId: "0",
-                  vlogId: vlogId,
-                  vlogerId: vlogerId,
-                },
-                dataType: "json",
-                success: (res) => {
-                  console.log(res)
-                  that.commentText = ""
-                  that.iflogin(vlogId)
-                },
-                fail: (res) => {
-                  console.log(res)
-                }
-              })
-              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
-              // that.$props.commentList[index].isLike = 0
-              // that.$props.commentList[index].likeCounts--
-        
-        
+            //如果当前喜欢,接不喜欢接口
+            // console.log("that.userId::" + that.userId)
+            uni.request({
+              url: "https://skrvideo.fun/comment/create",
+              method: "POST",
+              // header: {
+              //   "Content-Type": "application/x-www-form-urlencoded"
+              // },
+              data: {
+                commentUserId: that.userId,
+                content: that.commentText,
+                fatherCommentId: "0",
+                vlogId: vlogId,
+                vlogerId: vlogerId,
+              },
+              dataType: "json",
+              success: (res) => {
+                console.log(res)
+                that.commentText = ""
+                that.iflogin(vlogId)
+              },
+              fail: (res) => {
+                console.log(res)
+              }
+            })
+            // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
+            // that.$props.commentList[index].isLike = 0
+            // that.$props.commentList[index].likeCounts--
+
+
           },
           fail: (res) => {
             console.log('fail', res);
@@ -447,16 +450,67 @@
       cmtclose(cmtclose) {
         this.ifshow = cmtclose;
       },
-      cLike(like, index) {
+      cLike(vlogId, vlogerId, like, index) {
         console.log("点赞换♥图片颜色,后期接数据做判断")
-        // console.log("like+++>"+like)
-        // console.log("datalist1"+this.dataList[index].like)
-        if (like == true) {
-          this.dataList[index].doILikeThisVlog = false
-          
-        } else if (like == false) {
-          this.dataList[index].doILikeThisVlog = true
-        }
+        var that = this
+        uni.getStorage({
+          key: 'userId',
+          success: function(res) {
+            that.userId = res.data
+            if (like == true) {
+              that.dataList[index].doILikeThisVlog = false
+              that.dataList[index].likeCounts--
+              uni.request({
+                url: "https://skrvideo.fun/vlog/unlike",
+                method: "POST",
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data: {
+                  userId: that.userId,
+                  vlogId: vlogId,
+                  vlogerId: vlogerId,
+                },
+                // dataType: "json",
+                success: (res) => {
+                  console.log(res)
+                },
+                fail: (res) => {
+                  console.log(res)
+                }
+              })
+
+            } else if (like == false) {
+              that.dataList[index].doILikeThisVlog = true
+              that.dataList[index].likeCounts++
+              uni.request({
+                url: "https://skrvideo.fun/vlog/like",
+                method: "POST",
+                header: {
+                  "Content-Type": "application/x-www-form-urlencoded"
+                },
+                data: {
+                  userId: that.userId,
+                  vlogId: vlogId,
+                  vlogerId: vlogerId,
+                },
+                // dataType: "json",
+                success: (res) => {
+                  console.log(res)
+                },
+                fail: (res) => {
+                  console.log(res)
+                }
+              })
+            }
+          },
+          fail: (res) => {
+            console.log('fail', res);
+            uni.switchTab({
+              url: '/pages/tabbar/me/Me'
+            });
+          }
+        });
         // console.log("datalist2"+this.dataList[index].like)
       },
       onShareAppMessage: function(res) {
@@ -727,15 +781,15 @@
       transform: rotate(360deg);
     }
   }
-  
+
   .cmttext {
     width: 70%;
     height: 200rpx;
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
   }
-  
+
   .publishbtn {
-  width: 20%;
+    width: 20%;
     margin-top: -180rpx;
     margin-left: 75%;
     margin-bottom: 11rpx;
