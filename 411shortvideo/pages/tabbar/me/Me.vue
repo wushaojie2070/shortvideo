@@ -135,13 +135,13 @@
 					<view class="infos-btn in-one-line" v-if="!isMe">
 						<view class="in-one-line" 
 							style="width: 100%;" 
-							v-if="isFollow" 
+							v-if="!isFollow" 
 							@click="changeFollow()">
 							<view class="infos-btn-data in-one-line">
 								<text class="infos-btn-text">已关注</text>
 							</view>
 						</view>
-						<view v-if="!isFollow" 
+						<view v-if="isFollow" 
 							@click="changeFollow()"
 							style="background-color: #ff0000; width: 100%;" 
 							class="infos-btn-data in-one-line">
@@ -305,6 +305,22 @@
 						}
 					},
 				});
+				uni.request({
+					url:"https://skrvideo.fun/fans/queryDoIFollowVloger",
+					method: "GET",
+					data: {
+					  "myId": this.userId,
+					  "vlogerId":this.userPageId
+					},
+					dataType: "json",
+					success: (res) => {
+						console.log("doi",res)
+					  this.isFollow=res.data
+					},
+					fail: (res) => {
+					  console.log(res)
+					}
+				})
 			},
 			error: function(e) {
 				uni.showModal({
@@ -334,7 +350,46 @@
 				this.currentTab = id;
 			},
 			changeFollow() {
-				this.userInfo.isFollow = !this.userInfo.isFollow;
+				this.isFollow = !this.isFollow;
+				if(!this.isFollow){
+					uni.request({
+						url: "https://skrvideo.fun/fans/follow",
+						method: "POST",
+						header: {
+						"Content-Type": "application/x-www-form-urlencoded"
+							},
+						data: {
+							"myId": this.userId,
+							"vlogerId": this.userPageId
+							},
+					// dataType: "json",
+					success: (res) => {
+						console.log(res)
+						},
+					fail: (res) => {
+						console.log(res)
+						}
+					})
+				}else{
+					uni.request({
+						url: "https://skrvideo.fun/fans/cancel",
+						method: "POST",
+						header: {
+						"Content-Type": "application/x-www-form-urlencoded"
+							},
+						data: {
+							"myId": this.userId,
+							"vlogerId": this.userPageId,
+							},
+					// dataType: "json",
+					success: (res) => {
+						console.log(res)
+						},
+					fail: (res) => {
+						console.log(res)
+						}
+					})
+				}
 			},
 			changeMyBg() {
 				var that = this;

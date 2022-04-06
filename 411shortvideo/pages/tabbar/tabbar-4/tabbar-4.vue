@@ -21,30 +21,23 @@
 			}
 		},
 		onLoad() {
-			var that = this;
 			uni.getStorage({
 			  key: 'userId',
 			  success: function(res) {
-			    that.userIsLogin = true
+			    this.userIsLogin = true
 			  },
-			  fail: function(res) {
-			    // console.log('fail',res)
-			    that.userIsLogin = false
-				that.goLogin();
+			  fail: (res)=> {
+			     console.log('fail',res)
+				uni.navigateTo({
+				  animationType: "slide-in-bottom",
+				  url: "../me/Login"
+				})
 			  }
 			})
-			},
-		methods: {
-			goLogin() {
-			  var that = this;
-			  if (!this.userIsLogin) {
-			    uni.navigateTo({
-			      animationType: "slide-in-bottom",
-			      url: "../me/Register"
-			    })
-			  }
-			}
-		}
+		},
+		methods:{
+			
+		},
 	}
 </script>
 

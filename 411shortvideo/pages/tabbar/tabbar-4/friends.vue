@@ -66,7 +66,7 @@
 			    that.fanslist = res.data.data.rows
 			  },
 			  fail: (res) => {
-			    console.log(res)
+			    console.log("fail",res)
 			  }
 			})
 	  	},
@@ -93,8 +93,8 @@
 				"Content-Type": "application/x-www-form-urlencoded"
 					},
 				data: {
-				myId: this.userId,
-				vlogerId: item.fanId
+					"myId": this.userId,
+					"vlogerId": item.fanId
 					},
 			// dataType: "json",
 			success: (res) => {
@@ -112,8 +112,8 @@
 				"Content-Type": "application/x-www-form-urlencoded"
 					},
 				data: {
-				myId: this.userId,
-				vlogerId: item.fanId
+				"myId": this.userId,
+				"vlogerId": item.fanId
 					},
 			// dataType: "json",
 			success: (res) => {
