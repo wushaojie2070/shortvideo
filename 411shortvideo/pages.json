@@ -108,8 +108,8 @@
 			//#endif
 			{
 				"pagePath": "pages/tabbar/tabbar-4/tabbar-4",
-				"iconPath": "static/img/tabbar/news.png",
-				"selectedIconPath": "static/img/tabbar/newsactive.png",
+				"iconPath": "static/img/me/me/访客.png",
+				"selectedIconPath": "static/img/me/me/访客1.png",
 				"text": "粉丝"
 			},
 			{
