@@ -2,9 +2,9 @@
 <template>
   <view class="friends">
     <view style="width: 100%;height: 1px;background: #393a43;"></view>
-    <scroll-view class="List" @scrolltolower="lower">
+    <scroll-view class="List" @click="tochat()">
       <view class="fantab">
-        <view class="List" @click="tochat()">
+        <view class="List">
           <view class="List-item" v-for="item in fanslist" :key="item.fanId">
             <view class="List-img-box">
               <image class="List-img" :src="item.face" mode=""></image>
@@ -77,12 +77,9 @@
       console.log(1);
     },
     methods: {
-	  lower(e){
-		  console.log(e)
-	  },
       tochat() {
         uni.navigateTo({
-          url: './chatroom/chatroom'
+          url: 'chatroom/chatroom'
         })
       },
       clickbtn(item) {
