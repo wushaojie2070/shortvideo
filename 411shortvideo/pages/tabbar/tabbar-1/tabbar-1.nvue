@@ -246,28 +246,44 @@
       // 	// console.log("接口拿到的数组是::::::"+list.data.data.rows[1].url)
       // },
 
-      get() {
+      get(myId,recorloc) {
         this.page++
+        if(myId){
+          this.myId = myId
+        }
+        if(recorloc){
+          this.dataList=[]
+          this.videoList=[]
+          this.recorloc = recorloc
+        }
         if (this.page > this.total) {
           this.page = 1
         }
-
-        if (this.recorloc == 2) {
-          //好友
-          var k = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" +
-            this.pageSize + ""
-        } else if (this.recorloc == 0) {
-          //同城
-          var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize +
-            "&provinceId=" + this.searchprovinceId + ""
-        } else if (this.recorloc == 1) {
-          //推荐
-          var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
+        if(this.recorloc==2){
+          debugger
+          var geturl = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" + this.pageSize + ""
+        } else if(this.recorloc==1){
+          var geturl = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
         }
+        // console.log("ssssss"+this.s)
+        
+
+        // if (this.recorloc == 2) {
+        //   //好友
+        //   var k = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" +
+        //     this.pageSize + ""
+        // } else if (this.recorloc == 0) {
+        //   //同城
+        //   var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize +
+        //     "&provinceId=" + this.searchprovinceId + ""
+        // } else if (this.recorloc == 1) {
+        //   //推荐
+        //   var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
+        // }
 
         // console.log("k:::::"+k)
         uni.request({
-          url: k,
+          url: geturl,
           method: 'GET',
           success: (res) => {
             //videoList是接口的视频数组
@@ -424,97 +440,104 @@
       },
       toFri() {
         console.log("去好友,接推荐的视频接口")
-        if (this.myId != "") {
-          this.recorloc = 2
-        } else {
-          //未登录
-          uni.navigateTo({
-            url: "../me/Login"
-          })
-        }
-      },
-      toRec() {
-        console.log("去推荐,接推荐的视频接口")
-        this.recorloc = 1
-      },
-      toMap(index) {
-        if (this.myId != "" && this.sheng != "") {
-          this.recorloc = 0
-          //获取缓存里的searchprovinceId
-        } else {
-          uni.navigateTo({
-            url: "../me/Login"
-          })
-        }
-      },
-      cmtclose(cmtclose) {
-        this.ifshow = cmtclose;
-      },
-      cLike(vlogId, vlogerId, like, index) {
-        console.log("点赞换♥图片颜色,后期接数据做判断")
         uni.getStorage({
-          key: 'userId',
-          success: (res) => {
-            this.userId = res.data
-            if (like == true) {
-              this.dataList[index].doILikeThisVlog = false
-              this.dataList[index].likeCounts--
-              uni.request({
-                url: "https://skrvideo.fun/vlog/unlike",
-                method: "POST",
-                header: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                },
-                data: {
-                  userId: this.userId,
-                  vlogId: vlogId,
-                  vlogerId: vlogerId,
-                },
-                // dataType: "json",
-                success: (res) => {
-                  console.log(res)
-                },
-                fail: (res) => {
-                  console.log(res)
-                }
-              })
+            key: 'userId',
+            success: (res) => {
+              this.myId = res.data
+              this.get(this.myId,2)
 
-            } else if (like == false) {
-              this.dataList[index].doILikeThisVlog = true
-              this.dataList[index].likeCounts++
-              uni.request({
-                url: "https://skrvideo.fun/vlog/like",
-                method: "POST",
-                header: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                },
-                data: {
-                  userId: this.userId,
-                  vlogId: vlogId,
-                  vlogerId: vlogerId,
-                },
-                // dataType: "json",
-                success: (res) => {
-                  console.log(res)
-                },
-                fail: (res) => {
-                  console.log(res)
-                }
+
+            },
+            fail: (res) => {
+              console.log('fail', res);
+              uni.navigateTo({
+                url: "../me/Login"
+              })
+            }
+            })
+          },
+          toRec() {
+            console.log("去推荐,接推荐的视频接口")
+            this.recorloc = 1
+          },
+          toMap(index) {
+            if (this.myId != "" && this.sheng != "") {
+              this.recorloc = 0
+              //获取缓存里的searchprovinceId
+            } else {
+              uni.navigateTo({
+                url: "../me/Login"
               })
             }
           },
-          fail: (res) => {
-            console.log('fail', res);
-            uni.navigateTo({
-              url: "../me/Login"
-            })
-          }
-        });
-        // console.log("datalist2"+this.dataList[index].like)
-      },
+          cmtclose(cmtclose) {
+            this.ifshow = cmtclose;
+          },
+          cLike(vlogId, vlogerId, like, index) {
+            console.log("点赞换♥图片颜色,后期接数据做判断")
+            uni.getStorage({
+              key: 'userId',
+              success: (res) => {
+                this.userId = res.data
+                if (like == true) {
+                  this.dataList[index].doILikeThisVlog = false
+                  this.dataList[index].likeCounts--
+                  uni.request({
+                    url: "https://skrvideo.fun/vlog/unlike",
+                    method: "POST",
+                    header: {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    data: {
+                      userId: this.userId,
+                      vlogId: vlogId,
+                      vlogerId: vlogerId,
+                    },
+                    // dataType: "json",
+                    success: (res) => {
+                      console.log(res)
+                    },
+                    fail: (res) => {
+                      console.log(res)
+                    }
+                  })
 
-    }
-  }
+                } else if (like == false) {
+                  this.dataList[index].doILikeThisVlog = true
+                  this.dataList[index].likeCounts++
+                  uni.request({
+                    url: "https://skrvideo.fun/vlog/like",
+                    method: "POST",
+                    header: {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    data: {
+                      userId: this.userId,
+                      vlogId: vlogId,
+                      vlogerId: vlogerId,
+                    },
+                    // dataType: "json",
+                    success: (res) => {
+                      console.log(res)
+                    },
+                    fail: (res) => {
+                      console.log(res)
+                    }
+                  })
+                }
+              },
+              fail: (res) => {
+                console.log('fail', res);
+                uni.navigateTo({
+                  url: "../me/Login"
+                })
+              }
+            });
+            // console.log("datalist2"+this.dataList[index].like)
+          },
+
+        }
+      }
 </script>
 
 <style>
