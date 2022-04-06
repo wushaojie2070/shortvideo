@@ -100,6 +100,7 @@
                   uni.showToast({
                     title: "删除成功"
                   })
+                  this.$emit('changecmtlist');
                 },
                 fail: (res) => {
                   console.log(res)
@@ -121,7 +122,7 @@
             });
           }
         });
-        this.$emit('changecmtlike');
+        this.$emit('changecmtlist');
 
       },
       // getcmt(){
@@ -211,7 +212,7 @@
             });
           }
         });
-        this.$emit('changecmtlike');
+        this.$emit('changecmtlist');
       },
 
     },
