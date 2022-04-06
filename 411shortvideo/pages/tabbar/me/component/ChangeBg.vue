@@ -1,8 +1,9 @@
 <template>
 	<view class="page">
 		<view class="bg-wrapper in-one-column" :style="{height: windowHeight+'px'}">
-			<image mode="aspectFill" :src="bgUrl" class="bg-size" v-if="bgUrl"></image>
-			
+			<!-- <image mode="aspectFill" :src="bgUrl" class="bg-size" v-if="bgUrl"></image> -->
+			<htz-image-upload mediaType='image' class="bg-size" :max="1" v-model="bgUrl" @uploadSuccess="ceshiUploadSuccess"
+				action="https://skrvideo.fun/upload"></htz-image-upload>
 			<view 
 				v-if="isMe == true"
 				@click="changeBg()"
@@ -29,6 +30,7 @@
 				bgUrl: '',
 				isMe: true,
 				userId: '',
+				userToken: '',
 				changeTouched: false,
 				windowHeight: 0,
 			}
@@ -48,6 +50,12 @@
 					that.userId = res.data;
 				}
 			})
+			uni.getStorage({
+				key: 'userToken',
+				success: function(res){
+					that.userToken = res.data;
+				}
+			})
 			uni.getSystemInfo({
 			    success: function (res) {
 			        that.windowHeight = res.windowHeight;
@@ -62,16 +70,22 @@
 				uni.chooseImage({
 					count:1,
 					sourceType: ['album'],    //从相册选择
-					/* crop: {
-						quality: 60,
-						width: 750,
-						height: 320,
-					}, */
 					success(resp) {
 						console.log(resp);
 						that.bgUrl = resp.tempFilePaths[0];
 						console.log(that.bgUrl);
 						uni.request({
+							method: "POST",
+							url: "https://skrvideo.fun/upload",
+							data: {
+								"file": that.bgUrl
+							},
+							// dataType:'json',
+							success:function(res){
+								console.log(res)
+							}
+						})
+						/* uni.request({
 							url:"https://skrvideo.fun/userInfo/modifyImage",
 							method: 'POST',
 							data: {
@@ -80,10 +94,14 @@
 								"file": that.bgUrl
 							},
 							dataType:'json',
+							header: {
+								"headerUserId": that.userId,
+								"headerUserToken": that.userToken
+							},
 							success: function(res){
 								console.log(res);
 							}
-						})
+						}) */
 					}
 				});
 

@@ -298,7 +298,7 @@
       tozuozhe(userId) {
         uni.setStorageSync("userPageId", userId);
         uni.navigateTo({
-          url: "/pages/tabbar/me/Author?userPageId=" + userId
+          url: "/pages/tabbar/me/Me?userPageId=" + userId
         })
       },
 

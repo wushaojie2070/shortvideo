@@ -1,9 +1,5 @@
 <template>
 	<view class="page">
-		<!-- 未登录-->
-		<view v-if="!userIsLogin" class="login-info-wrapper" :style="{height: windowHeight + 'px',}" @tap="" @click="goLogin()">
-			<text class="login-info" style="align-self: center;" >请登录</text>
-		</view>
 		<!-- 更多弹窗 -->
 		<uni-drawer ref="evenMore" mode="right" :maskClick="true" width="250">
 			<view style="background-color: #161824;height: 100%;">
@@ -39,36 +35,24 @@
 			</view>
 		</uni-drawer>
 		<!-- 已登录-->
-		<view v-if="userIsLogin" :style="{height: windowHeight + 'px'}">
-			<image id="mybg" 
-				:src="userInfo.bgImg"
-				mode="aspectFill" 
-				@error="imgerror()"
-				@click="changeMyBg()"
+		<view style="height: 100%;">
+			<image id="mybg" :src="userInfo.bgImg" mode="aspectFill" @error="imgerror()" @click="changeMyBg()"
 				class="bgimage"></image>
 			<view class="bgadd"></view>
 			<view class="other-more in-one-line">
 				<view class="other-more-visitor in-one-line">
 					<view class="other-more-visitor-text">
-						<image 
-							src="../../../static/img/me/me/访客.png"
-							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;">
-						</image>
+						<image src="../../../static/img/me/me/访客.png"
+							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;"></image>
 						新访客
 					</view>
 				</view>
-				<image
-					src="../../../static/img/me/me/更多.png"
-					@click="more()"
-					class="other-more-set">
-				</image>
+				<image src="../../../static/img/me/me/更多.png" @click="more()" class="other-more-set"></image>
 			</view>
-			<!-- 点击获赞的弹窗->
+			<!-- 点击获赞的弹窗 -->
 			<uni-popup ref="popup" type="center">
-			    <view class="win-praise">
-					<image 
-						mode="widthFix"
-						src="../../../static/img/me/me/qq_pic_merged_1639501330923.jpg">
+				<view class="win-praise">
+					<image mode="widthFix" src="../../../static/img/me/me/qq_pic_merged_1639501330923.jpg">
 					</image>
 					<view class="win-praise-text">“{{userInfo.name}}”共获得{{userInfo.winPraise}}个赞</view>
 					<hr style="color: #000000;opacity: 0.5;">
@@ -78,11 +62,7 @@
 			<!-- 主体内容 -->
 			<view class="mine">
 				<view class="in-one-line">
-					<image 
-						:src="userInfo.face"
-						mode="aspectFill"
-						@click="changeMyFace()"
-						class="heat-image"></image>
+					<image :src="userInfo.face" mode="aspectFill" @click="changeMyFace()" class="heat-image"></image>
 					<view class="heat-info in-one-line">
 						<view class="heat-info-one in-one-column" @click="open()">
 							<text class="heat-info-title">获赞</text>
@@ -103,9 +83,7 @@
 						<text class="infos-info-name">{{userInfo.nickname}}</text><br>
 						<text class="infos-info-code">拾刻号：</text>
 						<text class="infos-info-code" @click="myQrCode()">{{userInfo.imoocNum}}</text>
-						<image
-							src="../../../static/img/me/me/二维码.png"
-							@click="myQrCode()"
+						<image src="../../../static/img/me/me/二维码.png" @click="myQrCode()"
 							style="width: 20px;height: 20px;margin: 0 5px -5px;">
 						</image>
 					</view>
@@ -113,8 +91,7 @@
 					<view class="infos-introduction" @click="changeIntroduce()">
 						<text v-if="userInfo.introduce != ''">{{userInfo.description}}</text>
 						<text v-if="userInfo.introduce == ''">点击添加介绍...</text>
-						<image
-							src="../../../static/img/me/me/编辑.png"
+						<image src="../../../static/img/me/me/编辑.png"
 							style="width: 18px;height: 18px;margin-left: 13px;">
 						</image>
 					</view>
@@ -128,248 +105,346 @@
 					</view>
 
 					<view class="infos-btn in-one-line">
-						<view @click="goMyInfo()" class="infos-btn-data infos-btn-data-first in-one-line">
+						<view @click="goMyInfo()" class="infos-btn-data in-one-line">
 							<text class="infos-btn-text">编辑资料</text>
-						</view>
-						<view @click="addFriends()" class="infos-btn-data in-one-line">
-							<text class="infos-btn-text">添加好友</text>
 						</view>
 					</view>
 				</view>
 			</view>
-
 			<view class="content">
 				<view class="in-one-line">
-					<view class="title-me" @click="switchTab(0)">
-						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 0}">作品</text>
+					<view class="title-me" @click="switchTab(0),getMyPublicList()">
+						<text class="tab-normal" style="align-self: center;"
+							:class="{'tab-selected': currentTab == 0}">作品</text>
 						<view v-if="currentTab == 0"
-							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
+							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;">
+						</view>
 					</view>
-					<view class="title-me" @click="switchTab(1)">
-						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 1}">私密</text>
+					<!-- <view class="title-me" @click="switchTab(1)">
+      			<text class="tab-normal" style="align-self: center;"
+      				:class="{'tab-selected': currentTab == 1}">私密</text>
+      			<view v-if="currentTab == 1"
+      				style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;">
+      			</view>
+      		</view> -->
+					<view class="title-me" @click="switchTab(1),getLikeList()">
+						<text class="tab-normal" style="align-self: center;"
+							:class="{'tab-selected': currentTab == 1}">赞过</text>
 						<view v-if="currentTab == 1"
-							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
+							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;">
+						</view>
 					</view>
-					<view class="title-me" @click="switchTab(2)">
-						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 2}">赞过</text>
-						<view v-if="currentTab == 2"
-							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
-					</view>
-					<view class="title-me" @click="switchTab(3)">
-						<text class="tab-normal" style="align-self: center;" :class="{'tab-selected': currentTab == 3}">收藏</text>
-						<view v-if="currentTab == 3"
-							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;"></view>
+				</view>
+				<view class="delet" v-if="currentTab == 0 && publicVlogList.length != 0">
+					删除作品
+					<view>
+						<switch color="#f03e3e" @change="switch1Change" style="transform:scale(0.7)" />
 					</view>
 				</view>
 				<view class="vlog-list">
-					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id" >
-						<video 
-							style="width: 100%;height: 100%;"
-							:src="vlog.cover"
-							:controls="true"
-							:show-progress="false"
-							:custom-cache="false"
-							:http-cache="true" :page-gesture="false" 
-							:show-fullscreen-btn="false" :show-play-btn="false" :show-loading="false" :show-center-play-btn="false" :enable-progress-gesture="false"
-							@error="error($event)">
+					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id">
+						<view class="delete" v-show="isdelete" @click="deletevideo(vlog.vlogerId,vlog.id)">
+							<uni-icons type="trash" size="50" color="#f03e3e">阿萨大</uni-icons>
+						</view>
+
+						<video style="width: 100%;height: 100%; float: left;position: absolute;" :src="vlog.url"
+							:controls="false" :show-progress="false" :custom-cache="false" :http-cache="true"
+							:page-gesture="false" :show-fullscreen-btn="false" :show-play-btn="false"
+							:show-loading="false" :show-center-play-btn="false" :enable-progress-gesture="false">
+
 						</video>
+
 					</view>
 				</view>
-					
+
 				<view v-if="publicVlogList.length == 0" class="empty">
-					<text style="color: #FFFFFF;font-size: 14px;margin-top: 200rpx;">~ 空空如也 ~</text>
+					<view class="end">
+						<text style="color: #FFFFFF;font-size: 14px;">~ 空空如也 ~</text>
+					</view>
 				</view>
-						
+
 				<view v-if="publicVlogList.length > 0">
-					<view style="background-color: #000000;position: absolute;bottom: -192rpx;width: 100%;height: 235rpx;">
-						
+					<view
+						style="background-color: #000000;position: absolute;bottom: -192rpx;width: 100%;height: 235rpx;">
+
 					</view>
 					<view class="end">
 						<text style="color: #FFFFFF;font-size: 14px;">- 知深浅 | 唯有你</text>
 					</view>
 				</view>
 			</view>
+
 		</view>
 	</view>
 </template>
 
 <script>
 	import uniPop from 'uni_modules/uni-popup/components/uni-popup/uni-popup.vue'
-	
+
 	export default {
 		data() {
 			return {
-				userIsLogin:false,
+				userPageId: '',
 				userId: '',
-				emptyBg: '/static/img/me/me/1.jpg',
-				/* userInfo:{
-					id: '1234',
-					bgUrl: '/static/img/me/me/1.jpg',
-					faceUrl: '/static/img/me/me/face.jpg',
-					newVisitors: 73,
-					winPraise: "1.5w",
-					concern: 198,
-					fans: 2679,
-					name: "罗涵娱乐",
-					SKId: "LuoHan0728",
-					SKQrcodeUrl: "",
-					sex: 0,
-					introduce: "",
-					labels: [
-						{
-							id:0,
-							label:'33岁,
-						},
-						{
-							id:1,
-							label:'成都',
-						},
-						{
-							id:2,
-							label:'上海戏剧学院'
-						},
-					],
-					birthday: "",
-					isFollow: true,
-				}, */
+				isMe: true,
 				userInfo: {},
-				title: 'Hello',
-				loginWords:"请登录",
+				isdelete: false,
 				windowHeight: 0,
-				currentTab:0,
-				publicVlogList:[
-					{
-						id:1,
-						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/5017a17a-389b-45e0-8d91-711c9dc76759.mp4",
-					},
-					{
-						id:2,
-						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/209180d8-3dfd-42ea-9ef5-5f98ae0d95e1.mp4",
-					},
-					{
-						id:3,
-						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/bfc86ab8-bb3b-4cef-a5d2-8c5edce4ef17.mp4",
-					},
-					{
-						id:4,
-						cover: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-0455454d-b373-4768-aa39-dc1226fc1362/53543262-55f5-4685-a5e3-b56ce75bcb88.mp4",
-					}
-				],
+				currentTab: 0,
+				publicVlogList: [],
 				controls: true,
 			}
 		},
-		onLoad() {
-			var that = this;
-			uni.getSystemInfo({
-			    success: function (res) {
-			        that.windowHeight = res.windowHeight;
-			    }
-			});
-			uni.getStorage({
-				key: 'userId',
-				success: function(res){
-					that.userIsLogin = true
-					that.userId = res.data
-					uni.request({
-						url: 'https://skrvideo.fun/userInfo/query?userId='+that.userId,
-						method: 'GET',
-						dataType: 'json',
-						success:function(res){
-							console.log(res.data.data);
-							that.userInfo = res.data.data;
-							// console.log(1,that.userInfo)
-							if(that.userInfo.bgImg == null){
-								that.userInfo.bgImg = "/static/img/me/me/1.jpg"
-							}
-						}
-					})
-				},
-				fail:function(res){
-					// console.log('fail',res)
-					that.userIsLogin = false
-					uni.navigateTo({
-						animationType: "slide-in-bottom",
-						url: "Login"
-					})
-				}
-			})
+		props: ['isMine'],
+		onLoad(params) {
+			// 从视频页面，点击用户头像传递过来的id
+			var userPageId = params.userPageId;
+			this.userPageId = userPageId;
+		},
+		mounted() {
+			this.getinfo()
+		},
+		onShow() {
+			this.getMyPublicList()
+		},
+		onHide() {
+			this.currentTab = 0
 		},
 		methods: {
-			error: function(e){
+			switch1Change() {
+				this.isdelete = !this.isdelete
+			},
+			getinfo() {
+				uni.getSystemInfo({
+					success: (res) => {
+						this.windowHeight = res.windowHeight;
+					}
+				});
+				uni.getStorage({
+					key: 'userId',
+					success: (res) => {
+						this.userId = res.data
+						if (this.isMine) {
+							this.isMe = true;
+							var u = 'https://skrvideo.fun/userInfo/query?userId=' + this.userId
+							console.log("cs", u)
+							uni.request({
+								url: u,
+								method: 'GET',
+								success: (res) => {
+									console.log(res.data.data);
+									this.userInfo = res.data.data;
+									uni.getStorage({
+										key: 'userToken',
+										data: res.data.data.userToken,
+									})
+								}
+							})
+						} else {
+							if (this.userId == this.userPageId) {
+								this.isMe = true;
+								uni.request({
+									url: 'https://skrvideo.fun/userInfo/query?userId=' + this.userId,
+									method: 'GET',
+									success: (res) => {
+										console.log(res.data.data);
+										this.userInfo = res.data.data;
+										uni.getStorage({
+											key: 'userToken',
+											data: res.data.data.userToken,
+										})
+									}
+								})
+							} else if (this.userPageId != '') {
+								this.isMe = false;
+								uni.request({
+									url: 'https://skrvideo.fun/userInfo/query?userId=' + this
+										.userPageId,
+									method: 'GET',
+									success: (res) => {
+										console.log(res.data.data);
+										this.userInfo = res.data.data;
+									}
+								})
+							}
+						}
+					},
+				});
+			},
+			error: function(e) {
 				uni.showModal({
 					content: e.target.errMsg,
-				       showCancel: false
-		        })
+					showCancel: false
+				})
 			},
-			renewalClick(){
+			renewalClick() {
 				this.$refs.renewal.open();
-				setTimeout(()=>{
+				setTimeout(() => {
 					this.$refs.renewal.close();
-				},500);
+				}, 500);
 			},
-			goLogin(){
-				var that = this;
-				if(!this.userIsLogin){
-					uni.navigateTo({
-						animationType: "slide-in-bottom",
-						url: "Register"
-					})
-				}
-			},
-			open(){
+
+			open() {
 				this.$refs.popup.open();
 			},
-			close(){
+			close() {
 				this.$refs.popup.close();
 			},
-			switchTab(id){
+			switchTab(id) {
 				this.currentTab = id;
 			},
-			changeFollow(flag){
+			changeFollow(flag) {
 				this.userInfo.isFollow = !flag;
 			},
-			changeMyBg(){
+			changeMyBg() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeBg?bg="+that.userInfo.bgImg,
+					url: "component/ChangeBg?bg=" + that.userInfo.bgImg,
 				})
 			},
-			changeMyFace(){
+			changeMyFace() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeFace?faceUrl="+that.userInfo.faceUrl,
+					url: "component/ChangeFace?faceUrl=" + that.userInfo.faceUrl,
 				})
 			},
-			myQrCode(){
+			myQrCode() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/QrCode?faceUrl="+that.userInfo.faceUrl+"&name="+that.userInfo.name,
+					url: "component/QrCode?faceUrl=" + that.userInfo.faceUrl + "&name=" + that.userInfo
+						.name,
 				})
 			},
-			changeIntroduce(){
+			changeIntroduce() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeIntroduce?introduce="+that.userInfo.introduce,
+					url: "component/ChangeIntroduce?introduce=" + that.userInfo.introduce,
 				})
 			},
-			goMyInfo(){
+			goMyInfo() {
 				var that = this;
 				var info = JSON.stringify(this.userInfo);
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeInfo?userInfo="+info,
+					url: "component/ChangeInfo?userInfo=" + info,
 				})
 			},
-			more(){
+			more() {
 				this.$refs.evenMore.open();
 			},
-			closeMore(){
+			closeMore() {
 				this.$refs.evenMore.close();
 			},
+			getMyPublicList() {
+				uni.getStorage({
+					key: 'userId',
+					success: (res) => {
+						this.userIsLogin = true
+						this.userId = res.data
+						uni.request({
+							url: 'https://skrvideo.fun/vlog/myPublicList',
+							data: {
+								"page": 1,
+								"pageSize": 10,
+								"userId": this.userId
+							},
+							success: (res) => {
+								console.log(res)
+								this.publicVlogList = res.data.data.rows
+								// console.log(this.publicVlogList)
+							},
+							fail: (res) => {
+								console.log(res)
+							}
+						})
+					},
+				})
+			},
+			getLikeList() {
+				uni.getStorage({
+					key: 'userId',
+					success: (res) => {
+						this.userIsLogin = true
+						this.userId = res.data
+						uni.request({
+							url: 'https://skrvideo.fun/vlog/myLikedList',
+							data: {
+								"page": 1,
+								"pageSize": 10,
+								"userId": this.userId
+							},
+							success: (res) => {
+								console.log(res)
+								this.publicVlogList = res.data.data.rows
+								// console.log(this.publicVlogList)
+							},
+							fail: (res) => {
+								console.log(res)
+							}
+						})
+					},
+				})
+			},
+			getMyPrivateList() {
+				uni.getStorage({
+					key: 'userId',
+					success: (res) => {
+						this.userIsLogin = true
+						this.userId = res.data
+						uni.request({
+							url: 'https://skrvideo.fun/vlog/myPrivateList',
+							data: {
+								"page": 1,
+								"pageSize": 10,
+								"userId": this.userId
+							},
+							success: (res) => {
+								console.log(res)
+								this.publicVlogList = res.data.data.rows
+								// console.log(this.publicVlogList)
+							},
+							fail: (res) => {
+								console.log(res)
+							}
+						})
+					},
+				})
+			},
+			deletevideo(id, vlogid) {
+				uni.showModal({
+					title: '提示',
+					content: '是否删除',
+					success: (res) => {
+						if (res.confirm) {
+							uni.request({
+								url: 'https://skrvideo.fun/vlog/delete',
+								method: 'POST',
+								header: {
+									"Content-Type": "application/x-www-form-urlencoded"
+								},
+								data: {
+									"userId": id,
+									"vlogId": vlogid
+								},
+								success: (res) => {
+									console.log(res)
+									this.getMyPublicList()
+								},
+								fail: (res) => {
+									console.log(res)
+								}
+							})
+						} else if (res.cancel) {
+							console.log('用户点击取消');
+						}
+					}
+				});
+
+			}
 		}
 	}
 </script>
@@ -381,33 +456,25 @@
 		color: #d4d4d4;
 		font-size: 14px;
 	}
-	.in-one-line{
+
+	.in-one-line {
 		display: flex;
 		flex-direction: row;
 	}
-	.in-one-column{
-		display: flex;
-		flex-direction: column;	
-	}
-	
-	/* 未登录*/
-	.login-info-wrapper {
+
+	.in-one-column {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
 	}
-	.login-info {
-		color: #FFFFFF;
-		font-size: 36rpx;
-	}
-	
+
 	/* 背景图片 */
-	.bgimage{
+	.bgimage {
 		width: 100%;
-		height: 320rpx; 
+		height: 320rpx;
 	}
+
 	/* 信息底色 */
-	.bgadd{
+	.bgadd {
 		width: 100%;
 		height: 100rpx;
 		position: relative;
@@ -415,12 +482,14 @@
 		background-color: #333333;
 		border-radius: 35rpx;
 	}
-	.other-more{
-		position:absolute;
+
+	.other-more {
+		position: absolute;
 		top: 20rpx;
 		right: 2.5%;
 	}
-	.other-more-visitor{
+
+	.other-more-visitor {
 		justify-content: center;
 		align-self: center;
 		width: 200rpx;
@@ -430,13 +499,15 @@
 		border-radius: 40rpx;
 		margin-left: 20rpx;
 	}
-	.other-more-visitor-text{
+
+	.other-more-visitor-text {
 		font-size: 13px;
 		color: #FFFFFF;
 		font-weight: 500;
 		align-self: center;
 	}
-	.other-more-set{
+
+	.other-more-set {
 		width: 40rpx;
 		height: 40rpx;
 		margin-left: 20rpx;
@@ -445,62 +516,70 @@
 		opacity: 0.8;
 		border-radius: 40rpx;
 	}
-	
+
 	/* 我的 */
-	.mine{
+	.mine {
 		position: relative;
 		left: 9%;
 		top: -202rpx;
 		width: 82%;
 		align-self: center;
 	}
+
 	/* 头像 */
-	.heat-image{
+	.heat-image {
 		width: 150rpx;
 		height: 150rpx;
 		border-radius: 150rpx;
 		border: #333333 8rpx solid;
 	}
-	.heat-info{
+
+	.heat-info {
 		width: 55%;
 	}
-	.heat-info-one{
+
+	.heat-info-one {
 		/* margin-left: 55%; */
 		padding: 0 15%;
 		justify-content: center;
 	}
-	.heat-info-title{
+
+	.heat-info-title {
 		width: 56rpx;
 		color: #ffffff;
 		font-size: 14px;
 		font-weight: 300;
 		align-self: center;
 	}
-	.heat-info-num{
+
+	.heat-info-num {
 		color: #ffffff;
 		font-size: 16px;
 		font-weight: bold;
 		align-self: center;
 	}
-	
-	
+
+
 	/* 我的信息 */
-	.mine-infos{
+	.mine-infos {
 		position: relative;
 		justify-content: space-between;
 	}
-	.infos-info{
+
+	.infos-info {
 		padding-top: 20rpx;
 		padding-bottom: 20rpx;
 	}
-	.infos-info-name{
+
+	.infos-info-name {
 		display: inline-block;
 		font-size: 20px;
 		color: #FFFFFF;
 		font-weight: 600;
 		margin: 10rpx 0 15rpx;
 	}
-	.infos-info-code{
+
+	.infos-info-code {
 		display: inline-block;
 		font-size: 12px;
 		color: #FFFFFF;
@@ -508,9 +587,10 @@
 		font-weight: 300;
 		margin: 15rpx 0 0;
 	}
-	.infos-introduction{
+
+	.infos-introduction {
 		display: inline-block;
-		position: relative; 
+		position: relative;
 		color: #FFFFFF;
 		opacity: 0.7;
 		font-size: 15px;
@@ -520,51 +600,55 @@
 		text-overflow: ellipsis;
 		white-space: nowrap; */
 	}
-	.infos-label-bg{
+
+	.infos-label-bg {
 		height: 24px;
 		background-color: #474747;
 		margin-right: 8px;
 		border-radius: 3px;
 	}
-	.infos-label-text{
+
+	.infos-label-text {
 		font-size: 10px;
 		color: #FFFFFF;
 		opacity: 0.7;
 		margin: 5px 5px;
 	}
-	.infos-btn{
+
+	.infos-btn {
 		margin: 40rpx 0;
 	}
-	.infos-btn-data{
+
+	.infos-btn-data {
 		justify-content: center;
 		align-self: center;
-		width: 50%;
+		width: 100%;
 		height: 95rpx;
 		line-height: 95rpx;
 		background-color: #4d4d4f;
 	}
-	.infos-btn-data-first{
-		margin-right: 15rpx;
-	}
-	.infos-btn-text{
+
+	.infos-btn-text {
 		font-size: 15px;
 		color: #FFFFFF;
 		font-weight: 500;
 		align-self: center;
 	}
-	
+
 	/* 内容 */
-	.content{
+	.content {
 		position: relative;
 		top: -190rpx;
 		width: 100%;
 	}
-	.title-me{
-		width: 25%;
+
+	.title-me {
+		flex: 1;
 		align-self: center;
 		text-align: center;
 	}
-/* 	.title-other{
+
+	/* 	.title-other{
 		width: 50% !important;
 		align-self: center;
 		text-align: center;
@@ -574,44 +658,51 @@
 		font-size: 18px;
 		color: #808080;
 	}
-	.tab-selected{
+
+	.tab-selected {
 		font-weight: 500;
 		color: #FFFFFF;
 	}
+
 	.vlog-list {
 		display: flex;
 		flex-direction: row;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		/* justify-content: space-between; */
 		background-color: #000000;
 	}
+
 	.vlog-cover {
+		position: relative;
 		width: 32.8%;
 		height: 440rpx;
 		border: 1rpx solid #000000;
 		align-self: center;
 
 	}
-	.empty{
+
+	.empty {
 		width: 750rpx;
-		height: 300rpx;
-		top: -480rpx;
+		height: 500rpx;
+		/* top: -480rpx; */
+		align-items: center;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		position: relative; 
+		position: relative;
 		background-color: #000000;
 	}
-	.end{
+
+	.end {
 		width: 750rpx;
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		position: relative; 
+		position: relative;
 		background-color: #000000;
 		top: 130rpx;
 	}
-	
+
 	/* 点击获赞的弹窗/
 	.win-praise{
 		background-color: #FFFFFF;
@@ -624,32 +715,37 @@
 	}
 	
 	/* 更多右侧弹窗 */
-	.even-more{
+	.even-more {
 		height: 81%;
 		background-color: #161824;
 		padding: 40rpx 60rpx 50rpx 60rpx;
 	}
-	.one-more{
+
+	.one-more {
 		width: 100%;
 		line-height: 100rpx;
 		height: 100rpx;
 		text-align: center;
 		vertical-align: middle;
 	}
-	.more-image{
+
+	.more-image {
 		width: 11% !important;
 		height: auto;
 	}
-	.more-image-one{
+
+	.more-image-one {
 		height: 55rpx !important;
 		width: 55rpx !important;
 	}
-	.more-text{
+
+	.more-text {
 		text-align: center;
 		font-size: 15px;
 		margin-left: 40rpx;
 	}
-	.even-more-set{
+
+	.even-more-set {
 		position: absolute;
 		bottom: 60rpx;
 		left: 60rpx;
@@ -658,7 +754,29 @@
 		padding: 26rpx;
 		border-radius: 4rpx;
 	}
-	.more-set{
+
+	.more-set {
 		justify-content: center;
+	}
+
+	.delet {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		width: 100%;
+		/* background-color: #ff4757; */
+	}
+
+	.delete {
+		width: 100%;
+		text-align: center;
+		font-size: 40rpx;
+		position: absolute;
+		/* bottom: 0; */
+		top: 110px;
+		z-index: 1;
+		/* background-color: rgb(240, 62, 62, 0.5); */
+		border-radius: 20rpx;
 	}
 </style>
