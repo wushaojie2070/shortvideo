@@ -190,9 +190,7 @@
 <style lang="scss" scoped>
   .list1 {
     width: 100%;
-
     height: 2rpx;
-
     background: #aaa;
   }
 
@@ -287,17 +285,18 @@
   .cotent {
     margin-top: 10rpx;
     font-size: 32rpx;
-    color: #FFFFFF;
+    color: #f0fffc;
+	margin-bottom: 15rpx;
   }
 
   .time {
     font-size: 24rpx;
-    color: #FFFFFF;
+    color: #717171;
   }
 
   .username {
     font-size: 28rpx;
-    color: #FFFFFF;
+	color: #FFFFFF;
   }
 
   .avatar {
@@ -305,6 +304,7 @@
     height: 80rpx;
     border-radius: 50%;
     margin-right: 20rpx;
+	margin-bottom: 10rpx;
   }
 
   .comment-detail_top {
