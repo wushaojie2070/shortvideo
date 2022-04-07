@@ -58,10 +58,6 @@
 				</view>
 				<image v-if="isMe" src="../../../static/img/me/me/更多.png" @click="more()" class="other-more-set"></image>
 			</view>
-			<!-- 求更新弹窗 -->
-			<uni-popup ref="renewal" type="center">
-				作者已收到你的请求，更新后将发送系统通知
-			</uni-popup>
 			<!-- 点击获赞的弹窗 -->
 			<uni-popup ref="popup" type="center">
 				<view class="win-praise">
@@ -232,6 +228,7 @@
 			this.getMyPublicList()
 		},
 		onShow() {
+			this.getinfo()
 			this.getMyPublicList()
 		},
 		destroyed() {
@@ -266,11 +263,8 @@
 								method: 'GET',
 								success: (res) => {
 									// console.log(res.data.data);
+									this.userInfo = {};
 									this.userInfo = res.data.data;
-									uni.setStorage({
-										key: 'userToken',
-										data: res.data.data.userToken,
-									})
 									this.getMyPublicList();
 								}
 							})
@@ -283,10 +277,6 @@
 									success: (res) => {
 										console.log(res.data.data);
 										this.userInfo = res.data.data;
-										uni.setStorage({
-											key: 'userToken',
-											data: res.data.data.userToken,
-										})
 										this.getMyPublicList();
 									}
 								})
@@ -313,16 +303,10 @@
 				})
 			},
 			renewalClick() {
-				this.$refs.renewal.open();
-				setTimeout(() => {
-					this.$refs.renewal.close();
-				}, 500);
-			},
-			renewalClick(){
-				this.$refs.renewal.open();
-				setTimeout(()=>{
-					this.$refs.renewal.close();
-				},500);
+				uni.showToast({
+					icon: "none",
+					title: "作者已收到你的请求，更新后将发送系统通知！"
+				});
 			},
 			open() {
 				this.$refs.popup.open();
@@ -334,20 +318,20 @@
 				this.currentTab = id;
 			},
 			changeFollow() {
-				this.userInfo.isFollow = !this.userInfo.isFollow;
+				this.isFollow = !this.isFollow;
 			},
 			changeMyBg() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeBg?bg=" + that.userInfo.bgImg,
+					url: "component/ChangeBg",
 				})
 			},
 			changeMyFace() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeFace?faceUrl=" + that.userInfo.faceUrl,
+					url: "component/ChangeFace",
 				})
 			},
 			myQrCode() {
@@ -355,7 +339,7 @@
 				if(this.isMe){
 					uni.navigateTo({
 						animationType: "zoom-fade-out",
-						url: "component/QrCode?faceUrl="+that.userInfo.face+"&name="+that.userInfo.nickName,
+						url: "component/QrCode?faceUrl="+that.userInfo.face+"&name="+that.userInfo.nickname,
 					})
 				}else{
 					uni.setClipboardData({
@@ -367,18 +351,15 @@
 				}
 			},
 			changeIntroduce() {
-				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeIntroduce?introduce=" + that.userInfo.introduce,
+					url: "component/ChangeIntroduce",
 				})
 			},
 			goMyInfo() {
-				var that = this;
-				var info = JSON.stringify(this.userInfo);
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeInfo?userInfo=" + info,
+					url: "component/ChangeInfo",
 				})
 			},
 			more() {
@@ -492,6 +473,14 @@
 					}
 				});
 
+			}
+		},
+		watch: {
+			userInfo: {
+				deep:true,
+				handler(newValue,oldValue){
+					console.log("n,o",newValue,oldValue);
+				}
 			}
 		}
 	}

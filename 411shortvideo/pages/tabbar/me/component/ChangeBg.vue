@@ -80,7 +80,6 @@
 							data: {
 								"file": that.bgUrl
 							},
-							// dataType:'json',
 							success:function(res){
 								console.log(res)
 							}
