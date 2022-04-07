@@ -68,12 +68,7 @@
 		{
 			"path":"pages/tabbar/me/component/QrCode",
 			"style": {}
-		},
-		
-	{
-            "path" : "pages/tabbar/tabbar-4/search",
-            "style" :{} 
-        }
+		}
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
