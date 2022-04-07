@@ -20,7 +20,6 @@
 	export default {
 		data(){
 			return{
-				addclass:"animated fadeInUpBig",
 				isfans:true,
 			}
 		},

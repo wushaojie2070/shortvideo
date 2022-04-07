@@ -2,8 +2,8 @@
 	<view class="news">
 		<view>
 			<top @fans="isfans"></top>
-			<friends v-if="lookfans" </friends>
-			<follows v-if="!lookfans" ></follows>
+			<friends v-if="lookfans"></friends>
+			<follows v-if="!lookfans"></follows>
 		</view>
 	</view>
 </template>

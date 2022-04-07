@@ -29,7 +29,7 @@
       </view>
     </scroll-view>
     <view style="width: 100%;height: 1px;background: #393a43;"></view>
-    <view class="more">
+   <view class="more">
       无更多粉丝
     </view>
   </view>
@@ -82,7 +82,6 @@
         })
       },
       clickbtn(item) {
-		this.$emit('friends',true);
         console.log(item)
 		item.friend=!item.friend
         if(item.friend==true){
