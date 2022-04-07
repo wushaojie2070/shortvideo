@@ -82,7 +82,6 @@
         })
       },
       clickbtn(item) {
-		this.$emit('follows',false);  
         console.log(item)
 		item.followed=!item.followed
         if(item.followed==true){
