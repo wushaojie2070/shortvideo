@@ -4,7 +4,7 @@
     <scroll-view class="List">
       <view class="fantab">
         <view class="List">
-          <view class="List-item" v-for="item in fanslist" :key="item.fanId">
+          <view class="List-item" v-for="item in followslist" :key="item.vlogerId">
             <view class="List-img-box">
               <image class="List-img" :src="item.face" mode=""></image>
             </view>
@@ -15,14 +15,14 @@
                 </view>
               </view>
               <view class="List-content">
-                关注了你
+                你的关注
               </view>
             </view>
             <view class="List-icon">
               <button style="background-color: #e9445a;color: #FFFFFF;line-height: 30px; font-size: 14px;"
-                @click.stop="clickbtn(item)" v-show="!item.friend">回关</button>
+                @click.stop="clickbtn(item)" v-show="!item.followed">关注</button>
               <button style="background-color: #393a43;color: #ebebec;line-height: 30px; font-size: 14px;"
-                @click.stop="clickbtn(item)" v-show="item.friend">互相关注</button>
+                @click.stop="clickbtn(item)" v-show="item.followed">取关</button>
             </view>
           </view>
         </view>
@@ -30,7 +30,7 @@
     </scroll-view>
     <view style="width: 100%;height: 1px;background: #393a43;"></view>
     <view class="more">
-      无更多粉丝
+      无更多关注
     </view>
   </view>
 </template>
@@ -40,7 +40,7 @@
 
     data() {
       return {
-        fanslist: [],
+        followslist: [],
 		userId:'',
       }
     },
@@ -52,7 +52,7 @@
 	  		console.log(res.data);
 			that.userId = res.data
 			uni.request({
-			  url: "https://skrvideo.fun/fans/queryMyFans",
+			  url: "https://skrvideo.fun/fans/queryMyFollows",
 			  method: "GET",
 			  data: {
 			    "myId": that.userId,
@@ -61,8 +61,8 @@
 			  },
 			  dataType: "json",
 			  success: (res) => {
-			    console.log("fanslist",res);
-			    that.fanslist = res.data.data.rows
+			    console.log("followslist",res);
+			    that.followslist = res.data.data.rows
 			  },
 			  fail: (res) => {
 			    console.log("fail",res)
@@ -82,10 +82,10 @@
         })
       },
       clickbtn(item) {
-		this.$emit('friends',true);
+		this.$emit('follows',false);  
         console.log(item)
-		item.friend=!item.friend
-        if(item.friend==true){
+		item.followed=!item.followed
+        if(item.followed==true){
 			uni.request({
 				url: "https://skrvideo.fun/fans/follow",
 				method: "POST",
@@ -94,11 +94,11 @@
 					},
 				data: {
 					"myId": this.userId,
-					"vlogerId": item.fanId
+					"vlogerId": item.vlogerId
 					},
 			// dataType: "json",
 			success: (res) => {
-				console.log(res)
+				console.log("follow",res)
 				},
 			fail: (res) => {
 				console.log(res)
@@ -113,11 +113,11 @@
 					},
 				data: {
 				"myId": this.userId,
-				"vlogerId": item.fanId
+				"vlogerId": item.vlogerId
 					},
 			// dataType: "json",
 			success: (res) => {
-				console.log(res)
+				console.log("cancel",res)
 				},
 			fail: (res) => {
 				console.log(res)
