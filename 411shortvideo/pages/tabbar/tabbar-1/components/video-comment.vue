@@ -1,25 +1,19 @@
 <template>
   <view class="comment-detail" @blur="cmtclose()">
     <view style="width: 100%; height: 100%; left: 20rpx;" @click="cmtclose()">
-      <!-- <image class="close-img" src="../../../../static/img/news/chahao.png" mode=""></image> -->
-      <uni-icons  type="closeempty" size="35" color="#ffffff"></uni-icons>
-      
+      <uni-icons type="closeempty" size="35" color="#ffffff"></uni-icons>
+
     </view>
     <!-- 评论内容 -->
     <view class="list">
       <scroll-view scroll-y="true" style="height: 300px">
         <view class="list-item" v-for="(item, index) in commentList" :key="item.id" @tap="_replyComment(item)">
           <image class="avatar" :src="item.commentUserFace" mode="" v-if="item.commentUserFace"></image>
-          <!-- <image class="avatar" src=item.commentUserFace mode="" v-else></image> -->
           <view class="top-right">
             <view class="l">
               <view class="username">{{ item.commentUserNickname }}</view>
               <view class="time">{{ item.createTime }}</view>
               <view class="cotent">{{ item.content }}</view>
-              <!-- <view class="reply">
-					<view class="reply-username">@{{ item.reply_user.username }}:</view>
-					<view class="reply-content">{{ item.reply_user.content }}</view>
-				</view> -->
             </view>
             <view class="r">
               <view @tap.stop="_commentLike(item, index)">
@@ -30,8 +24,8 @@
               </view>
               <!-- <button @click="delclick(index)" v-if="userId == item.commentUserId" class="delbtn">删除</button> -->
               <view @click="delclick(index)" v-if="userId == item.commentUserId" class="delbtn">
-              <uni-icons  type="trash" size="25" color="#ffffff"></uni-icons>
-              <text class="comment-item_kudos">删除</text>
+                <uni-icons type="trash" size="25" color="#ffffff"></uni-icons>
+                <text class="comment-item_kudos">删除</text>
               </view>
             </view>
           </view>
@@ -76,13 +70,11 @@
       delclick(index) {
         this.commentId = this.$props.commentList[index].commentId
         this.vlogId = this.$props.commentList[index].vlogId
-        var that = this
         uni.getStorage({
           key: 'userId',
-          success: function(res) {
-            that.userId = res.data
-            // console.log("userId:123:" + that.userId);
-            if (that.userId == that.$props.commentList[index].commentUserId) {
+          success: (res) => {
+            this.userId = res.data
+            if (this.userId == this.$props.commentList[index].commentUserId) {
               uni.request({
                 url: "https://skrvideo.fun/comment/delete",
                 method: "DELETE",
@@ -90,30 +82,24 @@
                   "Content-Type": "application/x-www-form-urlencoded"
                 },
                 data: {
-                  commentId: that.commentId,
-                  commentUserId: that.userId,
-                  vlogId: that.vlogId,
+                  commentId: this.commentId,
+                  commentUserId: this.userId,
+                  vlogId: this.vlogId,
                 },
                 // dataType: "json",
                 success: (res) => {
                   console.log("删除成功")
+                  this.$emit('changecmtlist');
                   uni.showToast({
                     title: "删除成功"
                   })
-                  this.$emit('changecmtlist');
                 },
                 fail: (res) => {
                   console.log(res)
                 }
               })
-              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
-              // that.$props.commentList[index].isLike = 0
-              // that.$props.commentList[index].likeCounts--
 
             }
-
-
-
           },
           fail: (res) => {
             console.log('fail', res);
@@ -122,12 +108,8 @@
             });
           }
         });
-        this.$emit('changecmtlist');
 
       },
-      // getcmt(){
-
-      // },
       cmtclose() {
         console.log("cmtclose");
         this.$emit('cmtclose', false);
@@ -143,20 +125,14 @@
         id,
         isLike
       }, index) {
-        // console.log(id, isLike, index)
-        // console.log("commentid" + JSON.stringify(this.$props.commentList[index].commentId))
         this.commentId = this.$props.commentList[index].commentId
-        var that = this
         uni.getStorage({
           key: 'userId',
-          success: function(res) {
-            that.userId = res.data
-            // console.log("userId:123:" + that.userId);
-
+          success: (res) => {
+            this.userId = res.data
             //此处应接点赞接口
             if (isLike == 1) {
               //如果当前喜欢,接不喜欢接口
-              // console.log("that.userId::" + that.userId)
               uni.request({
                 url: "https://skrvideo.fun/comment/unlike",
                 method: "POST",
@@ -164,22 +140,20 @@
                   "Content-Type": "application/x-www-form-urlencoded"
                 },
                 data: {
-                  commentId: that.commentId,
-                  userId: that.userId,
+                  commentId: this.commentId,
+                  userId: this.userId,
                 },
                 // dataType: "json",
                 success: (res) => {
-                  console.log(res)
+                  console.log("res.data" + res.data)
+                  this.$emit('changecmtlist');
                 },
                 fail: (res) => {
                   console.log(res)
                 }
               })
-              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
-              // that.$props.commentList[index].isLike = 0
-              // that.$props.commentList[index].likeCounts--
             } else {
-              // console.log("that.userId::"+that.userId)
+              // console.log("this.userId::"+this.userId)
               uni.request({
                 url: "https://skrvideo.fun/comment/like",
                 method: "POST",
@@ -187,23 +161,20 @@
                   "Content-Type": "application/x-www-form-urlencoded"
                 },
                 data: {
-                  commentId: that.commentId,
-                  userId: that.userId,
+                  commentId: this.commentId,
+                  userId: this.userId,
                 },
                 // dataType: "json",
                 success: (res) => {
                   console.log(res)
+                  this.$emit('changecmtlist');
                 },
                 fail: (res) => {
                   console.log(res)
                 }
               })
-              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
-              // that.$props.commentList[index].isLike = 1
-              // console.log("that.$props.commentList[index]"+JSON.stringify(that.$props.commentList[index]))
-              // that.$props.commentList[index].likeCounts++
-            }
 
+            }
           },
           fail: (res) => {
             console.log('fail', res);
@@ -212,11 +183,8 @@
             });
           }
         });
-        this.$emit('changecmtlist');
       },
-
     },
-
   }
 </script>
 <style lang="scss" scoped>

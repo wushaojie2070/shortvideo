@@ -65,7 +65,7 @@
 						<image src="@/static/img/index/share-fill.png" style="width: 40px; height: 40px; position: absolute; right: 5px;"></image>
 						<text style="color: #FFFFFF; margin-top: 5px; font-size: 14px; text-align: center; font-weight: bold; margin-top: 40px;">分享</text>
 					</view> -->
-        <!--  <button open-type="share" class="btn_share">
+          <!--  <button open-type="share" class="btn_share">
             <image src="@/static/img/index/share.png"
               style="width: 40px; height: 40px; position: absolute; right: -3px;">
             </image>
@@ -95,7 +95,7 @@
           <!-- <text class="music">错位时空 --艾辰</text> -->
         </view>
         <view v-if="ifshow" class="commentshow">
-          <videocomment :commentList="commentList" changecmtlist="changecmtlist" @cmtclose="cmtclose"></videocomment>
+          <videocomment :commentList="commentList" @changecmtlist="changecmtlist" @cmtclose="cmtclose"></videocomment>
           <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send"
             adjust-position="true" maxlength=70 class="cmttext" name="" v-model="commentText"></textarea>
           <button class="publishbtn" @click="addComment(list.vlogId,list.vlogerId)">发表</button>
@@ -119,14 +119,14 @@
     },
     data() {
       return {
-        searchprovinceId: 0,//用于indexList接口的省份数字,转化前
-        searchcityId: 0,//市数字,不用放接口,转化前
-        myId: "",//当前用户的userId,字符串,默认""
-        commentText: "",//评论框的文本
-        recorloc: 1,//顶部选项,0
+        searchprovinceId: 0, //用于indexList接口的省份数字,转化前
+        searchcityId: 0, //市数字,不用放接口,转化前
+        myId: "", //当前用户的userId,字符串,默认""
+        commentText: "", //评论框的文本
+        recorloc: 1, //顶部选项,0
         // localplace: "",
-        sheng:"",//转化后个人信息的省
-        shi:"",//转化后个人信息的市
+        sheng: "", //转化后个人信息的省
+        shi: "", //转化后个人信息的市
         ifshow: false,
         windowWidth: 0,
         windowHeight: 0,
@@ -246,28 +246,44 @@
       // 	// console.log("接口拿到的数组是::::::"+list.data.data.rows[1].url)
       // },
 
-      get() {
+      get(myId,recorloc) {
         this.page++
-        if (this.page > this.total)
-        {
+        if(myId){
+          this.myId = myId
+        }
+        if(recorloc){
+          this.dataList=[]
+          this.videoList=[]
+          this.recorloc = recorloc
+        }
+        if (this.page > this.total) {
           this.page = 1
         }
-          
-        if(this.recorloc==2)
-        {
-          //好友
-          var k = "https://skrvideo.fun/vlog/friendList?myId="+this.myId+"&page=" + this.page + "&pageSize=" + this.pageSize + ""
-        } else if(this.recorloc==0){
-          //同城
-          var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + "&provinceId="+this.searchprovinceId+""
-        } else if(this.recorloc==1) {
-          //推荐
-          var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
+        if(this.recorloc==2){
+          debugger
+          var geturl = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" + this.pageSize + ""
+        } else if(this.recorloc==1){
+          var geturl = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
         }
+        // console.log("ssssss"+this.s)
         
+
+        // if (this.recorloc == 2) {
+        //   //好友
+        //   var k = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" +
+        //     this.pageSize + ""
+        // } else if (this.recorloc == 0) {
+        //   //同城
+        //   var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize +
+        //     "&provinceId=" + this.searchprovinceId + ""
+        // } else if (this.recorloc == 1) {
+        //   //推荐
+        //   var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
+        // }
+
         // console.log("k:::::"+k)
         uni.request({
-          url: k,
+          url: geturl,
           method: 'GET',
           success: (res) => {
             //videoList是接口的视频数组
@@ -287,8 +303,6 @@
 
             }
 
-            // console.log("this.videoList添加后"+JSON.stringify(this.dataList)) 
-            // console.log("this.datalistllllllll"+JSON.stringify(this.dataList[1].src))
             // 3.播放当前视频
             setTimeout(() => {
               this.dataList[this.k].isplay = false
@@ -324,13 +338,9 @@
       addComment(vlogId, vlogerId) {
         uni.getStorage({
           key: 'userId',
-          success: (res)=> {
+          success: (res) => {
             this.userId = res.data
-            // console.log("userId:123:" + that.userId);
 
-            //此处应接点赞接口
-            //如果当前喜欢,接不喜欢接口
-            // console.log("that.userId::" + that.userId)
             uni.request({
               url: "https://skrvideo.fun/comment/create",
               method: "POST",
@@ -367,7 +377,7 @@
         this.vlogId = vlogId
         uni.getStorage({
           key: 'userId',
-          success: (res)=> {
+          success: (res) => {
             var uid = res.data
             console.log("内uiddd::" + uid)
             this.toComment(vlogId, uid)
@@ -424,132 +434,110 @@
         console.log("开评论框", this.ifshow)
       },
       changecmtlist() {
-        
+
+        console.log("changecmtlist125678")
         this.iflogin(this.vlogId)
       },
       toFri() {
         console.log("去好友,接推荐的视频接口")
-        if(this.myId!=""){
-          this.recorloc = 2
-        } else{
-          //未登录
-          uni.navigateTo({
-            url: "../me/Login"
-          })
-        }
-      },
-      toRec() {
-        console.log("去推荐,接推荐的视频接口")
-        this.recorloc = 1
-      },
-      toMap(index) {
-        if(this.myId!=""&&this.sheng!=""){
-          this.recorloc = 0
-          //获取缓存里的searchprovinceId
-        } else{
-          uni.navigateTo({
-            url: "../me/Login"
-          })
-        }
-      },
-      cmtclose(cmtclose) {
-        this.ifshow = cmtclose;
-      },
-      cLike(vlogId, vlogerId, like, index) {
-        console.log("点赞换♥图片颜色,后期接数据做判断")
         uni.getStorage({
-          key: 'userId',
-          success: (res)=> {
-            this.userId = res.data
-            if (like == true) {
-              this.dataList[index].doILikeThisVlog = false
-              this.dataList[index].likeCounts--
-              uni.request({
-                url: "https://skrvideo.fun/vlog/unlike",
-                method: "POST",
-                header: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                },
-                data: {
-                  userId: this.userId,
-                  vlogId: vlogId,
-                  vlogerId: vlogerId,
-                },
-                // dataType: "json",
-                success: (res) => {
-                  console.log(res)
-                },
-                fail: (res) => {
-                  console.log(res)
-                }
-              })
+            key: 'userId',
+            success: (res) => {
+              this.myId = res.data
+              this.get(this.myId,2)
 
-            } else if (like == false) {
-              this.dataList[index].doILikeThisVlog = true
-              this.dataList[index].likeCounts++
-              uni.request({
-                url: "https://skrvideo.fun/vlog/like",
-                method: "POST",
-                header: {
-                  "Content-Type": "application/x-www-form-urlencoded"
-                },
-                data: {
-                  userId: this.userId,
-                  vlogId: vlogId,
-                  vlogerId: vlogerId,
-                },
-                // dataType: "json",
-                success: (res) => {
-                  console.log(res)
-                },
-                fail: (res) => {
-                  console.log(res)
-                }
+
+            },
+            fail: (res) => {
+              console.log('fail', res);
+              uni.navigateTo({
+                url: "../me/Login"
+              })
+            }
+            })
+          },
+          toRec() {
+            console.log("去推荐,接推荐的视频接口")
+            this.recorloc = 1
+          },
+          toMap(index) {
+            if (this.myId != "" && this.sheng != "") {
+              this.recorloc = 0
+              //获取缓存里的searchprovinceId
+            } else {
+              uni.navigateTo({
+                url: "../me/Login"
               })
             }
           },
-          fail: (res) => {
-            console.log('fail', res);
-            uni.navigateTo({
-              url: "../me/Login"
-            })
-          }
-        });
-        // console.log("datalist2"+this.dataList[index].like)
-      },
-      // 分享
-      // onShareAppMessage: function(res) {
-      //   var that = this;
-      //   //console.log('res=====',res);
-      //   if (res.from === 'button') {
-      //     //console.log('来自页面内转发按钮');
-      //   } else if (res.from === 'menu') {
-      //     //console.log('右上角菜单转发按钮');
-      //   }
-      //   // 返回数据
-      //   return {
-      //     title: "拾刻短视频",
+          cmtclose(cmtclose) {
+            this.ifshow = cmtclose;
+          },
+          cLike(vlogId, vlogerId, like, index) {
+            console.log("点赞换♥图片颜色,后期接数据做判断")
+            uni.getStorage({
+              key: 'userId',
+              success: (res) => {
+                this.userId = res.data
+                if (like == true) {
+                  this.dataList[index].doILikeThisVlog = false
+                  this.dataList[index].likeCounts--
+                  uni.request({
+                    url: "https://skrvideo.fun/vlog/unlike",
+                    method: "POST",
+                    header: {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    data: {
+                      userId: this.userId,
+                      vlogId: vlogId,
+                      vlogerId: vlogerId,
+                    },
+                    // dataType: "json",
+                    success: (res) => {
+                      console.log(res)
+                    },
+                    fail: (res) => {
+                      console.log(res)
+                    }
+                  })
 
-      //     success: function(res) {
-      //       // 转发成功，可以把当前页面的链接发送给后端，用于记录当前页面被转发了多少次或其他业务
-      //       wx.request({
-      //         // url: app.buildUrl("/member/share"),
-      //         data: {
-      //           url: utils.getCurrentPageUrlWithArgs()
-      //         },
-      //         success: function(res) {
-      //           console.log('转发成功');
-      //         }
-      //       });
-      //     },
-      //     fail: function(res) {
-      //       console.log('转发失败');
-      //       // 转发失败
-      //     }
-      //   }
-      // },
-    }
-  }
+                } else if (like == false) {
+                  this.dataList[index].doILikeThisVlog = true
+                  this.dataList[index].likeCounts++
+                  uni.request({
+                    url: "https://skrvideo.fun/vlog/like",
+                    method: "POST",
+                    header: {
+                      "Content-Type": "application/x-www-form-urlencoded"
+                    },
+                    data: {
+                      userId: this.userId,
+                      vlogId: vlogId,
+                      vlogerId: vlogerId,
+                    },
+                    // dataType: "json",
+                    success: (res) => {
+                      console.log(res)
+                    },
+                    fail: (res) => {
+                      console.log(res)
+                    }
+                  })
+                }
+              },
+              fail: (res) => {
+                console.log('fail', res);
+                uni.navigateTo({
+                  url: "../me/Login"
+                })
+              }
+            });
+            // console.log("datalist2"+this.dataList[index].like)
+          },
+
+        }
+      }
 </script>
 
 <style>
@@ -714,7 +702,7 @@
     background-color: #161822;
     border-radius: 20px 20px 0 0;
     border-top: #808080 solid 2px;
-    
+
   }
 
 
