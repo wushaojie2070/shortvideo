@@ -45,7 +45,7 @@
 				page: 1,
 				total: 0,
 				records: 0,
-				isshow:false,
+				isshow: false,
 			}
 		},
 		mounted() {
@@ -131,30 +131,51 @@
 				}
 			},
 			lower(e) {
+				this.page++;
 				if (this.total > this.page) {
-					this.page++,
-						uni.request({
-							url: "https://skrvideo.fun/fans/queryMyFans",
-							method: "GET",
-							data: {
-								"myId": this.userId,
-								"page": this.page,
-								"pageSize": 8
-							},
-							dataType: "json",
-							success: (res) => {
-								console.log("fanslist2", res);
-								for (let i = 0; i < this.records - 8; i++) {
-									this.fanslist.push(res.data.data.rows[i]);
-								}
-								console.log(this.fanslist);
-							},
-							fail: (res) => {
-								console.log("fail", res)
+					uni.request({
+						url: "https://skrvideo.fun/fans/queryMyFans",
+						method: "GET",
+						data: {
+							"myId": this.userId,
+							"page": this.page,
+							"pageSize": 8
+						},
+						dataType: "json",
+						success: (res) => {
+							console.log("fanslist2", res);
+							for (let i = 0; i < 8; i++) {
+								this.fanslist.push(res.data.data.rows[i]);
 							}
-						})
-				}else{
-					this.isshow=true
+							console.log(this.fanslist);
+						},
+						fail: (res) => {
+							console.log("fail", res)
+						}
+					})
+				} else if (this.total == this.page) {
+					uni.request({
+						url: "https://skrvideo.fun/fans/queryMyFans",
+						method: "GET",
+						data: {
+							"myId": this.userId,
+							"page": this.page,
+							"pageSize": 8
+						},
+						dataType: "json",
+						success: (res) => {
+							console.log("fanslist3", res);
+							for (let i = 0; i < (8 * this.page - this.records); i++) {
+								this.fanslist.push(res.data.data.rows[i]);
+							}
+							console.log(this.fanslist);
+						},
+						fail: (res) => {
+							console.log("fail", res)
+						}
+					})
+				} else {
+					this.isshow = true
 				}
 			}
 		}

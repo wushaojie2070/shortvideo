@@ -1,7 +1,7 @@
 <template>
 	<view class="friends">
 		<view style="width: 100%;height: 1px;background: #393a43;"></view>
-		<scroll-view :style="{height: windowHeight + 'px',}" scroll-y="true" @scrolltolower="lower" @scroll="scroll">
+		<scroll-view :style="{height: windowHeight + 'px',}" scroll-y="true" @scrolltolower="lower">
 			<view class="fantab">
 				<view class="List">
 					<view class="List-item" v-for="item in followslist" :key="item.vlogerId">
@@ -139,36 +139,55 @@
 				}
 			},
 			lower(e) {
+				this.page++;
 				if (this.total > this.page) {
-					this.page++,
-						uni.request({
-							url: "https://skrvideo.fun/fans/queryMyFollows",
-							method: "GET",
-							data: {
-								"myId": this.userId,
-								"page": this.page,
-								"pageSize": 8
-							},
-							dataType: "json",
-							success: (res) => {
-								console.log("followslist2", res);
-								for (let i = 0; i < this.records - 8; i++) {
-									this.followslist.push(res.data.data.rows[i]);
-								}
-								console.log(this.followslist);
-							},
-							fail: (res) => {
-								console.log("fail", res)
+					uni.request({
+						url: "https://skrvideo.fun/fans/queryMyFollows",
+						method: "GET",
+						data: {
+							"myId": this.userId,
+							"page": this.page,
+							"pageSize": 8
+						},
+						dataType: "json",
+						success: (res) => {
+							console.log("followslist2", res);
+							for (let i = 0; i < 8; i++) {
+								this.followslist.push(res.data.data.rows[i]);
 							}
-						})
+							console.log(this.followslist);
+						},
+						fail: (res) => {
+							console.log("fail", res)
+						}
+					})
+				} else if (this.total == this.page) {
+					console.log(this.total)
+					console.log(this.page)
+					uni.request({
+						url: "https://skrvideo.fun/fans/queryMyFollows",
+						method: "GET",
+						data: {
+							"myId": this.userId,
+							"page": this.page,
+							"pageSize": 8
+						},
+						dataType: "json",
+						success: (res) => {
+							console.log("followslist3", res);
+							for (let i = 0; i < 8 - (8 * this.page - this.records); i++) {
+								this.followslist.push(res.data.data.rows[i]);
+							}
+							console.log(this.followslist);
+						},
+						fail: (res) => {
+							console.log("fail", res)
+						}
+					})
 				} else {
 					this.isshow = true
-
 				}
 			},
-			// scroll(){
-			// 	this.isshow=false
-			// }
 		}
 	}
 </script>
