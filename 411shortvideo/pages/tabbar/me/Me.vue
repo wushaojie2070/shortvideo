@@ -49,19 +49,15 @@
 				</view>
 				<view v-if="!isMe && isFollow" class="other-more-visitor in-one-line" @click="renewalClick()">
 					<view class="other-more-visitor-text">
-						<image src="../../../static/img/me/me/更新.png"
+						<image 
+							src="../../../static/img/me/me/更新.png"
 							style="width: 40rpx;height: 40rpx;margin-bottom: -12rpx;margin-left: -10rpx;margin-right: 10rpx;">
 						</image>
 						求更新
 					</view>
 				</view>
-				<image v-if="isMe" src="../../../static/img/me/me/更多.png" @click="more()" class="other-more-set">
-				</image>
+				<image v-if="isMe" src="../../../static/img/me/me/更多.png" @click="more()" class="other-more-set"></image>
 			</view>
-			<!-- 求更新弹窗 -->
-			<uni-popup ref="renewal" type="center">
-				作者已收到你的请求，更新后将发送系统通知
-			</uni-popup>
 			<!-- 点击获赞的弹窗 -->
 			<uni-popup ref="popup" type="center">
 				<view class="win-praise">
@@ -96,17 +92,25 @@
 						<text class="infos-info-name">{{userInfo.nickname}}</text><br>
 						<text class="infos-info-code">拾刻号：</text>
 						<text class="infos-info-code" @click="myQrCode()">{{userInfo.imoocNum}}</text>
-						<image v-if="isMe" src="../../../static/img/me/me/二维码.png" @click="myQrCode()"
+						<image
+							v-if="isMe"
+							src="../../../static/img/me/me/二维码.png"
+							@click="myQrCode()"
 							style="width: 20px;height: 20px;margin: 0 5px -5px;">
 						</image>
-						<image v-if="!isMe" src="../../../static/img/me/me/复制.png" @click="myQrCode()"
+						<image
+							v-if="!isMe"
+							src="../../../static/img/me/me/复制.png"
+							@click="myQrCode()"
 							style="width: 17px;height: 17px;margin: 0 5px -5px;">
 						</image>
 					</view>
 					<hr style="width: 100%;color: #FFFFFF;opacity: 0.2;">
 					<view class="infos-introduction" @click="changeIntroduce()">
 						<text>{{userInfo.description}}</text>
-						<image v-if="isMe" src="../../../static/img/me/me/编辑.png"
+						<image
+							v-if="isMe"
+							src="../../../static/img/me/me/编辑.png"
 							style="width: 18px;height: 18px;margin-left: 13px;">
 						</image>
 					</view>
@@ -125,12 +129,17 @@
 						</view>
 					</view>
 					<view class="infos-btn in-one-line" v-if="!isMe">
-						<view class="in-one-line" style="width: 100%;" v-if="isFollow" @click="changeFollow()">
+						<view class="in-one-line" 
+							style="width: 100%;" 
+							v-if="isFollow" 
+							@click="changeFollow()">
 							<view class="infos-btn-data in-one-line">
 								<text class="infos-btn-text">已关注</text>
 							</view>
 						</view>
-						<view v-if="!isFollow" @click="changeFollow()" style="background-color: #ff0000; width: 100%;"
+						<view v-if="!isFollow" 
+							@click="changeFollow()"
+							style="background-color: #ff0000; width: 100%;" 
 							class="infos-btn-data in-one-line">
 							<text class="infos-btn-text">关注</text>
 						</view>
@@ -219,12 +228,17 @@
 			this.getMyPublicList()
 		},
 		onShow() {
+       // Object.assign(this, this.$options.data());
+			this.getinfo()
 			this.getMyPublicList()
 		},
 		destroyed() {
 			this.currentTab = 0
 		},
 		methods: {
+      // onLoad() {
+      //     Object.assign(this, this.$options.data()); // 重置页面数据
+      // },
 			switch1Change() {
 				this.isdelete = !this.isdelete
 			},
@@ -253,11 +267,8 @@
 								method: 'GET',
 								success: (res) => {
 									// console.log(res.data.data);
+									this.userInfo = {};
 									this.userInfo = res.data.data;
-									uni.setStorage({
-										key: 'userToken',
-										data: res.data.data.userToken,
-									})
 									this.getMyPublicList();
 								}
 							})
@@ -270,10 +281,6 @@
 									success: (res) => {
 										console.log(res.data.data);
 										this.userInfo = res.data.data;
-										uni.setStorage({
-											key: 'userToken',
-											data: res.data.data.userToken,
-										})
 										this.getMyPublicList();
 									}
 								})
@@ -290,22 +297,26 @@
 								})
 							}
 						}
-						uni.request({
-							url: "https://skrvideo.fun/fans/queryDoIFollowVloger",
-							method: "GET",
-							data: {
-								"myId": this.userId,
-								"vlogerId": this.userPageId
-							},
-							dataType: "json",
-							success: (res) => {
-								console.log("doi", res)
-								this.isFollow = res.data.data
-							},
-							fail: (res) => {
-								console.log(res)
-							}
-						})
+            uni.request({
+            							url: "https://skrvideo.fun/fans/queryDoIFollowVloger",
+            							method: "GET",
+            							data: {
+            								"myId": this.userId,
+            								"vlogerId": this.userPageId
+            							},
+            							dataType: "json",
+            							success: (res) => {
+            								console.log("doi", res)
+            								this.isFollow = res.data.data
+            							},
+            							fail: (res) => {
+            								console.log(res)
+            							}
+            						})
+            
+            
+            
+            
 					},
 				});
 			},
@@ -316,16 +327,10 @@
 				})
 			},
 			renewalClick() {
-				this.$refs.renewal.open();
-				setTimeout(() => {
-					this.$refs.renewal.close();
-				}, 500);
-			},
-			renewalClick() {
-				this.$refs.renewal.open();
-				setTimeout(() => {
-					this.$refs.renewal.close();
-				}, 500);
+				uni.showToast({
+					icon: "none",
+					title: "作者已收到你的请求，更新后将发送系统通知！"
+				});
 			},
 			open() {
 				this.$refs.popup.open();
@@ -337,92 +342,89 @@
 				this.currentTab = id;
 			},
 			changeFollow() {
-				console.log("user", this.userId)
-				console.log("pageId", this.userPageId)
-				this.isFollow = !this.isFollow;
-				if (this.isFollow) {
-					uni.request({
-						url: "https://skrvideo.fun/fans/follow",
-						method: "POST",
-						header: {
-							"Content-Type": "application/x-www-form-urlencoded"
+							console.log("user", this.userId)
+							console.log("pageId", this.userPageId)
+							this.isFollow = !this.isFollow;
+							if (this.isFollow) {
+								uni.request({
+									url: "https://skrvideo.fun/fans/follow",
+									method: "POST",
+									header: {
+										"Content-Type": "application/x-www-form-urlencoded"
+									},
+									data: {
+										"myId": this.userId,
+										"vlogerId": this.userPageId
+									},
+									// dataType: "json",
+									success: (res) => {
+										console.log(res)
+									},
+									fail: (res) => {
+										console.log(res)
+									}
+								})
+							} else {
+								uni.request({
+									url: "https://skrvideo.fun/fans/cancel",
+									method: "POST",
+									header: {
+										"Content-Type": "application/x-www-form-urlencoded"
+									},
+									data: {
+										"myId": this.userId,
+										"vlogerId": this.userPageId,
+									},
+									// dataType: "json",
+									success: (res) => {
+										console.log(res)
+									},
+									fail: (res) => {
+										console.log(res)
+									}
+								})
+							}
 						},
-						data: {
-							"myId": this.userId,
-							"vlogerId": this.userPageId
-						},
-						// dataType: "json",
-						success: (res) => {
-							console.log(res)
-						},
-						fail: (res) => {
-							console.log(res)
-						}
-					})
-				} else {
-					uni.request({
-						url: "https://skrvideo.fun/fans/cancel",
-						method: "POST",
-						header: {
-							"Content-Type": "application/x-www-form-urlencoded"
-						},
-						data: {
-							"myId": this.userId,
-							"vlogerId": this.userPageId,
-						},
-						// dataType: "json",
-						success: (res) => {
-							console.log(res)
-						},
-						fail: (res) => {
-							console.log(res)
-						}
-					})
-				}
-			},
 			changeMyBg() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeBg?bg=" + that.userInfo.bgImg,
+					url: "component/ChangeBg",
 				})
 			},
 			changeMyFace() {
 				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeFace?faceUrl=" + that.userInfo.faceUrl,
+					url: "component/ChangeFace",
 				})
 			},
 			myQrCode() {
 				var that = this;
-				if (this.isMe) {
+				if(this.isMe){
 					uni.navigateTo({
 						animationType: "zoom-fade-out",
-						url: "component/QrCode?faceUrl=" + that.userInfo.face + "&name=" + that.userInfo.nickName,
+						url: "component/QrCode?faceUrl="+that.userInfo.face+"&name="+that.userInfo.nickname,
 					})
-				} else {
+				}else{
 					uni.setClipboardData({
-						data: that.userInfo.imoocNum,
-						success: function(resp) {
-							console.log("success", resp);
+						data:that.userInfo.imoocNum,
+						success:function(resp){
+							console.log("success",resp);
 						}
 					})
 				}
 			},
 			changeIntroduce() {
-				var that = this;
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeIntroduce?introduce=" + that.userInfo.introduce,
+					url: "component/ChangeIntroduce",
 				})
 			},
 			goMyInfo() {
-				var that = this;
-				var info = JSON.stringify(this.userInfo);
 				uni.navigateTo({
 					animationType: "zoom-fade-out",
-					url: "component/ChangeInfo?userInfo=" + info,
+					url: "component/ChangeInfo",
 				})
 			},
 			more() {
@@ -536,6 +538,14 @@
 					}
 				});
 
+			}
+		},
+		watch: {
+			userInfo: {
+				deep:true,
+				handler(newValue,oldValue){
+					console.log("n,o",newValue,oldValue);
+				}
 			}
 		}
 	}
@@ -796,17 +806,16 @@
 	}
 
 	/* 点击获赞的弹窗 */
-	.win-praise {
+	.win-praise{
 		background-color: #FFFFFF;
 	}
-
-	.win-praise-text {
+	.win-praise-text{
 		color: #000000;
 		font-size: 15px;
 		line-height: 140rpx;
 		text-align: center;
 	}
-
+	
 	/* 更多右侧弹窗 */
 	.even-more {
 		height: 81%;
