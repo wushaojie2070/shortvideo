@@ -228,6 +228,7 @@
 			this.getMyPublicList()
 		},
 		onShow() {
+       // Object.assign(this, this.$options.data());
 			this.getinfo()
 			this.getMyPublicList()
 		},
@@ -235,6 +236,9 @@
 			this.currentTab = 0
 		},
 		methods: {
+      // onLoad() {
+      //     Object.assign(this, this.$options.data()); // 重置页面数据
+      // },
 			switch1Change() {
 				this.isdelete = !this.isdelete
 			},
@@ -293,6 +297,26 @@
 								})
 							}
 						}
+            uni.request({
+            							url: "https://skrvideo.fun/fans/queryDoIFollowVloger",
+            							method: "GET",
+            							data: {
+            								"myId": this.userId,
+            								"vlogerId": this.userPageId
+            							},
+            							dataType: "json",
+            							success: (res) => {
+            								console.log("doi", res)
+            								this.isFollow = res.data.data
+            							},
+            							fail: (res) => {
+            								console.log(res)
+            							}
+            						})
+            
+            
+            
+            
 					},
 				});
 			},
@@ -318,8 +342,49 @@
 				this.currentTab = id;
 			},
 			changeFollow() {
-				this.isFollow = !this.isFollow;
-			},
+							console.log("user", this.userId)
+							console.log("pageId", this.userPageId)
+							this.isFollow = !this.isFollow;
+							if (this.isFollow) {
+								uni.request({
+									url: "https://skrvideo.fun/fans/follow",
+									method: "POST",
+									header: {
+										"Content-Type": "application/x-www-form-urlencoded"
+									},
+									data: {
+										"myId": this.userId,
+										"vlogerId": this.userPageId
+									},
+									// dataType: "json",
+									success: (res) => {
+										console.log(res)
+									},
+									fail: (res) => {
+										console.log(res)
+									}
+								})
+							} else {
+								uni.request({
+									url: "https://skrvideo.fun/fans/cancel",
+									method: "POST",
+									header: {
+										"Content-Type": "application/x-www-form-urlencoded"
+									},
+									data: {
+										"myId": this.userId,
+										"vlogerId": this.userPageId,
+									},
+									// dataType: "json",
+									success: (res) => {
+										console.log(res)
+									},
+									fail: (res) => {
+										console.log(res)
+									}
+								})
+							}
+						},
 			changeMyBg() {
 				var that = this;
 				uni.navigateTo({

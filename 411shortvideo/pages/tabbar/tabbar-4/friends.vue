@@ -48,6 +48,9 @@
 				isshow: false,
 			}
 		},
+    // onShow() {
+    //    Object.assign(this, this.$options.data());
+    // },
 		mounted() {
 			var that = this;
 			uni.getStorage({
