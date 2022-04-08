@@ -27,7 +27,7 @@
 					</view>
 				</view>
 				<view style="width: 100%;height: 1px;background: #393a43;"></view>
-				<view class="more" v-show="(total==0)||isshow">
+				<view class="more" v-show="isshow">
 					无更多粉丝
 				</view>
 			</view>
@@ -55,25 +55,7 @@
 				success: function(res) {
 					console.log(res.data);
 					that.userId = res.data
-					uni.request({
-						url: "https://skrvideo.fun/fans/queryMyFans",
-						method: "GET",
-						data: {
-							"myId": that.userId,
-							"page": that.page,
-							"pageSize": 8,
-						},
-						dataType: "json",
-						success: (res) => {
-							console.log("fanslist", res);
-							that.fanslist = res.data.data.rows
-							that.total = res.data.data.total
-							that.records = res.data.data.records
-						},
-						fail: (res) => {
-							console.log("fail", res)
-						}
-					})
+					that.getlist()
 				},
 				fail: function(res) {
 					console.log(res)
@@ -82,6 +64,30 @@
 			console.log(1);
 		},
 		methods: {
+			getlist(){
+				uni.request({
+					url: "https://skrvideo.fun/fans/queryMyFans",
+					method: "GET",
+					data: {
+						"myId": this.userId,
+						"page": this.page,
+						"pageSize": 8,
+					},
+					dataType: "json",
+					success: (res) => {
+						console.log("fanslist", res);
+						this.fanslist = res.data.data.rows
+						this.total = res.data.data.total
+						this.records = res.data.data.records
+						if(this.fanslist.length<9){
+							this.isshow=true
+						}
+					},
+					fail: (res) => {
+						console.log("fail", res)
+					}
+				})
+			},
 			tochat() {
 				uni.navigateTo({
 					url: 'chatroom/chatroom'

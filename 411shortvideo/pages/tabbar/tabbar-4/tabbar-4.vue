@@ -2,8 +2,8 @@
 	<view class="news">
 		<view>
 			<top @fans="isfans"></top>
-			<friends v-if="lookfans"></friends>
-			<follows v-if="!lookfans"></follows>
+			<friends v-if="lookfans" ref="friends"></friends>
+			<follows v-if="!lookfans" ref="follows"></follows>
 		</view>
 	</view>
 </template>
@@ -18,8 +18,14 @@
 			friends,
 			follows,
 		},
+		onShow() {
+			this.$refs.follows.getlist()
+			this.$refs.friends.getlist()
+		},
 		data() {
 			return {
+				key1:0,
+				key2:0,
 				userIsLogin:false,
 				lookfans:true
 			}
