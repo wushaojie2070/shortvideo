@@ -104,7 +104,7 @@
           fail: (res) => {
             console.log('fail', res);
             uni.switchTab({
-              url: '/pages/tabbar/me/Me'
+              url: '/pages/tabbar/me/index'
             });
           }
         });
@@ -179,7 +179,7 @@
           fail: (res) => {
             console.log('fail', res);
             uni.switchTab({
-              url: '/pages/tabbar/me/Me'
+              url: '/pages/tabbar/me/index'
             });
           }
         });

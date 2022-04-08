@@ -364,9 +364,12 @@
           },
           fail: (res) => {
             console.log('fail', res);
-            uni.navigateTo({
-              url: "../me/Login"
-            })
+            // uni.navigateTo({
+            //   url: "../me/Login"
+            // })
+            uni.switchTab({
+              url: '/pages/tabbar/me/index'
+            });
           }
         });
       },
@@ -444,9 +447,12 @@
           },
           fail: (res) => {
             console.log('fail', res);
-            uni.navigateTo({
-              url: "../me/Login"
-            })
+            // uni.navigateTo({
+            //   url: "../me/Login"
+            // })
+            uni.switchTab({
+              url: '/pages/tabbar/me/index'
+            });
           }
         })
       },
@@ -460,9 +466,12 @@
           this.recorloc = 0
           //获取缓存里的searchprovinceId
         } else {
-          uni.navigateTo({
-            url: "../me/Login"
-          })
+          // uni.navigateTo({
+          //   url: "../me/Login"
+          // })
+          uni.switchTab({
+            url: '/pages/tabbar/me/index'
+          });
         }
       },
       cmtclose(cmtclose) {
@@ -523,9 +532,12 @@
           },
           fail: (res) => {
             console.log('fail', res);
-            uni.navigateTo({
-              url: "../me/Login"
-            })
+            // uni.navigateTo({
+            //   url: "../me/Login"
+            // })
+            uni.switchTab({
+              url: '/pages/tabbar/me/index'
+            });
           }
         });
         // console.log("datalist2"+this.dataList[index].like)
