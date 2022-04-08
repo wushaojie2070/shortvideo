@@ -92,7 +92,7 @@
           <!-- i={{i}} -->
           <text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.content}}</text>
           <!-- k={{k}} -->
-          <!-- <text class="music">错位时空 --艾辰</text> -->
+          <!-- <text class="music">错位时空 --1234567艾辰</text> -->
         </view>
         <view v-if="ifshow" class="commentshow">
           <videocomment :commentList="commentList" @changecmtlist="changecmtlist" @cmtclose="cmtclose"></videocomment>
