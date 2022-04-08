@@ -55,7 +55,7 @@
 			var that = this;
 			uni.getSystemInfo({
 				success: (res) => {
-					this.windowHeight = res.windowHeight;
+					this.windowHeight = res.windowHeight-50;
 				}
 			});
 			uni.getStorage({
@@ -63,33 +63,38 @@
 				success: function(res) {
 					console.log(res.data);
 					that.userId = res.data
-					uni.request({
-						url: "https://skrvideo.fun/fans/queryMyFollows",
-						method: "GET",
-						data: {
-							"myId": that.userId,
-							"page": that.page,
-							"pageSize": 8
-						},
-						dataType: "json",
-						success: (res) => {
-							console.log("followslist", res);
-							that.followslist = res.data.data.rows
-							that.total = res.data.data.total
-							that.records = res.data.data.records
-						},
-						fail: (res) => {
-							console.log("fail", res)
-						}
-					})
+					that.getlist()
 				},
 				fail: function(res) {
 					console.log(res)
 				}
 			});
-			console.log(1);
 		},
 		methods: {
+			getlist(){
+				uni.request({
+					url: "https://skrvideo.fun/fans/queryMyFollows",
+					method: "GET",
+					data: {
+						"myId": this.userId,
+						"page": this.page,
+						"pageSize": 8
+					},
+					dataType: "json",
+					success: (res) => {
+						console.log("followslist", res);
+						this.followslist = res.data.data.rows
+						this.total = res.data.data.total
+						this.records = res.data.data.records
+						if(this.followslist.length<9){
+							this.isshow=true
+						}
+					},
+					fail: (res) => {
+						console.log("fail", res)
+					}
+				})
+			},
 			tochat() {
 				uni.navigateTo({
 					url: 'chatroom/chatroom'
