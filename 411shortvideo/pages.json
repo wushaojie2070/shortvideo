@@ -68,7 +68,11 @@
 		{
 			"path":"pages/tabbar/me/component/QrCode",
 			"style": {}
-		}
+		},
+    {
+    	"path":"pages/tabbar/me/component/showvideo",
+    	"style": {}
+    }
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

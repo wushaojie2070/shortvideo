@@ -1,68 +1,48 @@
 <template>
   <view>
+    <cover-view class="firstNav">
+      <cover-view class="middle">
+        <!-- text1是选择显示下划线  recorloc==1为选中推荐,==0为选中同城,text1有下划线-->
+        <cover-view class="text" v-if="currentTab==0" >作品</cover-view>
+        <cover-view class="text" v-if="currentTab==1" >赞过</cover-view>
+        <cover-view class="text" v-if="currentTab==2" >私密</cover-view>
+      </cover-view>
+      <cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">{{sheng}}省{{shi}}</cover-view>
+    </cover-view>
     <swiper :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'" :vertical="true" @change="change"
       :current="current" :indicator-dots="false">
       <!-- 视频数组 -->
       <swiper-item v-for="(list,index) in dataList">
         <view>
-          <!-- 
-					1.v-if：用于控制视频在节点的渲染数
-					2.muted的默认值是 false，代表默认是禁音视频的
-					3.http-cache默认开启视频缓存
-					4.poster（封面（方案一））：这里的封面默认处理存储在腾讯云的视频
-					5.show-loading：这里默认去掉播放转圈的标志
-					 -->
-          <video v-if="Math.abs(k-index)<=1" :id="list.vlogId" :loop="true" :muted="list.isplay" :controls="false"
+          <video v-if="Math.abs(k-index)<=1" :id="list.id" :loop="true" :muted="list.isplay" :controls="false"
             :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'" :http-cache="true"
             :page-gesture="false" :show-fullscreen-btn="false" :show-loading="true" :show-center-play-btn="false"
             :enable-progress-gesture="false" :poster="list.cover" :src="list.url" @ended="ended"
             @click="tapVideoHover(list.state,$event)"></video>
-
         </view>
         <!-- 播放状态：pause 的时候就会暂停 -->
         <view class="videoHover" @click="tapVideoHover(list.state,$event)"
           :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'">
           <!-- <image v-if="list.state=='pause'" class="playState" src="@/static/img/index/play.png"></image> -->
         </view>
-        <view class="userInfo">
-          <!-- 1.头像 -->
-          <!-- <image @click="tozuozhe" class="userAvatar" :src="list.href" mode="aspectFill"></image> -->
-          <image @click="tozuozhe(list.vlogerId)" class="userAvatar" :src="list.vlogerFace" mode="aspectFill"></image>
-          <!-- 2.点赞 -->
-          <view @click="cLike(list.vlogId,list.vlogerId,list.doILikeThisVlog,index);"
-            style="opacity: 0.9; margin-top: 17px;">
-            <image v-if="list.doILikeThisVlog" src="@/static/img/index/xin.png"
-              style="width: 40px; height: 40px; position: absolute; right: 6px;"></image>
-            <image v-if="!list.doILikeThisVlog" src="@/static/img/index/aixin.png"
-              style="width: 40px; height: 40px; position: absolute; right: 6px;"></image>
-            <text
-              style="color: #FFFFFF; margin-top: 5px; font-size: 14px; text-align: center; margin-top: 40px; font-weight: bold;"
-              :class="{'likeNumActive':list.doILikeThisVlog}">{{list.likeCounts}}</text>
-          </view>
-          <!-- 3.评论 -->
-          <view class="comment" @click="iflogin(list.vlogId)" style="opacity: 0.9; margin-top: 17px;">
+        <!-- <view class="userInfo">
+          <view class="comment" @click="iflogin(list.id)" style="opacity: 0.9; margin-top: -10rpx;">
             <image src="@/static/img/index/pinlun.png"
               style="width: 35px; height: 35px; position: absolute; right: 7px;"></image>
             <text
               style="color: #FFFFFF; margin-top: 5px; font-size: 14px; font-weight: bold; text-align: center; margin-top: 40px;">{{list.commentsCounts}}</text>
           </view>
-        </view>
-
-
+        </view> -->
         <!-- 最底下的文字部分 -->
         <view class="content">
-          <text class="userName" :style="'width: '+ (windowWidth - 520) +'px;'">@{{list.vlogerName}}</text>
-          <!-- i={{i}} -->
-          <text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.content}}</text>
-          <!-- k={{k}} -->
-          <!-- <text class="music">错位时空 --艾辰</text> -->
+          <text class="words" :style="'width: '+ (windowWidth - 520) +'px;'">{{list.title}}</text>
         </view>
-        <view v-if="ifshow" class="commentshow">
+        <!-- <view v-if="ifshow" class="commentshow">
           <videocomment :commentList="commentList" @changecmtlike="changecmtlike" @cmtclose="cmtclose"></videocomment>
           <textarea placeholder-style="color:#000000" placeholder="编辑一条友善的评论吧~" confirm-type="send"
             adjust-position="true" maxlength=70 class="cmttext" name="" v-model="commentText"></textarea>
-          <button class="publishbtn" @click="addComment(list.vlogId,list.vlogerId)">发表</button>
-        </view>
+          <button class="publishbtn" @click="addComment(list.id,list.vlogerId)">发表</button>
+        </view> -->
       </swiper-item>
     </swiper>
     <!-- 评论框 -->
@@ -70,11 +50,11 @@
 </template>
 
 <script>
-  import videocomment from '../tabbar-1/components/video-comment.vue'
+  // import videocomment from "../../tabbar-1/components/video-comment.vue"
   export default {
-    components: {
-      videocomment
-    },
+    // components: {
+    //   videocomment
+    // },
     data() {
       return {
         // state: 'pause',
@@ -88,12 +68,15 @@
         videoList: [1234], //是接口的视频数组
         cmdList: [], //这个是接口拿到的评论数组
         commentList: [], //这个是运作的评论数组
+        // publicVlogList: [],//这个是me传来的index
+        listindex: 0,
+        currentTab: 0,
         userId: 0,
         k: 0,
         page: 0,
         pageSize: 10,
         total: 2,
-        vlogId: 0,
+        id: 0,
         records: 20,
         cmtpage: 0,
         cmtpageSize: 10,
@@ -115,20 +98,18 @@
         this.dataList[old_k].play = false //如果视频暂停，就加载封面
         this.dataList[old_k].isplay = true
         this.dataList[old_k].state = 'pause'
-        uni.createVideoContext(this.dataList[old_k].vlogId, this).play()
+        uni.createVideoContext(this.dataList[old_k].id, this).play()
         clearTimeout(this.oldVideo)
         this.oldVideo = setTimeout(() => {
-          uni.createVideoContext(this.dataList[old_k].vlogId, this).seek(0)
-          uni.createVideoContext(this.dataList[old_k].vlogId, this).pause()
-          console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k].vlogId)
+          uni.createVideoContext(this.dataList[old_k].id, this).seek(0)
+          uni.createVideoContext(this.dataList[old_k].id, this).pause()
+          console.log('预留第' + (old_k + 1) + '个视频：' + this.dataList[old_k].id)
         }, 500)
         uni.createVideoContext(this.dataList[old_k]._id + '' + old_k, this)
           .stop() //如果视频暂停，那么旧视频停止，这里的this.dataList[old_k]._id + '' + old_k，后面加 old_k 是为了每一个视频的 id 值不同，这样就可以大程度的避免串音问题
-
-
         console.log('已经暂停 第' + (old_k + 1) + '个视频～') //提示
         this.dataList[k].state = 'play'
-        uni.createVideoContext(this.dataList[k].vlogId, this).play()
+        uni.createVideoContext(this.dataList[k].id, this).play()
         clearTimeout(this.voice)
         this.voice = setTimeout(() => {
           this.dataList[k].isplay = false
@@ -140,17 +121,25 @@
         var p = k
           ++p
         setTimeout(() => {
-          uni.createVideoContext(this.dataList[p].vlogId, this).play()
+          uni.createVideoContext(this.dataList[p].id, this).play()
         }, 20)
         clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
-          uni.createVideoContext(this.dataList[p].vlogId, this).seek(0)
-          uni.createVideoContext(this.dataList[p].vlogId, this).pause()
-          console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].vlogId)
+          uni.createVideoContext(this.dataList[p].id, this).seek(0)
+          uni.createVideoContext(this.dataList[p].id, this).pause()
+          console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].id)
         }, 1800)
       }
     },
-    onLoad() {
+    onLoad(params) {
+      var index = params.index;
+      console.log("从me传来的index是::::" + index)
+      this.listindex = index;
+
+      var Tab = params.currentTab;
+      console.log("从me传来的currentTab是::::" + Tab)
+      this.currentTab = Tab;
+
       this.windowWidth = uni.getSystemInfoSync().windowWidth
       this.windowHeight = uni.getSystemInfoSync().windowHeight
       this.boxStyle.width = this.windowWidth + 'px' //给宽度加px
@@ -164,7 +153,6 @@
         // 1.播放当前视频结束时触发，自动切换下一个视频
         if (this.ifshow == false)
           this.current = this.k + 1
-
       },
       //点击播放&&暂停
       tapVideoHover(state, event) {
@@ -176,10 +164,10 @@
           this.dataList[this.k].state = 'continue';
         }
         if (this.dataList[this.k].state == 'continue') {
-          uni.createVideoContext(this.dataList[this.k].vlogId, this).play(); //暂停以后继续播放
+          uni.createVideoContext(this.dataList[this.k].id, this).play(); //暂停以后继续播放
         }
         if (this.dataList[this.k].state == 'pause') {
-          uni.createVideoContext(this.dataList[this.k].vlogId, this).pause(); //暂停以后继续播放
+          uni.createVideoContext(this.dataList[this.k].id, this).pause(); //暂停以后继续播放
         }
         console.log('this.state--', state);
       },
@@ -191,88 +179,82 @@
           this.get()
         }
       },
-
       get() {
         this.page++
         if (this.page > this.total)
           this.page = 1
-          
-          uni.getStorage({
-            key: 'userId',
-            success: (res)=> {
-              var uid = res.data
-             // var k = "https://skrvideo.fun/vlog/myPublicList?myId="+uid+"&page=" + this.page + "&pageSize=" + this.pageSize + ""
-        // console.log("k:::::"+k)
-        
-        var k = "https://skrvideo.fun/vlog/myPublicList?userId=" + uid + "&page=" + this.page + "&pageSize=" + this.pageSize + ""
-        uni.request({
-          url: k,
-          method: 'GET',
+        uni.getStorage({
+          key: 'userId',
           success: (res) => {
-            //videoList是接口的视频数组
-            // console.log("this.dataList"+JSON.stringify(this.dataList))
-            this.videoList = res.data.data
-            this.page = res.data.data.page
-            this.total = res.data.data.total
-            this.records = res.data.data.records
-            // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))//走到了
-            // 1.这里引入后端请求数据
-            var msg = this.videoList.rows
-            // 2.这里把视频添加到视频列表
-            for (let i = 0; i < msg.length; i++) {
-              this.dataList.push(msg[i])
-              this.dataList[i].state = 'pause'
-              this.dataList[i].isplay = true
-
+            /* 这个是用户信息界面跳转过来的用于查看视频的界面,传过来视频作者id,判断是作品列表还是喜欢列表*/
+            var uid = res.data
+            //作品
+            var k = "https://skrvideo.fun/vlog/myPublicList?userId=" + uid + "&page=" + this.page +
+              "&pageSize=" + this.pageSize + ""
+            if (this.currentTab == 1) {
+              //赞过
+              k = "https://skrvideo.fun/vlog/myLikeList?userId=" + uid + "&page=" + this.page +
+                "&pageSize=" + this.pageSize + ""
+            } else if (this.currentTab == 2) {
+              //私密
+              k = "https://skrvideo.fun/vlog/myPrivateList?userId=" + uid + "&page=" + this.page +
+                "&pageSize=" + this.pageSize + ""
             }
+            uni.request({
+              url: k,
+              method: 'GET',
+              success: (res) => {
+                //videoList是接口的视频数组
+                this.videoList = res.data.data
+                this.page = res.data.data.page
+                this.total = res.data.data.total
+                this.records = res.data.data.records
+                var msg = this.videoList.rows
+                // 2.这里把视频添加到视频列表
+                for (let i = 0; i < msg.length; i++) {
+                  this.dataList.push(msg[i])
+                  this.dataList[i].state = 'pause'
+                  this.dataList[i].isplay = true
+                  // this.dataList[i].vlogId = this.dataList[i].id
 
-            // console.log("this.videoList添加后"+JSON.stringify(this.dataList)) 
-            // console.log("this.datalistllllllll"+JSON.stringify(this.dataList[1].src))
-            // 3.播放当前视频
-            setTimeout(() => {
-              this.dataList[this.k].isplay = false
-              console.log("isplay变false,this.k不放声音" + this.dataList[this.k].isplay)
-              this.dataList[this.k].state = 'play'
-              uni.createVideoContext(this.dataList[this.k].vlogId, this).play()
-
-              this.dataList[this.k].play = true
-            }, 200)
-            // start - 预加载开始
-            var p = this.k
-              ++p
-            setTimeout(() => {
-              uni.createVideoContext(this.dataList[p].vlogId, this).play()
-            }, 20)
-            clearTimeout(this.timeout)
-            this.timeout = setTimeout(() => {
-              uni.createVideoContext(this.dataList[p].vlogId, this).seek(0)
-              uni.createVideoContext(this.dataList[p].vlogId, this).pause()
-              console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].vlogId)
-            }, 1500)
-            // end - 预加载结束
+                }
+                setTimeout(() => {
+                  this.dataList[this.k].isplay = false
+                  console.log("isplay变false,this.k不放声音" + this.dataList[this.k].isplay)
+                  this.dataList[this.k].state = 'play'
+                  uni.createVideoContext(this.dataList[this.k].id, this).play()
+                  this.dataList[this.k].play = true
+                }, 200)
+                // start - 预加载开始
+                var p = this.k
+                  ++p
+                setTimeout(() => {
+                  uni.createVideoContext(this.dataList[p].id, this).play()
+                }, 20)
+                clearTimeout(this.timeout)
+                this.timeout = setTimeout(() => {
+                  uni.createVideoContext(this.dataList[p].id, this).seek(0)
+                  uni.createVideoContext(this.dataList[p].id, this).pause()
+                  console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].id)
+                }, 1500)
+                // end - 预加载结束
+              },
+            })
           },
-        })
-             
-             
-            },
-            fail: (res) => {
-              console.log('fail', res);
-              uni.switchTab({
-                url: '/pages/tabbar/me/Me'
-              });
-            }
-          })
-          
-          
-        
-      },
-      tozuozhe(userId) {
-        uni.setStorageSync("userPageId", userId);
-        uni.navigateTo({
-          url: "/pages/tabbar/me/Author?userPageId=" + userId
+          fail: (res) => {
+            console.log('fail', res);
+            uni.switchTab({
+              url: '/pages/tabbar/me/Me'
+            });
+          }
         })
       },
-
+      // tozuozhe(userId) {
+      //   uni.setStorageSync("userPageId", userId);
+      //   uni.navigateTo({
+      //     url: "/pages/tabbar/me/Author?userPageId=" + userId
+      //   })
+      // },
       addComment(vlogId, vlogerId) {
         var that = this
         uni.getStorage({
@@ -307,8 +289,6 @@
                 console.log(res)
               }
             })
-  
-
           },
           fail: (res) => {
             console.log('fail', res);
@@ -319,7 +299,7 @@
         });
       },
       iflogin(vlogId) {
-        this.vlogId = vlogId
+        this.id = vlogId
         var that = this
         uni.getStorage({
           key: 'userId',
@@ -416,7 +396,6 @@
                   console.log(res)
                 }
               })
-
             } else if (like == false) {
               that.dataList[index].doILikeThisVlog = true
               that.dataList[index].likeCounts++
@@ -465,7 +444,7 @@
     position: relative;
   }
 
-/*  .firstNav {
+  /*  .firstNav {
     position: absolute;
     top: 15px;
     height: 35px;
@@ -478,21 +457,22 @@
     justify-content: space-between;
     padding: 0 20px;
   } */
-/* 
+  
 
   .middle {
+    background-color: #000000;
     flex: 1;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-  }
- */
-/*  .text {
     color: #FFFFFF;
-    margin: 0 10px;
   }
 
+   .text {
+    margin-top:15px;
+  }
+/* 
   .text1 {
     color: #FFFFFF;
     margin: 0 10px;
@@ -511,7 +491,7 @@
     text-overflow: ellipsis;
   } */
 
-/*  .sousuo-img {
+  /*  .sousuo-img {
     width: 20px;
     height: 20px;
   }

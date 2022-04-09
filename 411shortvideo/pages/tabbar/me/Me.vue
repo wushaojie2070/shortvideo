@@ -162,6 +162,13 @@
 							style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;">
 						</view>
 					</view>
+          <view class="title-me" @click="switchTab(2),getMyPrivateList()">
+          	<text class="tab-normal" style="align-self: center;"
+          		:class="{'tab-selected': currentTab == 2}">私密</text>
+          	<view v-if="currentTab == 2"
+          		style="margin-top: 5px;height: 5rpx;width: 100%;border-radius: 6rpx;background-color: #ef274d;">
+          	</view>
+          </view>
 				</view>
 				<view class="delet" v-if="currentTab == 0 && publicVlogList.length != 0 && isMe">
 					删除作品
@@ -170,12 +177,12 @@
 					</view>
 				</view>
 				<view class="vlog-list">
-					<view class="vlog-cover" v-for="vlog in publicVlogList" :key="vlog.id">
+					<view class="vlog-cover" v-for="(vlog,index) in publicVlogList" :key="vlog.id">
 						<view class="delete" v-show="isdelete" @click="deletevideo(vlog.vlogerId,vlog.id)">
 							<uni-icons type="trash" size="50" color="#f03e3e">阿萨大</uni-icons>
 						</view>
 
-						<video style="width: 100%;height: 100%; float: left;position: absolute;" :src="vlog.url"
+						<video @click="tovideocomponent(index)" style="width: 100%;height: 100%; float: left;position: absolute;" :src="vlog.url"
 							:controls="false" :show-progress="false" :custom-cache="false" :http-cache="true"
 							:page-gesture="false" :show-fullscreen-btn="false" :show-play-btn="false"
 							:show-loading="false" :show-center-play-btn="false" :enable-progress-gesture="false">
@@ -239,6 +246,14 @@
       // onLoad() {
       //     Object.assign(this, this.$options.data()); // 重置页面数据
       // },
+      tovideocomponent(index) {
+        console.log("跳转到videocomponent")
+        var currentTab = this.currentTab
+        uni.navigateTo({
+          animationType: "zoom-fade-out",
+          url:"component/showvideo?index="+index+"&currentTab="+currentTab
+        })
+      },
 			switch1Change() {
 				this.isdelete = !this.isdelete
 			},
