@@ -1,5 +1,5 @@
 <template>
-	<view class="news">
+	<view class="news" @click="gologin()">
 		<view>
 			<top @fans="isfans"></top>
 			<friends v-if="lookfans" ref="friends"></friends>
@@ -13,7 +13,7 @@
 	import friends from './friends.vue'
 	import follows from './follows.vue'
 	export default {
-		components:{
+		components: {
 			top,
 			friends,
 			follows,
@@ -24,45 +24,50 @@
 		},
 		data() {
 			return {
-				key1:0,
-				key2:0,
-				userIsLogin:false,
-				lookfans:true
+				key1: 0,
+				key2: 0,
+				userIsLogin: false,
+				lookfans: true
 			}
 		},
 		onLoad() {
 			uni.getStorage({
-			  key: 'userId',
-			  success: function(res) {
-			    this.userIsLogin = true
-			  },
-			  fail: (res)=> {
-			     console.log('fail',res)
-				uni.navigateTo({
-				  animationType: "slide-in-bottom",
-				  url: "../me/Login"
-				})
-			  }
+				key: 'userId',
+				success: function(res) {
+					this.userIsLogin = true
+				},
+				fail: (res) => {
+					console.log('fail', res)
+					this.gologin()
+				}
 			})
 		},
-		methods:{
-			isfans(res){
+		methods: {
+			gologin() {
+				if (this.userIsLogin == false) {
+					uni.navigateTo({
+						animationType: "slide-in-bottom",
+						url: "../me/Login"
+					})
+				}
+			},
+			isfans(res) {
 				console.log(res)
-				this.lookfans=res
+				this.lookfans = res
 			}
 		},
 	}
 </script>
 
 <style>
-.news{
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	background-color: #333333;
-}
+	.news {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+		background-color: #333333;
+	}
 </style>
