@@ -4,7 +4,7 @@
 		<scroll-view :style="{height: windowHeight + 'px',}" scroll-y="true" @scrolltolower="lower">
 			<view class="fantab">
 				<view class="List">
-					<view class="List-item" v-for="item in followslist" :key="item.vlogerId">
+					<view class="List-item" v-for="item in followslist" :key="item.vlogerId" @click="toinfo(item)">
 						<view class="List-img-box">
 							<image class="List-img" :src="item.face" mode=""></image>
 						</view>
@@ -94,6 +94,12 @@
 						console.log("fail", res)
 					}
 				})
+			},
+			toinfo(item){
+				uni.setStorageSync("userPageId", item.vlogerId);
+				  uni.navigateTo({
+				    url: "/pages/tabbar/me/Me?userPageId=" + item.vlogerId
+				  })
 			},
 			tochat() {
 				uni.navigateTo({

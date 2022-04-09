@@ -1,9 +1,9 @@
 <template>
-	<view class="news" @click="gologin()">
+	<view class="news">
 		<view>
 			<top @fans="isfans"></top>
-			<friends v-if="lookfans" ref="friends"></friends>
-			<follows v-if="!lookfans" ref="follows"></follows>
+			<friends v-show="lookfans" ref="friend"></friends>
+			<follows v-show="!lookfans" ref="follow"></follows>
 		</view>
 	</view>
 </template>
@@ -19,13 +19,11 @@
 			follows,
 		},
 		onShow() {
-			this.$refs.follows.getlist()
-			this.$refs.friends.getlist()
+			this.$refs.follow.getlist()
+			this.$refs.friend.getlist()
 		},
 		data() {
 			return {
-				key1: 0,
-				key2: 0,
 				userIsLogin: false,
 				lookfans: true
 			}
@@ -35,19 +33,21 @@
 				key: 'userId',
 				success: function(res) {
 					this.userIsLogin = true
+					console.log("true")
+					this.cont++
 				},
 				fail: (res) => {
 					console.log('fail', res)
 					this.gologin()
+					this.cont++
 				}
 			})
 		},
 		methods: {
 			gologin() {
 				if (this.userIsLogin == false) {
-					uni.navigateTo({
-						animationType: "slide-in-bottom",
-						url: "../me/Login"
+					uni.reLaunch({
+						url: "../me/index"
 					})
 				}
 			},
@@ -55,7 +55,7 @@
 				console.log(res)
 				this.lookfans = res
 			}
-		},
+		}
 	}
 </script>
 
