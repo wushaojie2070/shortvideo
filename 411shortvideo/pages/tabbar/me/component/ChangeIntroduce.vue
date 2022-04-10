@@ -75,7 +75,7 @@
 						"headerUserToken": that.userToken
 					},
 					success: (res) => {
-						console.log("1", res.data.data)
+						console.log("1", res)
 						let pages = getCurrentPages(); //获取所有页面栈实例列表
 						let prevPage = pages[pages.length - 2]; //上一页页面实例
 						if (pages.length == 2) {
