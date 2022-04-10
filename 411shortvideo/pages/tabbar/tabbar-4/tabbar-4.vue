@@ -2,8 +2,8 @@
 	<view class="news">
 		<view>
 			<top @fans="isfans"></top>
-			<friends v-if="lookfans" ref="friends"></friends>
-			<follows v-if="!lookfans" ref="follows"></follows>
+			<friends v-show="lookfans" ref="friend"></friends>
+			<follows v-show="!lookfans" ref="follow"></follows>
 		</view>
 	</view>
 </template>
@@ -13,56 +13,61 @@
 	import friends from './friends.vue'
 	import follows from './follows.vue'
 	export default {
-		components:{
+		components: {
 			top,
 			friends,
 			follows,
 		},
 		onShow() {
-			this.$refs.follows.getlist()
-			this.$refs.friends.getlist()
+			this.$refs.follow.getlist()
+			this.$refs.friend.getlist()
 		},
 		data() {
 			return {
-				key1:0,
-				key2:0,
-				userIsLogin:false,
-				lookfans:true
+				userIsLogin: false,
+				lookfans: true
 			}
 		},
 		onLoad() {
 			uni.getStorage({
-			  key: 'userId',
-			  success: function(res) {
-			    this.userIsLogin = true
-			  },
-			  fail: (res)=> {
-			     console.log('fail',res)
-				uni.navigateTo({
-				  animationType: "slide-in-bottom",
-				  url: "../me/Login"
-				})
-			  }
+				key: 'userId',
+				success: function(res) {
+					this.userIsLogin = true
+					console.log("true")
+					this.cont++
+				},
+				fail: (res) => {
+					console.log('fail', res)
+					this.gologin()
+					this.cont++
+				}
 			})
 		},
-		methods:{
-			isfans(res){
+		methods: {
+			gologin() {
+				if (this.userIsLogin == false) {
+					uni.reLaunch({
+						url: "../me/index"
+					})
+				}
+			},
+			isfans(res) {
 				console.log(res)
-				this.lookfans=res
+				this.lookfans = res
 			}
-		},
+		}
 	}
 </script>
 
 <style>
-.news{
-	position: absolute;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	flex: 1;
-	justify-content: center;
-	align-items: center;
-	background-color: #333333;
-}
+	.news {
+		position: absolute;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		flex: 1;
+		justify-content: center;
+		align-items: center;
+		background-color: #333333;
+	}
 </style>
