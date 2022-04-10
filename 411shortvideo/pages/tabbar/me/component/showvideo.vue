@@ -3,9 +3,9 @@
     <cover-view class="firstNav">
       <cover-view class="middle">
         <!-- text1是选择显示下划线  recorloc==1为选中推荐,==0为选中同城,text1有下划线-->
-        <cover-view class="text" v-if="currentTab==0" >作品</cover-view>
-        <cover-view class="text" v-if="currentTab==1" >赞过</cover-view>
-        <cover-view class="text" v-if="currentTab==2" >私密</cover-view>
+        <cover-view class="text" v-if="currentTab==0">作品</cover-view>
+        <cover-view class="text" v-if="currentTab==1">赞过</cover-view>
+        <cover-view class="text" v-if="currentTab==2">私密</cover-view>
       </cover-view>
       <cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">{{sheng}}省{{shi}}</cover-view>
     </cover-view>
@@ -249,12 +249,7 @@
           }
         })
       },
-      // tozuozhe(userId) {
-      //   uni.setStorageSync("userPageId", userId);
-      //   uni.navigateTo({
-      //     url: "/pages/tabbar/me/Author?userPageId=" + userId
-      //   })
-      // },
+
       addComment(vlogId, vlogerId) {
         var that = this
         uni.getStorage({
@@ -457,7 +452,7 @@
     justify-content: space-between;
     padding: 0 20px;
   } */
-  
+
 
   .middle {
     background-color: #000000;
@@ -469,10 +464,11 @@
     color: #FFFFFF;
   }
 
-   .text {
-    margin-top:15px;
+  .text {
+    margin-top: 15px;
   }
-/* 
+
+  /* 
   .text1 {
     color: #FFFFFF;
     margin: 0 10px;
