@@ -148,6 +148,12 @@
 								let temp = res.data.data.birthday.split('T') 
 								//split()方法，以T字符为截断，划分成2块，返回一个数组
 								this.userInfo.birthday = temp[0]
+								if("http://127.0.0.1:9000" == this.userInfo.bgImg.slice(0,21)){
+									this.userInfo.bgImg = "http://skrvideo.fun:9000" + this.userInfo.bgImg.slice(21);
+								}
+								if(this.userInfo.face.slice(0,21) == "http://127.0.0.1:9000"){
+									this.userInfo.face = "http://skrvideo.fun:9000" + this.userInfo.face.slice(21);
+								}
 							}
 						})
 					}
