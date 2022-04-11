@@ -193,7 +193,7 @@
               "&pageSize=" + this.pageSize + ""
             if (this.currentTab == 1) {
               //赞过
-              k = "https://skrvideo.fun/vlog/myLikeList?userId=" + uid + "&page=" + this.page +
+              k = "https://skrvideo.fun/vlog/myLikedList?userId=" + uid + "&page=" + this.page +
                 "&pageSize=" + this.pageSize + ""
             } else if (this.currentTab == 2) {
               //私密
