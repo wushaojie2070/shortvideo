@@ -8,7 +8,7 @@
         <cover-view :class="'text '+(recorloc=='1'?'text1':'')" @click="toRec(1)">推荐</cover-view>
         <cover-view :class="'text '+(recorloc=='0'?'text1':'')" @click="toMap(0)">同城</cover-view>
       </cover-view>
-      <cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">{{sheng}}省{{shi}}</cover-view>
+      <!-- <cover-view class="text2" v-if="recorloc==0" @click="toMap(1)">{{sheng}}省{{shi}}</cover-view> -->
     </cover-view>
     <swiper :style="'width: '+ windowWidth +'px; height: '+ windowHeight +'px;'" :vertical="true" @change="change"
       :current="current" :indicator-dots="false">
@@ -86,7 +86,7 @@
             <image style="height: 50rpx;width: 50rpx;border-radius: 50%; margin-left: 10rpx;"
               src="../../../static/img/index/ditu.png" mode=""></image>
             <text style="position: absolute; margin-left: 70rpx;height: 40rpx;width:200rpx;opacity:0.8;
-					 overflow: hidden;text-overflow: ellipsis;">浙江省杭州市</text>
+					 overflow: hidden;text-overflow: ellipsis;">{{list.sheng}}-{{list.shi}}</text>
           </view>
           <text class="userName" :style="'width: '+ (windowWidth - 520) +'px;'">@{{list.vlogerName}}</text>
           <!-- i={{i}} -->
@@ -111,6 +111,7 @@
   // import request from '../../../utils/request.js'
   // import commentList from './components/comment.js'
   import Map from './components/Map.vue'
+  import Mapjs from "@/common/map.js"
   // import hbcomment from "@/components/hb-comment/hb-comment.vue"
   export default {
     components: {
@@ -121,12 +122,14 @@
       return {
         searchprovinceId: 0, //用于indexList接口的省份数字,转化前
         searchcityId: 0, //市数字,不用放接口,转化前
+        // searchdistrictId:0,
         myId: "", //当前用户的userId,字符串,默认""
         commentText: "", //评论框的文本
         recorloc: 1, //顶部选项,0
         // localplace: "",
         sheng: "", //转化后个人信息的省
         shi: "", //转化后个人信息的市
+        // qu: "",
         ifshow: false,
         windowWidth: 0,
         windowHeight: 0,
@@ -251,33 +254,25 @@
         if (myId) {
           this.myId = myId
         }
-        if (recorloc) {
-          // this.dataList = []
-          // this.videoList = []
+        if (recorloc != null) {
           this.recorloc = recorloc
+          console.log("改变recorloc" + this.recorloc)
         }
         if (this.page > this.total) {
           this.page = 1
         }
         if (this.recorloc == 2) {
-          var geturl = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" + this.pageSize + ""
+          //好友
+          var geturl = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page +
+            "&pageSize=" + this.pageSize + ""
         } else if (this.recorloc == 1) {
+          //推荐
           var geturl = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
+        } else if (this.recorloc == 0) {
+          //同城
+          var geturl = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize +
+            "&provinceId=" + this.searchprovinceId + ""
         }
-
-        // if (this.recorloc == 2) {
-        //   //好友
-        //   var k = "https://skrvideo.fun/vlog/friendList?myId=" + this.myId + "&page=" + this.page + "&pageSize=" +
-        //     this.pageSize + ""
-        // } else if (this.recorloc == 0) {
-        //   //同城
-        //   var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize +
-        //     "&provinceId=" + this.searchprovinceId + ""
-        // } else if (this.recorloc == 1) {
-        //   //推荐
-        //   var k = "https://skrvideo.fun/vlog/indexList?page=" + this.page + "&pageSize=" + this.pageSize + ""
-        // }
-
         // console.log("k:::::"+k)
         uni.request({
           url: geturl,
@@ -285,64 +280,79 @@
           success: (res) => {
             //videoList是接口的视频数组
             // console.log("this.dataList"+JSON.stringify(this.dataList))
-            console.log("res的长度"+res.data.data.rows.length)
-            if(res.data.data.rows.length==0&&this.recorloc==2){
+            console.log("res的长度" + res.data.data.rows.length)
+            if (res.data.data.rows.length == 0 && this.recorloc == 2) {
               uni.showToast({
-              	title: '请先添加好友',
-              	icon: 'none'
+                title: '请先添加好友',
+                icon: 'none'
               });
               this.toRec()
               setTimeout(() => {
                 uni.switchTab({
-                url: '/pages/tabbar/tabbar-4/tabbar-4'
-              });
-              },500)
-              
-            } else if (res.data.data.rows.length==0&&this.recorloc==0){
+                  url: '/pages/tabbar/tabbar-4/tabbar-4'
+                });
+              }, 500)
+
+            } else if (res.data.data.rows.length == 0 && this.recorloc == 0) {
               uni.showToast({
-              	title: '该地区还没有视频',
-              	icon: 'none'
+                title: '该地区还没有视频',
+                icon: 'none'
               });
-            } else{
+            } else {
               this.videoList = res.data.data
-            this.page = res.data.data.page
-            this.total = res.data.data.total
-            this.records = res.data.data.records
-            // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))
-            // 1.这里引入后端请求数据
-            var msg = this.videoList.rows
-            // 2.这里把视频添加到视频列表
-            for (let i = 0; i < msg.length; i++) {
-              this.dataList.push(msg[i])
-              this.dataList[i].state = 'pause'
-              this.dataList[i].isplay = true
+              this.page = res.data.data.page
+              this.total = res.data.data.total
+              this.records = res.data.data.records
+              // console.log("this.videoList1" + JSON.stringify(this.videoList.rows[1].url))
+              // 1.这里引入后端请求数据
+              var msg = this.videoList.rows
+              // 2.这里把视频添加到视频列表
+              for (let i = 0; i < msg.length; i++) {
+                this.dataList.push(msg[i])
+                this.dataList[i].state = 'pause'
+                this.dataList[i].isplay = true
+                if (this.recorloc == 0) {
+                var map = Mapjs.map;
+                for (let s = 0; s < msg.length; s++) {
+                  for (var q = 0; q < map.length; q++) {
+                    if (map[q].value == this.dataList[i].province) {
+                      this.dataList[i].sheng = map[q].label
+                      for (var j = 0; j < map[q].children.length; j++) {
+                        if (map[q].children[j].value == this.dataList[i].city) {
+                          this.dataList[i].shi = map[q].children[j].label
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              }
+              
 
+              // 3.播放当前视频
+              setTimeout(() => {
+                this.dataList[this.k].isplay = false
+                console.log("isplay变false,this.k不放声音" + this.dataList[this.k].isplay)
+                this.dataList[this.k].state = 'play'
+                uni.createVideoContext(this.dataList[this.k].vlogId, this).play()
+
+                this.dataList[this.k].play = true
+              }, 200)
+              // start - 预加载开始
+              var p = this.k
+                ++p
+              setTimeout(() => {
+                uni.createVideoContext(this.dataList[p].vlogId, this).play()
+              }, 20)
+              clearTimeout(this.timeout)
+              this.timeout = setTimeout(() => {
+                uni.createVideoContext(this.dataList[p].vlogId, this).seek(0)
+                uni.createVideoContext(this.dataList[p].vlogId, this).pause()
+                console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].vlogId)
+              }, 1500)
+              // end - 预加载结束
             }
 
-            // 3.播放当前视频
-            setTimeout(() => {
-              this.dataList[this.k].isplay = false
-              console.log("isplay变false,this.k不放声音" + this.dataList[this.k].isplay)
-              this.dataList[this.k].state = 'play'
-              uni.createVideoContext(this.dataList[this.k].vlogId, this).play()
-
-              this.dataList[this.k].play = true
-            }, 200)
-            // start - 预加载开始
-            var p = this.k
-              ++p
-            setTimeout(() => {
-              uni.createVideoContext(this.dataList[p].vlogId, this).play()
-            }, 20)
-            clearTimeout(this.timeout)
-            this.timeout = setTimeout(() => {
-              uni.createVideoContext(this.dataList[p].vlogId, this).seek(0)
-              uni.createVideoContext(this.dataList[p].vlogId, this).pause()
-              console.log('预加载第' + (p + 1) + '个视频：' + this.dataList[p].vlogId)
-            }, 1500)
-            // end - 预加载结束
-            }
-            
           },
         })
       },
@@ -464,7 +474,7 @@
           key: 'userId',
           success: (res) => {
             this.myId = res.data
-            this.page=0
+            this.page = 0
             this.dataList = []
             this.get(this.myId, 2)
           },
@@ -479,24 +489,81 @@
       toRec() {
         console.log("去推荐,接推荐的视频接口")
         this.recorloc = 1
-        this.page=0
+        this.page = 0
         this.dataList = []
         this.get(this.myId, 1)
       },
+      // toMap(index) {
+      //   if (this.myId != "" && this.sheng != "") {
+      //     this.recorloc = 0
+      //     this.page=0
+      //     this.dataList = []
+
+      //     //获取缓存里的searchprovinceId
+      //   } else {
+      //     // uni.navigateTo({
+      //     //   url: "../me/Login"
+      //     // })
+      //     uni.switchTab({
+      //       url: '/pages/tabbar/me/index'
+      //     });
+      //   }
+      // },
       toMap(index) {
-        if (this.myId != "" && this.sheng != "") {
-          this.recorloc = 0
-          this.page=0
-          this.dataList = []
-          
-          //获取缓存里的searchprovinceId
-        } else {
-          // uni.navigateTo({
-          //   url: "../me/Login"
-          // })
-          uni.switchTab({
-            url: '/pages/tabbar/me/index'
-          });
+        var map = Mapjs.map;
+        if (index == 0) {
+
+          uni.getStorage({
+            key: "userId",
+            success: (res) => {
+              this.myId = res.data;
+              this.page = 0
+              this.dataList = []
+              uni.request({
+                url: 'https://skrvideo.fun/userInfo/query?userId=' + this.myId,
+                method: 'GET',
+                success: (res) => {
+                  this.searchprovinceId = res.data.data.province
+                  this.searchcityId = res.data.data.city
+                  console.log("从用户信息拿到city的值:::" + this.searchcityId)
+                  uni.getStorage({
+                    key: "province",
+                    success: (res) => {
+                      this.searchprovinceId = res.data
+                      uni.getStorage({
+                        key: "city",
+                        success: (res) => {
+                          this.searchcityId = res.data
+                          console.log("从缓存拿到city的值:::" + this.searchcityId)
+                          this.get(this.myId, 0)
+                        }
+                      })
+                    },
+                    fail: (res) => {
+                      this.get(this.myId, 0)
+                    }
+                  })
+
+                }
+              })
+            },
+            fail: (res) => {
+              console.log('fail', res);
+              this.toRec()
+              setTimeout(() => {
+                uni.switchTab({
+                  url: '/pages/tabbar/me/index'
+                });
+              }, 500)
+            }
+          })
+        } else if (index == 1) {
+          this.toRec()
+          setTimeout(() => {
+            uni.navigateTo({
+              url: "components/Map"
+            });
+          }, 500)
         }
       },
       cmtclose(cmtclose) {

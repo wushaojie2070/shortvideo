@@ -8,7 +8,7 @@
 				placeholder="请点击下方地图选择您的当前位置" :type="type" :border="border" @click="inputHandle"></input> -->
         <view style="text-align: center; border: 3px solid green;height: auto;" :type="type" :border="border"
           @click="inputHandle">
-          {{ value == '' ? '请点击下方地图选择您的当前位置' : '您的当前位置为:'+value }}
+          {{ value == '' ? '请点击下方地图选择视频发布区域' : '您选择的位置为:'+value }}
         </view>
         <map v-show="" @tap="clickHandle" id="map" :latitude="latitude" :longitude="longitude" :markers="markers"></map>
       </view>
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import Mapjs from '../../../../common/map.js'
+  import Mapjs from '@/common/map.js'
   export default {
     data() {
       return {
@@ -58,6 +58,10 @@
                     var shi = msg[i].children[j].value;
                     console.log(msg[i].label + "的数字编号::::" + sheng + ",,," + msg[i].children[j].label +
                       "的数字编号:::" + shi)
+                      uni.navigateBack({
+                        delta: 2
+                      })
+                      
                   }
                 }
               }
