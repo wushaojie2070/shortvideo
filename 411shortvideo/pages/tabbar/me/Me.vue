@@ -284,8 +284,13 @@
 								method: 'GET',
 								success: (res) => {
 									// console.log(res.data.data);
-									this.userInfo = {};
 									this.userInfo = res.data.data;
+									if("http://127.0.0.1:9000" == this.userInfo.bgImg.slice(0,21)){
+										this.userInfo.bgImg = "http://skrvideo.fun:9000" + this.userInfo.bgImg.slice(21);
+									}
+									if(this.userInfo.face.slice(0,21) == "http://127.0.0.1:9000"){
+										this.userInfo.face = "http://skrvideo.fun:9000" + this.userInfo.face.slice(21);
+									}
 									this.getMyPublicList();
 								}
 							})
@@ -298,6 +303,12 @@
 									success: (res) => {
 										console.log(res.data.data);
 										this.userInfo = res.data.data;
+										if("http://127.0.0.1:9000" == this.userInfo.bgImg.slice(0,21)){
+											this.userInfo.bgImg = "http://skrvideo.fun:9000" + this.userInfo.bgImg.slice(21);
+										}
+										if(this.userInfo.face.slice(0,21) == "http://127.0.0.1:9000"){
+											this.userInfo.face = "http://skrvideo.fun:9000" + this.userInfo.face.slice(21);
+										}
 										this.getMyPublicList();
 									}
 								})
@@ -309,6 +320,12 @@
 									success: (res) => {
 										console.log(res.data.data);
 										this.userInfo = res.data.data;
+										if("http://127.0.0.1:9000" == this.userInfo.bgImg.slice(0,21)){
+											this.userInfo.bgImg = "http://skrvideo.fun:9000" + this.userInfo.bgImg.slice(21);
+										}
+										if(this.userInfo.face.slice(0,21) == "http://127.0.0.1:9000"){
+											this.userInfo.face = "http://skrvideo.fun:9000" + this.userInfo.face.slice(21);
+										}
 										this.getMyPublicList();
 									}
 								})

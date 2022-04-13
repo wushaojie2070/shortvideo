@@ -1,10 +1,10 @@
 <template>
 	<view class="page">
 		<view class="face-wrapper in-one-column" :style="{height: windowHeight+'px'}">
-			<image mode="aspectFill" :src="faceUrl" class="face-size" v-if="faceUrl"></image>
+			<image mode="aspectFill" :src="face" class="face-size" v-if="face"></image>
 			
 			<view 
-				v-if="isMe == true"
+				v-if="isMe == 'true' || isMe == true"
 				@click="changeFace()"
 				class="face-change in-one-column"
 				:class="{'button-change-face':!changeTouched, 'button-change-face-touched': changeTouched}">
@@ -26,51 +26,119 @@
 	export default {
 		data(){
 			return{
-				faceUrl: "",
+				face: "",
 				isMe: true,
+				userId: '',
+				userPageId: '',
+				userToken: '',
 				updata: true,
 				changeTouched: false,
 				windowHeight: 0,
 			}
 		},
 		onLoad(option) {
-			var that = this;
-			// console.log(option);
-			that.faceUrl = option.faceUrl;
-			if(option.isMe == null ||option.isMe == true){
-				this.isMe = true;
-			}else{
-				this.isMe = false;
-			}
-			uni.getSystemInfo({
-			    success: function (res) {
-			        that.windowHeight = res.windowHeight;
-			    }
-			});
+			console.log(option.isMe)
+			this.isMe = option.isMe;
+			this.getInfo(option.isMe);
 		},
 		methods:{
+			getInfo(flag) {
+				console.log("f", flag)
+				uni.getSystemInfo({
+					success: (res) => {
+						this.windowHeight = res.windowHeight;
+					}
+				});
+				if (flag == "true" || flag == null) {
+					uni.getStorage({
+						key: "userToken",
+						success: (res) => {
+							this.userToken = res.data
+						}
+					});
+					uni.getStorage({
+						key: "userId",
+						success: (res) => {
+							this.userId = res.data
+							uni.request({
+								url: 'https://skrvideo.fun/userInfo/query?userId=' + this.userId,
+								method: 'GET',
+								success: (res) => {
+									console.log("u", res.data.data);
+									if(res.data.data.face.slice(0,21) == "http://127.0.0.1:9000"){
+										this.face = "http://skrvideo.fun:9000" + res.data.data.face.slice(21);
+									}
+								}
+							})
+						}
+					});
+				} else if (flag == "false") {
+					uni.getStorage({
+						key: "userPageId",
+						success: (res) => {
+							this.userPageId = res.data
+							uni.request({
+								url: 'https://skrvideo.fun/userInfo/query?userId=' + this.userPageId,
+								method: 'GET',
+								success: (res) => {
+									console.log("p", res.data.data);
+									if(this.userInfo.face.slice(0,21) == "http://127.0.0.1:9000"){
+										this.userInfo.face = "http://skrvideo.fun:9000" + this.userInfo.face.slice(21);
+									}
+								}
+							})
+						}
+					});
+				}
+			},
 			changeFace(){
 				let that = this;
 				this.changeTouched = true;
 				uni.chooseImage({
 					count:1,
 					sourceType: ['album'],    //从相册选择
-					/* crop: {
-						quality: 60,
-						width: 750,
-						height: 320,
-					}, */
-					success(resp) {
+					success: (resp) => {
 						console.log(resp);
-						that.faceUrl = resp.tempFilePaths[0];
-						console.log(that.faceUrl);
+						// that.face = resp.tempFilePaths[0];
+						console.log("临时的路径" + that.face)
+						uni.uploadFile({
+							url: 'https://skrvideo.fun/userInfo/modifyImage',
+							filePath: resp.tempFilePaths[0],
+							name: 'file',
+							formData: {
+								"type": 2,
+								"userId": this.userId,
+							},
+							header: {
+								"headerUserId": this.userId,
+								"headerUserToken": this.userToken
+							},
+							success: (res) => {
+								console.log("成功了 http://skrvideo.fun:9000" + res.data.split(",")[7].slice(29,-1))
+								this.face = "http://skrvideo.fun:9000" + res.data.split(",")[7].slice(29,-1);
+								let pages = getCurrentPages(); //获取所有页面栈实例列表
+								let prevPage = pages[pages.length - 2]; //上一页页面实例
+								if (pages.length == 2) {
+									prevPage.$vm.$children[0].userInfo.face = "http://skrvideo.fun:9000" + res.data.split(",")[7].slice(29,-1);
+								} else if (pages.length == 3) {
+									prevPage.$vm.userInfo.face = "http://skrvideo.fun:9000" + res.data.split(",")[7].slice(29,-1);
+									uni.navigateBack({
+										delta:1
+									})
+								}
+								uni.showToast({
+									icon: "none",
+									title: "修改成功！"
+								});
+							}
+						});
 					}
 				});
 			},
 			getFace(){
 				var that = this;
 				uni.saveImageToPhotosAlbum({
-			        filePath: that.faceUrl,
+			        filePath: that.face,
 				    success: function () {
 		                console.log('save success');
 			        }
@@ -78,14 +146,6 @@
 			}
 		},
 		watch: {
-			faceUrl(newValue,oldValue){
-				var that = this;
-				let pages = getCurrentPages();  //获取所有页面栈实例列表
-				let prevPage = pages[ pages.length - 2 ];  //上一页页面实例
-				/* console.log("prevPage",prevPage.$vm); */
-				prevPage.$vm.userInfo.faceUrl = that.faceUrl; 
-				/* console.log(prevPage.$vm.userInfo.faceUrl); */
-			}
 		}
 	}
 </script>
