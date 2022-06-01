@@ -7,20 +7,25 @@
         </uni-card>
         <uni-card title="简介" :isFull="true" :thumbnail="avatar">
           <view>
-            <textarea v-model="text" placeholder="请描述你的视频" maxlength="30" />
+            <textarea style="height: 100px;" v-model="text" placeholder="请描述你的视频" maxlength="30" />
             <view class="annotation">
               还能输入{{remain}}个字
             </view>
           </view>
         </uni-card>
         <view class="content">
-          <view>请添加你的视频</view>
+          <view>请添加视频</view>
           <htz-image-upload mediaType='video' :max="1" v-model="ceshiData" @uploadSuccess="ceshiUploadSuccess"
             action="https://skrvideo.fun/upload"></htz-image-upload>
         </view>
       </uni-section>
     </view>
     <button type="primary" @click="pushVideo()">发布</button>
+	<swiper style="padding-top: 18px;" indicator-dots="true" autoplay="true" interval="3000" circular="true">
+		<swiper-item v-for="item in imgsrc">
+			<image class="img" mode="widthFix" :src="item.src"></image>
+		</swiper-item>
+	</swiper>
   </view>
 </template>
 <script>
@@ -34,7 +39,25 @@
         userId: 0,
         title: '',
         city: 0,
-        province: 0
+        province: 0,
+		imgsrc:[
+		{
+			id:0,
+			src:"../../../static/htz-image-upload/lb1.jpg"
+		},
+		{
+			id:1,
+			src:"../../../static/htz-image-upload/lb2.jpg"
+		},
+		{
+			id:2,
+			src:"../../../static/htz-image-upload/lb3.jpg"
+		},
+		{
+			id:3,
+			src:"../../../static/htz-image-upload/lb4.jpg"
+		}
+		]
       }
     },
     computed: {
@@ -215,5 +238,9 @@
 
   .content {
     margin-left: 40rpx;
+  }
+  .img{
+	  width: 100%;
+	  
   }
 </style>
